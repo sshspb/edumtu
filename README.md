@@ -42,8 +42,8 @@
 
 10. Обновление текста программы делаем по команде `git pull origin master`, и, возможно, потребуется `npm install`, если вдруг используется новый npm-модуль. Таким образом, чтобы обновить версию сайта делаем
 
-  `cd edu2site`
+    `cd edumtu`
   
-  `git pull origin master`
+    `git pull origin master`
   
-  `npm install`
+    `npm install`
