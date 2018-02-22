@@ -1,0 +1,26 @@
+
+@font-face {
+  font-family: 'PT Sans'; 
+  font-weight: normal;
+  font-style: normal;
+  src: url('/fonts/PTS55F_W.eot'); 
+  src: local('PT Sans'), local('PTSans-Regular'),
+       url('/fonts/PTS55F_W.woff') format('woff'),
+       url('/fonts/PTS55F_W.ttf') format('truetype');
+}
+
+body {
+  font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background: hsl(0, 0%, 97%);
+  line-height: 1.2;
+  color: hsl(0, 0%, 33%);
+}
+
+.sidebar-nav {
+  margin-top: 20px;
+  padding: 0;
+  list-style: none;
+}

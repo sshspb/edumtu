@@ -1,0 +1,25 @@
+extends layout_home
+block content
+  h2= title
+  h3= subtitle 
+  br
+  if error
+    p Error Ошибка
+  else
+    h4 Количество документов:
+    ul
+      li #[strong Подразделения:] !{data.department_count}
+      li #[strong Договора:] !{data.contract_count}
+      li #[strong Сотрудники:] !{data.steward_count}
+      li #[strong Источники:] !{data.source_count}
+      li #[strong Классификатор:] !{data.eclass_count}
+      li #[strong Виды затрат:] !{data.species_count}
+      li #[strong Затраты:] !{data.outlay_count}
+    h5 Данные от даты
+    pre.
+      Файл Inet_SmetaLSV.txt
+          atime: !{data.tbtime.atime}
+          mtime: !{data.tbtime.mtime}
+          ctime: !{data.tbtime.ctime}
+      birthtime: !{data.tbtime.birthtime}
+    h5 Program version #{version}

@@ -1,0 +1,4 @@
+# Ignore some files and directories
+config_local.js
+node_modules
+draft

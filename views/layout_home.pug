@@ -1,0 +1,30 @@
+doctype html
+html(lang="ru")
+  head
+    title= title
+    meta(charset='utf-8')
+
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href='/css/jquery.treegrid.css')
+    link(rel='stylesheet', href='/css/style.css')
+    script(src='/js/jquery-1.12.4.min.js')
+    script(src='/js/bootstrap.min.js')
+    script(src='/js/jquery.treegrid.js')
+    script(src='/js/jquery.treegrid.bootstrap3.js')
+    script
+      != "$(document).ready(function(){ $('.tree').treegrid({initialState: 'collapsed'}); });"
+
+  body
+    div(class='container-fluid')
+      div(class='row')
+        div(class='col-sm-2')
+          block sidebar
+            ul(class='sidebar-nav')
+              li 
+                button(type="button" class="btn btn-default" onclick="this.innerHTML='Загружаю...'; window.location.href='/importdata';") Импорт данных
+              hr
+              li
+                a(class="btn" style="width: 80%;" href="/users/login" role="button") Войти
+        div(class='col-sm-10')
+          block content

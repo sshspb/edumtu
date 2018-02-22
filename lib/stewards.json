@@ -1,0 +1,1563 @@
+[
+  {
+    "name": "Абабкова М.Ю.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Агаев Р.А.",
+    "role": "master",
+    "login": "FOOTBALL41",
+    "salt": "0.3221184340667138",
+    "hashedPassword": "9f4470fbd1a34b254d53d4b22a48d80f10093452"
+  },
+  {
+    "name": "Александров С.Е.",
+    "role": "master",
+    "login": "SEVGALEXANDROV",
+    "salt": "0.566883069943644",
+    "hashedPassword": "e3ed0162ccecc68bc34d7e4ece9ff7cdfc83ff8e"
+  },
+  {
+    "name": "Алексанков А.М.",
+    "role": "master",
+    "login": "ALEXANKOV",
+    "salt": "0.152581927210105",
+    "hashedPassword": "64c66dee0e16f6c3ffbe0b2909ee765dedaad7bc"
+  },
+  {
+    "name": "Алимов Е.С.",
+    "role": "master",
+    "login": "ALIMOV",
+    "salt": "0.14605472282385845",
+    "hashedPassword": "6c5ca05ef3cf14fc92699a781a4c4c6906bbc22f"
+  },
+  {
+    "name": "Алмазова Н.И.",
+    "role": "master",
+    "login": "ALMAZOVA",
+    "salt": "0.6695376254470422",
+    "hashedPassword": "e300c9d7881770d5c22c1ee63a586b1512977166"
+  },
+  {
+    "name": "Андреев А.В.",
+    "role": "master",
+    "login": "ANDREEVAV",
+    "salt": "0.6973358612426217",
+    "hashedPassword": "e10cb80619afcd501dea6883f86f723a30140415"
+  },
+  {
+    "name": "Андреева И.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Антонов В.И.",
+    "role": "master",
+    "login": "HMATH",
+    "salt": "0.4506994984492958",
+    "hashedPassword": "a13ee45dcc2c2611b517519ad3b59fdc6a9c59cc"
+  },
+  {
+    "name": "Антонов Ю.С.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Апушкинский Е.Г.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Арсеньев Д.Г.",
+    "role": "master",
+    "login": "ARS5IN100",
+    "salt": "0.29887560680172487",
+    "hashedPassword": "3ce87c0795241fba3fa2581348a3163f9073dd1d"
+  },
+  {
+    "name": "Афанасьев М.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Бабкин И.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Базарнова Ю.Г.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Байбиков Р.А.",
+    "role": "master",
+    "login": "R.BAIBIKOV",
+    "salt": "0.4344269683459756",
+    "hashedPassword": "17bf70e3cc49375fc7887d98a4874a036b67d474"
+  },
+  {
+    "name": "Бакай П.Я.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Балашова Е.С.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Безпрозванный И.Б.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Беляев А.К.",
+    "role": "master",
+    "login": "MODESTOV",
+    "salt": "0.6411202570185912",
+    "hashedPassword": "5c7a0755d410b9893858103963ceae190249be51"
+  },
+  {
+    "name": "Бердников Я.А.",
+    "role": "master",
+    "login": "BER",
+    "salt": "0.8574597681996703",
+    "hashedPassword": "6256776acf7934714de75b413b06ddabd3c17bcd"
+  },
+  {
+    "name": "Блинов А.В.",
+    "role": "master",
+    "login": "BLINOV_AV",
+    "salt": "0.4188697137907693",
+    "hashedPassword": "6caa438529f021a46acbc990bb8352e67ba83370"
+  },
+  {
+    "name": "Боровков А.И.",
+    "role": "master",
+    "login": "BOR5IN100",
+    "salt": "0.6116572680120294",
+    "hashedPassword": "e609392e2d3553cac056c4a1e879e8c87eee00d0"
+  },
+  {
+    "name": "Боякова Е.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Братушка А.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Букреев В.В.",
+    "role": "master",
+    "login": "OPEL010",
+    "salt": "0.06376741831036248",
+    "hashedPassword": "65e65f00db62cb0470fe33ddf62973aff33264f9"
+  },
+  {
+    "name": "Бурлов В.Г.",
+    "role": "master",
+    "login": "BURLOVVG",
+    "salt": "0.7459263295655088",
+    "hashedPassword": "7c51b1d2686b655f092a8efd59561fc73d3d8d55"
+  },
+  {
+    "name": "Бухарин Н.А.",
+    "role": "master",
+    "login": "MIPK",
+    "salt": "0.03780152175716922",
+    "hashedPassword": "dc1009acca0ad9fa7292f563ff1b3e0b6f39bb1f"
+  },
+  {
+    "name": "Васильев А.Е.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Васильев В.Е.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Ватин Н.И.",
+    "role": "master",
+    "login": "VATIN",
+    "salt": "0.8156549356730498",
+    "hashedPassword": "6003511b49ba899be65dd156eb27a7ecfbb52806"
+  },
+  {
+    "name": "Введенская Н.Ю.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Величко Е.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Вечернина А.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Виноградова Е.Б.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Власова О.Л.",
+    "role": "master",
+    "login": "OLVLASOVA",
+    "salt": "0.2150486034073389",
+    "hashedPassword": "78189f90e9bce6f2993a52d186a749f2181e24c1"
+  },
+  {
+    "name": "Глухов В.В.",
+    "role": "master",
+    "login": "GLUHOVVV",
+    "salt": "0.31764041410622257",
+    "hashedPassword": "27097ea451a18083f93df24b1da25fe0bc74569e"
+  },
+  {
+    "name": "Голиков В.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Горбатова С.Ю.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Греков М.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Гришанов М.Ф.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Гузенко К.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Гуменюк В.И.",
+    "role": "master",
+    "login": "GUMENJUKVI",
+    "salt": "0.6999898612035982",
+    "hashedPassword": "73a3cbe6cc30afc9dd78266fb4f55bcd4c1d6fd2"
+  },
+  {
+    "name": "Гусаков А.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Гуторова Н.В.",
+    "role": "master",
+    "login": "GUTOROVA",
+    "salt": "0.9564034744208532",
+    "hashedPassword": "7706d0ce399cf846afbaddfde01b282d65ee2afb"
+  },
+  {
+    "name": "Давыдова Н.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Дейнеко",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Долгополов В.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Драчев Ю.С.",
+    "role": "master",
+    "login": "DYUS23@GMAIL",
+    "salt": "0.2645436554460392",
+    "hashedPassword": "6331abdd661427539fdb08927c1d79ea9b396234"
+  },
+  {
+    "name": "Дробинцев П.Д.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Дробчик В.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Дубаренко К.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Дубровская Н.О.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Дудкин С.М.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Евтушенко К.Н.",
+    "role": "master",
+    "login": "KSENIA07",
+    "salt": "0.5095134151339566",
+    "hashedPassword": "6ad61de2da37c07646119de09fe55e94ca6fc0cc"
+  },
+  {
+    "name": "Егорова Л.Ю.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Егорова Н.Ю.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Елистратов В.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Ефремов А.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Ефремов С.В.",
+    "role": "master",
+    "login": "EFREMOVSV",
+    "salt": "0.5838564239349915",
+    "hashedPassword": "3405e6fcf44ccdb0f6d7c79f731cd7ea378c186b"
+  },
+  {
+    "name": "Жарковский А.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Живов М.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Забелин Н.А.",
+    "role": "master",
+    "login": "KAZARTSEV_YUI",
+    "salt": "0.5933468887043012",
+    "hashedPassword": "0438a6aecb6e3b8847bf16dae42262ee44ace7b3"
+  },
+  {
+    "name": "Заборовский В.С.",
+    "role": "master",
+    "login": "VZABOR",
+    "salt": "0.6302053483106689",
+    "hashedPassword": "59ab26a1f67274f74f9bfaa4e7a6db0803d325f3"
+  },
+  {
+    "name": "Зегжда П.Д.",
+    "role": "master",
+    "login": "IBKS KAFEDRA",
+    "salt": "0.24469462897613492",
+    "hashedPassword": "84cdad4e9ed37ef5f279b22fd93f5b98bac77125"
+  },
+  {
+    "name": "Иванов А.В.",
+    "role": "master",
+    "login": "MEDIABOOKS",
+    "salt": "0.9956700309051727",
+    "hashedPassword": "9eb9dd3d17967899c5c750395f5ad4da814b8468"
+  },
+  {
+    "name": "Иванов В.К.",
+    "role": "master",
+    "login": "IVANOV",
+    "salt": "0.8567591753578117",
+    "hashedPassword": "ec3431573cc751402c7504c2790b17922f17d4ed"
+  },
+  {
+    "name": "Иванов В.М.",
+    "role": "master",
+    "login": "IVM",
+    "salt": "0.04220781573478605",
+    "hashedPassword": "a141ad310e3bf7c5963d6c32028b8fd54fc76472"
+  },
+  {
+    "name": "Иванов М.В.",
+    "role": "master",
+    "login": "IVANOVM",
+    "salt": "0.43776813068269305",
+    "hashedPassword": "7bee29e20cafe92b4f317ee7cd0b13b245e2fc5d"
+  },
+  {
+    "name": "Игнатенок В.И.",
+    "role": "master",
+    "login": "UPRSTG27",
+    "salt": "0.2521861944764794",
+    "hashedPassword": "23191c1244f8bee707fd45627db92107a4d9abfa"
+  },
+  {
+    "name": "Ильин И.В.",
+    "role": "master",
+    "login": "IVI2475",
+    "salt": "0.46898637665216425",
+    "hashedPassword": "776dde448801c76f244b4d9b8e0de11b039cab35"
+  },
+  {
+    "name": "Ильина О.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Индейцев Д.А.",
+    "role": "master",
+    "login": "BOROVKOV",
+    "salt": "0.31485165399623605",
+    "hashedPassword": "51f5b49ce7f18a071336548f443ceb3d7201f5d9"
+  },
+  {
+    "name": "Ицыксон В.М.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Калинина О.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Кампус",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Капустина И.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Каров Д.Д.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Карпов",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Карпов Ю.Г.",
+    "role": "master",
+    "login": "KARPOV_YG",
+    "salt": "0.33346181943235",
+    "hashedPassword": "2c63f633929015e8647ecc65557ebac7ad9f7d21"
+  },
+  {
+    "name": "Касьяник П.М.",
+    "role": "master",
+    "login": "KASIPP",
+    "salt": "0.994007807841349",
+    "hashedPassword": "e70cbcf2d234390340d359197d886f1197e1e84d"
+  },
+  {
+    "name": "Кисленков В.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Клавдиев В.Е.",
+    "role": "master",
+    "login": "VEK",
+    "salt": "0.896844954961491",
+    "hashedPassword": "327f73f4e2ce9a2fe562cc1a0faf16a201476118"
+  },
+  {
+    "name": "Кобзев В.В.",
+    "role": "master",
+    "login": "KOBZEV",
+    "salt": "0.33895749459086866",
+    "hashedPassword": "130db64d2b2ee3fc0bb7ac523dba9b49af1eb1c5"
+  },
+  {
+    "name": "Кобышев А.Н.",
+    "role": "master",
+    "login": "SOUVENIR",
+    "salt": "0.5236677042303111",
+    "hashedPassword": "dba5a9d5fa62bb3f066456100d422f80e71679a7"
+  },
+  {
+    "name": "Кожухов Ю.В.",
+    "role": "master",
+    "login": "KOZHUKHOV_YV",
+    "salt": "0.9404754947230367",
+    "hashedPassword": "1fff2792d3d5eebeb31c3fd930440db0c74c3081"
+  },
+  {
+    "name": "Козлов А.В.",
+    "role": "master",
+    "login": "AKOZLOV55",
+    "salt": "0.6665002405645264",
+    "hashedPassword": "62a8b78c1c7c146d78a0dfc510dccaae3f683172"
+  },
+  {
+    "name": "Козловская И.А.",
+    "role": "booker",
+    "login": "ADMINIA",
+    "salt": "0.9681300832414723",
+    "hashedPassword": "20831c599b4588e2269f9182e0c41ffae5ebf593"
+  },
+  {
+    "name": "Кокарева Л.Ю.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Колесников Ю.Л.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Коломейцев И.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Колосова Н.Б.",
+    "role": "master",
+    "login": "PK.ISF",
+    "salt": "0.06466451473028223",
+    "hashedPassword": "fdaec5924cb33af96e6288763f9a749689eb4215"
+  },
+  {
+    "name": "Кондин Б.И.",
+    "role": "master",
+    "login": "B.KONDIN",
+    "salt": "0.8305648305434434",
+    "hashedPassword": "29aca4bc93d85647272109a191b28c615af58823"
+  },
+  {
+    "name": "Коротков А.С.",
+    "role": "master",
+    "login": "ALEX_KR",
+    "salt": "0.3464186357198189",
+    "hashedPassword": "0970b0cd188783c473889d79aa58d63de6e024a9"
+  },
+  {
+    "name": "Котов С.С.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Краснощеков В.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Крепкая Т.Н.",
+    "role": "master",
+    "login": "TK20052009",
+    "salt": "0.7103516804940584",
+    "hashedPassword": "3e25bc2660f91561f82f0e718251ac5db45fc017"
+  },
+  {
+    "name": "Кривцов А.М.",
+    "role": "master",
+    "login": "KRIVTSOV",
+    "salt": "0.3278099356720563",
+    "hashedPassword": "fc72bb0a51dfb75a44a8778285113bb960ab37d7"
+  },
+  {
+    "name": "Криулин К.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Кружков И.Э.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Кудаков А.В.",
+    "role": "master",
+    "login": "AKUDAKOV",
+    "salt": "0.7282705463427446",
+    "hashedPassword": "529017665856d3fd3f63caa52536091b4e4816d5"
+  },
+  {
+    "name": "Кузнецов Д.И.",
+    "role": "master",
+    "login": "RITTA",
+    "salt": "0.9475572472529485",
+    "hashedPassword": "faa8999db54f708a0b82544e95893955b55cdfa1"
+  },
+  {
+    "name": "Кулик С.В.",
+    "role": "master",
+    "login": "KULIKSW",
+    "salt": "0.6039319789708553",
+    "hashedPassword": "9db75488305c56ce706ddbc95b0cde0e5a92be5b"
+  },
+  {
+    "name": "Куприянов Д.В.",
+    "role": "master",
+    "login": "KUPRIYANOV",
+    "salt": "0.6926381619345678",
+    "hashedPassword": "180b2484f53dbfd5729f82d288ca38da4b46a18c"
+  },
+  {
+    "name": "Лалин В.В.",
+    "role": "master",
+    "login": "LALIN",
+    "salt": "0.1281216268323706",
+    "hashedPassword": "c0dee9f5272c4ebff286848168d2efd96acaf78a"
+  },
+  {
+    "name": "Ламзин Г.А.",
+    "role": "master",
+    "login": "LAMZIN",
+    "salt": "0.10588938751578247",
+    "hashedPassword": "cfcb2f0d4d0dc54cce8448e73a803bfc5415015a"
+  },
+  {
+    "name": "Лапина И.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Лашутина Л.Л.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Левенцов В.А.",
+    "role": "master",
+    "login": "MONBAR",
+    "salt": "0.7429704974357261",
+    "hashedPassword": "9a084abec500e197f84825a3dfb4bcdf5da6c695"
+  },
+  {
+    "name": "Лиокумович Л.Б.",
+    "role": "master",
+    "login": "LEOLIO",
+    "salt": "0.3990410240489799",
+    "hashedPassword": "2d30376a85101fc78d87dfd893323a03a9c914ad"
+  },
+  {
+    "name": "Лопатин М.В.",
+    "role": "master",
+    "login": "M_LOPATIN",
+    "salt": "0.897305814943798",
+    "hashedPassword": "7cad0d6bd88b7e59bb8bef4ceddb71942efad175"
+  },
+  {
+    "name": "Лопота А.В.",
+    "role": "master",
+    "login": "ALOPOTARTC",
+    "salt": "0.2521965787966738",
+    "hashedPassword": "ebd2c551f47dcb5a22cb7d0f792cec1a581892d4"
+  },
+  {
+    "name": "Макаров В.М.",
+    "role": "master",
+    "login": "VMMAKAROV51",
+    "salt": "0.06151494852869699",
+    "hashedPassword": "5db96802fbe8f12f03cb8c49bcb0f3c553dd3ac5"
+  },
+  {
+    "name": "Макаров С.Б.",
+    "role": "master",
+    "login": "GABDULLIN_PG",
+    "salt": "0.3285006914107542",
+    "hashedPassword": "5ac106e3bffd01c9b4b577f1ce17cd7c04ba91c1"
+  },
+  {
+    "name": "Макеева Е.О.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Малаян К.Р.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Малыхина Г.Ф.",
+    "role": "master",
+    "login": "MGF",
+    "salt": "0.2090757742965994",
+    "hashedPassword": "fbb5eb065265e9baa76c7e7c77b1ea1eef1871cc"
+  },
+  {
+    "name": "Манжула К.П.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Матвеев И.А.",
+    "role": "master",
+    "login": "MATVIA",
+    "salt": "0.8505898763055171",
+    "hashedPassword": "3a6db1878e72583a40e2d566a3997fac03739f1e"
+  },
+  {
+    "name": "Матвеев М.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Мелехин В.Ф.",
+    "role": "master",
+    "login": "BABKO_LV",
+    "salt": "0.21780424577844792",
+    "hashedPassword": "9ddb13c34139d862d3a63fc788e6ff8c5ca754c4"
+  },
+  {
+    "name": "Мельников Б.Е.",
+    "role": "master",
+    "login": "MELNIKOV",
+    "salt": "0.7632561133374784",
+    "hashedPassword": "4fa26b9b79669c9bacbf6d69d47672e3d228c6d9"
+  },
+  {
+    "name": "Миролюбова О.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Михайлов В.М.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Михайлова И.В.",
+    "role": "master",
+    "login": "IRINAM",
+    "salt": "0.4815710860424294",
+    "hashedPassword": "c1e81bd86aa28958590830c0082f5f6225bc421f"
+  },
+  {
+    "name": "Михайлова О.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Мызин С.К.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Наумова З.В.",
+    "role": "master",
+    "login": "NAUMOVA_ZARINA",
+    "salt": "0.2915300793157767",
+    "hashedPassword": "3a837eb6f61e0defac26497cc33c0f22466399b2"
+  },
+  {
+    "name": "Некрасова Т.П.",
+    "role": "master",
+    "login": "NASTYA1980",
+    "salt": "0.6150422915797231",
+    "hashedPassword": "bb9744759df9d0c1fc3b0fb43328afe805639974"
+  },
+  {
+    "name": "Николаев Е.А.",
+    "role": "admin",
+    "login": "ADMINEA",
+    "salt": "0.36608349762355497",
+    "hashedPassword": "986083579479b59792771d73b31bc480b14f6709"
+  },
+  {
+    "name": "Обидовский О.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Ожегов М.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Окрепилов М.В.",
+    "role": "master",
+    "login": "OKREPILOV_MV",
+    "salt": "0.7890416321007858",
+    "hashedPassword": "6f3b56c43d3177c657f0273a52acd8340d61d6e4"
+  },
+  {
+    "name": "Орлов А.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Орлов Ю.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Панкова Л.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Панкова Н.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Парамошко В.В.",
+    "role": "master",
+    "login": "VAD-DOC",
+    "salt": "0.35980034353812695",
+    "hashedPassword": "cf40be36a50b13c7f02327432fee3b7f12fe795d"
+  },
+  {
+    "name": "Паршин С.Г.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Патрина М.Ю.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Пашоликов М.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Петриченко М.Р.",
+    "role": "master",
+    "login": "FONPETRICH",
+    "salt": "0.9215876862197081",
+    "hashedPassword": "f0f726b8f4c07daa5885563b6d238aba02d967ff"
+  },
+  {
+    "name": "Петров В.М.",
+    "role": "master",
+    "login": "PETROVVM",
+    "salt": "0.306192666537052",
+    "hashedPassword": "0d76d92dc106c4e3048b6265b25e285fcdc4a1e9"
+  },
+  {
+    "name": "Пискун О.Е.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Племнек А.И.",
+    "role": "master",
+    "login": "PLEMNEC123",
+    "salt": "0.41926991480106746",
+    "hashedPassword": "be36895874b43057604db164b8929ce08d825376"
+  },
+  {
+    "name": "Погодин С.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Поклад А.Ф.",
+    "role": "master",
+    "login": "VLPOKLAD",
+    "salt": "0.7128210673260227",
+    "hashedPassword": "5381224ba6a20921c8f974c4b4349257842c2c50"
+  },
+  {
+    "name": "Попков Е.Н.",
+    "role": "master",
+    "login": "POPKOV",
+    "salt": "0.2958369250508146",
+    "hashedPassword": "4b06f8744ec2e37dd672effaf1c23c343ea3fae1"
+  },
+  {
+    "name": "Попов Е.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Попович А.А.",
+    "role": "master",
+    "login": "MUTYLINA.IN",
+    "salt": "0.7522482675956408",
+    "hashedPassword": "54071a1b742bbce268bb70decd9a60c89b94595b"
+  },
+  {
+    "name": "Приемышев А.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Прохоров С.А.",
+    "role": "master",
+    "login": "SC.CLUB",
+    "salt": "0.8997374847123987",
+    "hashedPassword": "7b07462766945c2586e564069bb15af9f7840e62"
+  },
+  {
+    "name": "Разинкина Е.М.",
+    "role": "master",
+    "login": "RAZ",
+    "salt": "0.29957737200529766",
+    "hashedPassword": "5f95eabc2392912a1c0a1777ad8dd0f9ceb96b8f"
+  },
+  {
+    "name": "Рафиков Ш.М.",
+    "role": "master",
+    "login": "DOD",
+    "salt": "0.8603139535366187",
+    "hashedPassword": "489ba123569e75c63c851ac8a72d53c991cad0bc"
+  },
+  {
+    "name": "Редько С.Г.",
+    "role": "master",
+    "login": "REDKO_SG",
+    "salt": "0.554213641700128",
+    "hashedPassword": "c3f6375329f0b9306b62ec562cc300493f9bd459"
+  },
+  {
+    "name": "Репешко И.Г.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Речинский А.В.",
+    "role": "master",
+    "login": "RECHINSKIIAV",
+    "salt": "0.736173042636515",
+    "hashedPassword": "802d764de4a72f7d824246c9e80d156c849b8e6f"
+  },
+  {
+    "name": "Родионов В.А.",
+    "role": "master",
+    "login": "RODIONOVVA",
+    "salt": "0.385788116580545",
+    "hashedPassword": "7ac20e8b5ef57db3d2ac50b0212bcad8988761c8"
+  },
+  {
+    "name": "Родионов В.Ю.",
+    "role": "master",
+    "login": "RVU",
+    "salt": "0.0641102103137916",
+    "hashedPassword": "7a29e45c6e1cb44455750eab0b39429e0632cc73"
+  },
+  {
+    "name": "Родионов Д.Г.",
+    "role": "master",
+    "login": "RODIONOVDG",
+    "salt": "0.4983092761327612",
+    "hashedPassword": "60e3f3fdf11c6214c066fe4e12bcf4f4a2f36223"
+  },
+  {
+    "name": "Родионова Е.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Романов С.В.",
+    "role": "master",
+    "login": "ROMANOVSV",
+    "salt": "0.510776865868589",
+    "hashedPassword": "c3792303dc574c95f582957c5f0ae36be29f766f"
+  },
+  {
+    "name": "Рудской А.И.",
+    "role": "master",
+    "login": "RECTOR",
+    "salt": "0.7144613598996938",
+    "hashedPassword": "a787ae9a549c7caf535155076c648a7b0e1fcb90"
+  },
+  {
+    "name": "Салкуцан С.В.",
+    "role": "master",
+    "login": "SALKUTSAN",
+    "salt": "0.5339826550266125",
+    "hashedPassword": "10d88eae3a870177ad717070f9dd9bd4323d9cb8"
+  },
+  {
+    "name": "Сараджишвили С.Э.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Сибирцева Е.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Силантьева Е.Г.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Силин В.Г.",
+    "role": "master",
+    "login": "SILIN_VG",
+    "salt": "0.6248648234331995",
+    "hashedPassword": "a9dd77d80d02d133f723cd467587efd78ad56b7b"
+  },
+  {
+    "name": "Сильников М.В.",
+    "role": "master",
+    "login": "SILNIKOVMV",
+    "salt": "0.1298710090304691",
+    "hashedPassword": "50a69afd59e4c650711a0c7bb4244b2395d476a7"
+  },
+  {
+    "name": "Синепол В.С.",
+    "role": "master",
+    "login": "V_SIN",
+    "salt": "0.391208932114969",
+    "hashedPassword": "c43c4a1afa6213b252e6eeb1838a72b7cc11c4ac"
+  },
+  {
+    "name": "Скворцов А.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Смирнов А.Ю.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Смирнов Е.М.",
+    "role": "master",
+    "login": "SMIRNOV_EM",
+    "salt": "0.12109719273374875",
+    "hashedPassword": "3a162eb1972e2a1127ebf4ce69dfa6dae6b3eeb8"
+  },
+  {
+    "name": "Снетков В.Н.",
+    "role": "master",
+    "login": "SPBSTUSNETKOV",
+    "salt": "0.9251914126840688",
+    "hashedPassword": "225d969e7387213228e4d8a0fe88e6f1935224a0"
+  },
+  {
+    "name": "Соколов И.А.",
+    "role": "master",
+    "login": "POLYTEX2014",
+    "salt": "0.7500067886772659",
+    "hashedPassword": "7ff8efc771214e3e3c7add695576d901ecbffe12"
+  },
+  {
+    "name": "Соколова Н.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Соколовский В.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Сороцкий В.А.",
+    "role": "master",
+    "login": "RTTK",
+    "salt": "0.26551461839294643",
+    "hashedPassword": "fd03c4e8ec18c6613bd4017f28a474df41b4d851"
+  },
+  {
+    "name": "Стратонова Г.Я.",
+    "role": "master",
+    "login": "DEUTSCH",
+    "salt": "0.3489071886860089",
+    "hashedPassword": "124e40c44b34639137d7507a127a93467827970a"
+  },
+  {
+    "name": "Страхова Д.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Стрелец К.И.",
+    "role": "master",
+    "login": "STROIKURSI",
+    "salt": "0.6412141097937358",
+    "hashedPassword": "1700d544feded7ca8610e752818f8fc8375b76ec"
+  },
+  {
+    "name": "Сурыгин А.И.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Сущенко В.П.",
+    "role": "master",
+    "login": "VARTA2012",
+    "salt": "0.6632623931135893",
+    "hashedPassword": "51425c27b5b7f3a49541cd60b9983da57a488629"
+  },
+  {
+    "name": "Счисляева Е.Р.",
+    "role": "master",
+    "login": "SCHISLYAEVAE",
+    "salt": "0.4465641131711213",
+    "hashedPassword": "86643aa2e398162805e4848d6d3c0ba71dd59e60"
+  },
+  {
+    "name": "Танклевский Л.Т.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Тимерманис И.Е.",
+    "role": "master",
+    "login": "DIRECTOR.IGO",
+    "salt": "0.19956737095972343",
+    "hashedPassword": "397e04550d3498627bdb46193a98eb095ed22505"
+  },
+  {
+    "name": "Титков В.В.",
+    "role": "master",
+    "login": "TITKOVVV",
+    "salt": "0.1568510153394569",
+    "hashedPassword": "2b40db73b0dd11f018f52c0a27dcf8abac22f623"
+  },
+  {
+    "name": "Тихонов Д.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Того Исса",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Токарь Л.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Томилин И.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Тропп Э.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Тростинская И.Р.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Туричин Г.А.",
+    "role": "master",
+    "login": "NIKOLAY",
+    "salt": "0.9989277263989382",
+    "hashedPassword": "8501405ef671e2e1b07ce158bb15b77fb6dc7d4b"
+  },
+  {
+    "name": "Устинов С.М.",
+    "role": "master",
+    "login": "USTINOV",
+    "salt": "0.8196821207955203",
+    "hashedPassword": "361ac016104ab36e5c7f4b6966af30de4125eb4f"
+  },
+  {
+    "name": "Устинова У.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Фалалеев А.П.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Федотов А.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Филиппов Р.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Фирсов Д.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Фотиади А.Э.",
+    "role": "master",
+    "login": "PHYSEL",
+    "salt": "0.03050555557191159",
+    "hashedPassword": "d3564b105e6ee130a820163e63172a200eb8c4b9"
+  },
+  {
+    "name": "Фролов В.Я.",
+    "role": "master",
+    "login": "FROLOV",
+    "salt": "0.11025954759515644",
+    "hashedPassword": "a428cefea2667110270e4545f892dca770af6f81"
+  },
+  {
+    "name": "Фролов М.Е.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Фролова И.Е.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Хорьков Г.И.",
+    "role": "master",
+    "login": "GKH46TST81",
+    "salt": "0.2023984935746943",
+    "hashedPassword": "8a362010cb53a85e2424c7ba8a7634727bb6c80b"
+  },
+  {
+    "name": "Хохлов А.В.",
+    "role": "master",
+    "login": "UMKAAV",
+    "salt": "0.34274438013362807",
+    "hashedPassword": "38ac44ff072ec94853c4e5fdd0de93628f608e30"
+  },
+  {
+    "name": "Цветков В.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Цеменко В.Н.",
+    "role": "master",
+    "login": "TSEMENKO",
+    "salt": "0.2439996256897794",
+    "hashedPassword": "a8c3b742b1787b3d2e5cdeb1769b5adf264bc75f"
+  },
+  {
+    "name": "Черепанов А.С.",
+    "role": "master",
+    "login": "CHEREPANOV_AS",
+    "salt": "0.27458675105579355",
+    "hashedPassword": "9cabafde6f94b6cff2fe04e17e1b4e8b930775e3"
+  },
+  {
+    "name": "Черненькая Л.В.",
+    "role": "master",
+    "login": "SMK123",
+    "salt": "0.4400298024350169",
+    "hashedPassword": "e0ae201d9f32521750c45f73d2d8e4c84c4aa5a4"
+  },
+  {
+    "name": "Черноруцкий И.Г.",
+    "role": "master",
+    "login": "3504GRIG",
+    "salt": "0.9470463040718522",
+    "hashedPassword": "d6d1b11349b90fbe067b88507a8aed15bf06cd04"
+  },
+  {
+    "name": "Чернышов М.В.",
+    "role": "master",
+    "login": "CHERNYSHEVMV",
+    "salt": "0.7900201916228164",
+    "hashedPassword": "214d9bdd1ba2ba0cf8e2083edc004de5fdbd4a01"
+  },
+  {
+    "name": "Чусов А.Н.",
+    "role": "master",
+    "login": "CHUSOV17",
+    "salt": "0.9413319023911877",
+    "hashedPassword": "b43e6d6d3862ea46cd5824a6f89d854e220dceaf"
+  },
+  {
+    "name": "Шабров Н.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Шабуров Е.Л.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Шахбанов Э.М.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Шашихин В.Н.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Швецов К.В.",
+    "role": "master",
+    "login": "SHVETSOVKV",
+    "salt": "0.4977543070469088",
+    "hashedPassword": "b1428c6c345b09a1702be4c7793728a3a4fa4b8e"
+  },
+  {
+    "name": "Шендерова С.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Шкодырев В.П.",
+    "role": "master",
+    "login": "SHKODYREV",
+    "salt": "0.853543484060775",
+    "hashedPassword": "1f8a228951943e2cdd58bb8851572ed8b3d0f27d"
+  },
+  {
+    "name": "Шнейдер А.А.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Щепинин В.Э.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  },
+  {
+    "name": "Щукин А.В.",
+    "role": null,
+    "login": null,
+    "salt": null,
+    "hashedPassword": null
+  }
+]

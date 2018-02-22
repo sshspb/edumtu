@@ -1,0 +1,47 @@
+extends layout_admin
+
+block content
+  br
+  h4(class="col-sm-offset-2") Регистрация на сайте
+  h3(class="col-sm-offset-2") #{steward.name}
+  br
+
+  form(class="form-horizontal login-form" name="login-form" method="POST" action='')
+
+    input(type="hidden" name="oldlogin" value= steward.login id="oldlogin")
+
+    div(class="form-group")
+      label(for="input-username" class="col-sm-2 control-label") Login
+      div(class="col-sm-6")
+        input(name="username" value= steward.login type="text" class="form-control" id="input-username")
+      if steward.login
+        span(class="col-sm-offset-2 col-sm-7") Пустое поле Login - пользователя удалить
+
+    div(class="form-group")
+      label(for="input-password" class="col-sm-2 control-label") Password
+      div(class="col-sm-6")
+        input(name="password" value="" type="text" class="form-control" id="input-password")
+      if steward.login
+        span(class="col-sm-offset-2 col-sm-7") Пустое поле Password - пароль не менять
+
+    div(class="form-group")
+      label(for="input-role" class="col-sm-2 control-label") Role
+      div(class="col-sm-6")
+        select(name="role" class="form-control" id="input-role")
+          option(value="master" selected= selectedMaster) master
+          option(value="booker" selected= selectedBooker) booker
+          option(value="admin"  selected= selectedAdmin) admin
+    br
+    br
+    div(class="form-group")
+      div(class="col-sm-offset-2 col-sm-4")
+        button(type="submit" class="btn btn-primary") Регистрировать
+      div(class="col-sm-3")
+        button(type="button" id="cancel" class="btn btn-danger" autofocus ) Отменить
+
+  script.
+    $(document).ready(function(){
+      $('#cancel').on('click', function () {
+        window.location.href = "/admin/stewards";
+      });
+    });

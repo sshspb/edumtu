@@ -1,0 +1,32 @@
+extends layout
+
+block content
+
+  h5 Исполнено
+    span(class='h3') &nbsp; &nbsp; #{eclass}
+
+  table(class='table table-striped table-condensed')
+    caption по договору
+      span(class='h3') &nbsp; &nbsp;
+        a(href=contract.url) #{contract.name}
+
+    thead
+      tr
+        th Дата
+        th(class='text-right')  Сумма
+        th Вид
+        th Примечание
+    tbody
+      each outlay in outlay_list
+        tr
+          td #{outlay.datestr}
+          td(class='text-right cost') #{outlay.sum}
+          td #{outlay.species}
+          td #{outlay.note}
+    tfoot#total
+      tr
+        th Итого
+        th(class='text-right') 
+        th
+        th
+        

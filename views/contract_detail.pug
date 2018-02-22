@@ -1,0 +1,58 @@
+extends layout
+
+block content
+
+  h5 Договор 
+    span(class='h3') &nbsp; #{contract.name}
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    p Источник 
+      a(href=contract._source.url) #{contract._source.name}
+
+    p Подразделение 
+    p &nbsp; 
+      if (allowedParent) 
+        a(href=parent.url) #{parent.name}
+      else
+        strong #{parent.name}
+    p &nbsp; &nbsp; 
+      if (allowedDepartment) 
+        a(href=department.url) #{department.name}
+      else
+        strong #{department.name}
+
+    p Ответственный 
+      if contract._steward
+        a(href=contract._steward.url) #{contract._steward.name} 
+      else
+        p &nbsp; Не указан
+
+  table(class='table table-striped table-condensed')
+    caption Смета
+    thead
+      tr
+        th Код
+        th Наименование
+        th(class='text-right') Начало
+        th(class='text-right') План
+        th(class='text-right') Исполнено
+        th(class='text-right') Остаток
+    tbody
+      each estimate in estimate_list
+        tr
+          th #{estimate.code} 
+          td: a(href=estimate.url) #{estimate.name} 
+          td(class='text-right cost') #{estimate.remains} 
+          td(class='text-right cost') #{estimate.income} 
+          td(class='text-right cost') #{estimate.outlay} 
+          td(class='text-right cost') #{estimate.balance} 
+    tfoot#total
+      tr
+          th 
+          th Итого
+          th(class='text-right') 
+          th(class='text-right') 
+          th(class='text-right') 
+          th(class='text-right')  
+        
