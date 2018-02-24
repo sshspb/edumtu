@@ -13,7 +13,7 @@ router.get('/stewards', function(req, res, next) {
   .sort({name: 1})
   .exec(function (err, list_stewards) {
     if (err) { return next(err); }
-    res.render('admin_steward_list', {
+    res.render('admin/admin_steward_list', {
       steward_list: list_stewards
     });
   });
@@ -26,7 +26,7 @@ router.get('/steward/:id', function(req, res, next) {
     if (err) { return next(err); }
     console.log(steward[0]);
     res.locals.helloworld = 'Hello world';
-    res.render('admin_steward_detail', {
+    res.render('admin/admin_steward_detail', {
       selectedMaster: steward[0].role == 'master',
       selectedBooker: steward[0].role == 'booker',
       selectedAdmin: steward[0].role == 'admin',
@@ -106,7 +106,7 @@ router.get('/departments', function(req, res, next) {
         "trClass": trClass
       });
     }
-    res.render('admin_department_list', { 
+    res.render('admin/admin_department_list', { 
       title: 'Подразделения', 
       department_list: rows
     });
@@ -124,7 +124,7 @@ router.get('/department/:id', function(req, res, next) {
     }
   }, function(err, results) {
     if (err) { return next(err); }
-    res.render('admin_department_detail', { 
+    res.render('admin/admin_department_detail', { 
       title: results.department.name,
       department: results.department, 
       stewards: results.stewards

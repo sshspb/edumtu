@@ -48,7 +48,7 @@ exports.contract_list = function(req, res, next) {
       list_contracts[i]._id.url = '/catalog/contract/' + list_contracts[i]._id.url.toString();
       list_contracts[i]._id.steward_url = '/catalog/steward/' + list_contracts[i]._id._steward.toString();
     }
-    res.render('contract_list', { 
+    res.render('report/contract_list', { 
       basehref: req.url,
       title: 'Договора', 
       contract_list: list_contracts
@@ -86,7 +86,7 @@ exports.contract_detail = function(req, res, next) {
           ? true : false;
         var allowedParent = parent.node != '000000' && 
           ( req.user.role == 'booker' || req.user.role == 'master' && isBossP );
-        res.render('contract_detail', {
+        res.render('report/contract_detail', {
           allowedDepartment: allowedDepartment,
           allowedParent: allowedParent,
           basehref: req.url,

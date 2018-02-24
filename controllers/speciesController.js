@@ -5,7 +5,7 @@ exports.species_list = function(req, res, next) {
   .sort({name: 1})
   .exec(function (err, list_species) {
     if (err) { return next(err); }
-    res.render('species_list', { 
+    res.render('report/species_list', { 
       basehref: req.url,
       title: 'Виды затрат', 
       species_list: list_species

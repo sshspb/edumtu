@@ -24,11 +24,10 @@ exports.source_list = function(req, res, next) {
   ],
   function (err, list_sources) {
     if (err) { return next(err); }
-    //Successful, so render
     for (var i = 0; i < list_sources.length; i++) {
       list_sources[i].url = '/catalog/source/'.concat(list_sources[i]._id._source);
     }
-    res.render('source_list', { 
+    res.render('report/source_list', { 
       basehref: req.url,
       title: 'Источники', 
       source_list: list_sources
@@ -67,7 +66,7 @@ exports.source_detail = function(req, res, next) {
     ],
     function(err, list_estimates) {
       if (err) { return next(err); }
-      res.render('source_detail', { 
+      res.render('report/source_detail', { 
         basehref: req.url,
         title: sourceName, 
         estimate_list: list_estimates 

@@ -38,7 +38,7 @@ exports.steward_list = function(req, res, next) {
     for (var i = 0; i < list_stewards.length; i++) {
       list_stewards[i].url = '/catalog/steward/'.concat(list_stewards[i].url.toString()); 
     }
-    res.render('steward_list', { 
+    res.render('report/steward_list', { 
       basehref: req.url,
       title: 'Ответственные', 
       steward_list: list_stewards
@@ -56,7 +56,7 @@ exports.steward_detail = function(req, res, next) {
     .sort( {name: 1} )
     .exec(function (err, list_contracts) {
       if (err) { return next(err); }
-      res.render('steward_detail', { 
+      res.render('report/steward_detail', { 
         basehref: req.url,
         steward: steward, 
         contract_list: list_contracts 

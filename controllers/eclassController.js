@@ -23,7 +23,7 @@ exports.eclass_list = function(req, res, next) {
   ],
   function (err, list_eclasses) {
     if (err) { return next(err); }
-    res.render('eclass_list', { 
+    res.render('report/eclass_list', { 
       basehref: req.url,
       title: 'План', 
       eclass_list: list_eclasses

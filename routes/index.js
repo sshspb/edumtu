@@ -28,7 +28,7 @@ var count_list = {
 
 router.get('/', function(req, res) {   
   async.parallel(count_list, function(err, results) {
-    res.render(req.user ? (req.user.role == 'admin' ? 'admin' : 'index') : 'home', { 
+    res.render(req.user ? (req.user.role == 'admin' ? 'admin/index' : 'report/index') : 'home', { 
       version: config.version,
       basehref: req.url,
       title: 'Оперативно-финансовый отдел', 

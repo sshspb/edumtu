@@ -37,7 +37,7 @@ exports.department_list = function(req, res, next) {
         "trClass": trClass
       });
     }
-    res.render('department_list', { 
+    res.render('report/department_list', { 
 //      userName: req.userName,
       basehref: req.url,
       title: 'Подразделения', 
@@ -82,7 +82,7 @@ exports.department_detail = function(req, res, next) {
     ])
     .exec(function(err, list_contracts) {
         if (err) { return next(err); }
-        res.render('department_detail', { 
+        res.render('report/department_detail', { 
           basehref: req.url,
           title: department.name, 
           contract_list: list_contracts

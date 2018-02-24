@@ -10,8 +10,7 @@ exports.estimate_list = function(req, res, next) {
     .sort({_id: 1})
     .exec(function (err, list_estimates) {
         if (err) { return next(err); }
-        //Successful, so render
-        res.render('estimate_list', { 
+        res.render('report/estimate_list', { 
             basehref: req.url,
             title: 'Планы', 
             estimate_list: list_estimates 

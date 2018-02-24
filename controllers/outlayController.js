@@ -24,7 +24,7 @@ exports.outlay_list = function(req, res, next) {
 //console.log(moment(list_outlays[i].date).format("L"));
         }
 
-        res.render('outlay_list', {
+        res.render('report/outlay_list', {
           basehref: req.url,
           contract: contract, 
           eclass: eclass.code.concat(' ', eclass.name),

@@ -3,6 +3,7 @@ html(lang="ru")
   head
     title= title
     meta(charset='utf-8')
+
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/css/bootstrap.css')
     link(rel='stylesheet', href='/css/jquery.treegrid.css')
@@ -12,34 +13,18 @@ html(lang="ru")
     script(src='/js/jquery.treegrid.js')
     script(src='/js/jquery.treegrid.bootstrap3.js')
     script
-      != "$(document).ready(function(){ $('#back').href= $('.tree').treegrid({initialState: 'collapsed'}); });"
+      != "$(document).ready(function(){ $('.tree').treegrid({initialState: 'collapsed'}); });"
 
   body
-    nav(class="navbar navbar-default  navbar-fixed-top")
-      div(class="container-fluid")
-        ul(class="nav navbar-nav")
-          li
-            div(class='navbar-header' style="padding-top: 8px" )
-              button(type="button" class="btn btn-default" onclick="window.history.back();")
-                span(class="glyphicon glyphicon-arrow-left" aria-hidden="true")
-          li(class= (basehref == '/eclasses') ? 'active' : '')
-            div(style="padding-left: 20px" class= (basehref == '/') ? 'navbar-header active' : 'navbar-header')
-              a(class="navbar-brand" href="/") #{userName}
-          li(class= (basehref == '/eclasses') ? 'active' : '')
-            a(href='/catalog/eclasses') План
-          li(class= (basehref == '/sources') ? 'active' : '')
-            a(href='/catalog/sources') Источники
-          li(class= (basehref == '/departments') ? 'active' : '')
-            a(href='/catalog/departments') Подраздел.
-          li(class= (basehref == '/contracts') ? 'active' : '')
-            a(href='/catalog/contracts') Договора
-          li(class= (basehref == '/stewards') ? 'active' : '')
-            a(href='/catalog/stewards') Ответств.
-        ul(class="nav navbar-nav navbar-right")
-          li: a(href='/users/logout') Выйти
-
     div(class='container-fluid')
-     div(style='width:100px;height:70px')
-     block content
-
-  script(src='/js/edu.js')
+      div(class='row')
+        div(class='col-sm-2')
+          block sidebar
+            ul(class='sidebar-nav')
+              li 
+                button(type="button" class="btn btn-default" onclick="this.innerHTML='Загружаю...'; window.location.href='/importdata';") Импорт данных
+              hr
+              li
+                a(class="btn" style="width: 80%;" href="/users/login" role="button") Войти
+        div(class='col-sm-10')
+          block content
