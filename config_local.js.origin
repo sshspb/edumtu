@@ -1,31 +1,19 @@
 /*
  * Файл config_local.js.origin 
  * это шаблон для файла config_local.js
- *
- * Файл config_local.js.origin не изменяй, 
- * он будет cверяться Git'ом при накладывании патча 
- * командой git pull origin master.
- *
- * Создай новый файл config_local.js 
- * например сделав копию
  * 
  * cp config_local.js.origin config_local.js
+ *
+ * Оригинальный файл config_local.js.origin не изменяй, 
+ * иначе команда git pull origin master не пройдёт.
  * 
  * И, пожалуй, убери в новом файле config_local.js 
- * этот комментарий, чтобы потом случайно самому 
- * не запутаться в файлах.
+ * этот комментарий, чтобы не запутаться в файлах.
  */
  
 module.exports = {
-  "tbPath": "D:/data/Inet_arch/Inet_2017",
+  "tbPath": "D:/data/edu/mtu2017",
   "mongoDB": "mongodb://localhost/edu",
-  "firebird": {
-    "host": "localhost",
-    "port": 3050,
-    "database": "D:/data/edu/edu.fdb",
-    "user": "SYSDBA",
-    "password": "masterkey"
-  },
   "httpPort": 3000
 };
 

@@ -47,3 +47,9 @@
     `git pull origin master`
   
     `npm install`
+
+
+### Руководство пользователя - экономиста
+
+Модели документов, объектов учёта
+https://github.com/sshspb/edumtu/blob/master/doc/edumtu-models.pdf 

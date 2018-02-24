@@ -1,0 +1,137 @@
+%%  Транслироовать с помощью XeLaTeX
+%\documentclass[12pt,a4paper]{scrreprt}
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage{xunicode}
+\usepackage{polyglossia}
+
+\usepackage{listings}
+\lstset{basicstyle=\footnotesize,breaklines=true,language=SQL}
+
+\setmainfont[Mapping=tex-text]{Times New Roman}  %% основной шрифт документа
+\setromanfont[Mapping=tex-text]{Times New Roman}
+\setsansfont[Mapping=tex-text]{Arial}  %% шрифт без засечек
+%%\setmonofont[Mapping=tex-text]{Courier New}  %% моноширинный шрифт
+\newfontfamily{\cyrillicfonttt}{Courier New}
+\defaultfontfeatures{Scale=MatchLowercase, Mapping=tex-text}  %% поведение шрифтов по умолчанию
+\setdefaultlanguage[spelling=modern]{russian}  %% язык по умолчанию
+\setotherlanguage{english}
+
+\usepackage{indentfirst} % включить отступ у первого абзаца
+\usepackage{graphicx}
+
+\oddsidemargin=7mm \textwidth=150mm \textheight=230mm  \topmargin=-5mm 
+
+\pagestyle{myheadings}
+\markright{EduMTU ТО версия от \today}
+
+\begin{document}
+
+\linespread{1.3}%
+\selectfont % The \baselinestretch factor is only used when a font is selected
+
+\section*{Хранилище данных отчётной системы edumtu}
+
+\subsection*{Импорт данных}
+
+В хранилище данных отчётной системы \texttt{edumtu} информация поступает из системы учёта финансово-экономической деятельности университета. 
+
+При переносе данных информация нормализуется, структура приводится в соответствие проектным моделям первичных документов:
+
+\includegraphics[width=0.85\textwidth]{./edumtu-models-v2.pdf}  % \\[1cm]   % pdf, png and jpg
+
+
+\subsubsection*{Подразделения}
+
+Организационную структуру \texttt{Подразделения} извлекаем из таблицы \texttt{Inet\_LS\_AllFin}\\
+
+\texttt{Подразделения.\_id}
+
+\texttt{Подразделения.Код} <= \texttt{Inet\_LS\_AllFin.Институт|Кафедра\_Код}
+
+\texttt{Подразделения.Аббревиатура} <= \texttt{Inet\_LS\_AllFin.Институт|Кафедра\_кр}
+
+\texttt{Подразделения.Наименование} <= \texttt{Inet\_LS\_AllFin.Институт|Кафедра\_полн}
+
+\texttt{Подразделения.Руководитель\_id}
+
+\texttt{Подразделения.Вышестоящее\_id}
+
+
+\subsubsection*{Договора}
+
+Собственно \texttt{Inet\_LS\_AllFin} это реестр договоров .\\
+
+\texttt{Договора.\_id}
+
+\texttt{Договора.Наименование} <= \texttt{Inet\_LS\_AllFin.Лицевой\_счет}
+
+\texttt{Договора.Источник\_id}
+
+\texttt{Договора.Руководитель\_id}
+
+\texttt{Договора.Подразделение\_id}\\
+
+
+В каждом \texttt{Договоре} есть \texttt{Смета\_работ}, информацию берём из \texttt{Inet\_SmetaLSV}\\
+
+\texttt{Договор.Смета.Эк\_классификатор} <= \texttt{Inet\_SmetaLSV.Код\_смета}
+
+\texttt{Договор.Смета.Начало} <= \texttt{Inet\_SmetaLSV.Остаток\_на\_начало}
+
+\texttt{Договор.Смета.План} <= \texttt{Inet\_SmetaLSV.Доход\_по\_статье}
+
+\texttt{Договор.Смета.Исполнено} <= \texttt{Inet\_SmetaLSV.факт\_расход}
+
+\texttt{Договор.Смета.Остаток} <= \texttt{Inet\_SmetaLSV.остаток}
+
+
+\subsubsection*{Заявки на расход}
+
+%Список \texttt{Виды\_расхода} инициализируем выборкой значений поля \texttt{Детализация} таблицы \texttt{Inet\_RashodLS}
+% TODO // for init species.json through db.getCollection('outlays').distinct('species')
+% таблица-справочник species Виды\_расхода потребуется при ручном ввода записей расхода
+% \texttt{Виды\_расхода.Наименование} <= \texttt{Inet\_RashodLS.Детализация}
+
+\texttt{Заявки.Договор\_id}
+
+\texttt{Заявки.Эк.классификатор} <= \texttt{Inet\_RashodLS.Код\_смета}
+
+\texttt{Заявки.Вид\_расхода} <= \texttt{Inet\_RashodLS.Детализация}
+
+\texttt{Заявки.Дата} <= \texttt{Inet\_RashodLS.дата\_операции}
+
+\texttt{Заявки.Сумма} <= \texttt{Inet\_RashodLS.Сумма}
+
+
+\subsubsection*{Источники финансирования}
+
+Справочник \texttt{Источники финансирования} наполняем значениями колонки \texttt{Финансирование} таблицы \texttt{Inet\_LS\_AllFin}:\\
+
+\texttt{Источники.\_id}
+
+\texttt{Источники.Наименование} <= \texttt{Inet\_LS\_AllFin.Финансирование}
+
+
+\subsubsection*{Руководители}
+
+Кадрового реестра руководителей, как подразделений так и договоров, в импортируемых данных нет.  Однако, в колонке \texttt{Лицевой\_счет} таблицы \texttt{Inet\_LS\_AllFin} содержится \texttt{Фамилия И.О.} руководителя. Создаём справочник:\\
+
+\texttt{Руководители.\_id}
+
+\texttt{Руководители.ФамилияИО} <= \texttt{Inet\_LS\_AllFin.Лицевой\_счет}
+
+\end{document}
+
+
+    "RCF": { 
+      filename: "Inet_RashodLS.txt", 
+      headers: "contract,eclass,date,species,sum,dct,note,," },
+    "SME": { 
+      filename: "Inet_SmetaLSV.txt", 
+      headers: "contract,code,name,percent,remains,income,outlay,balance" },
+    "UNI": { 
+      filename: "Inet_LS_AllFin.txt", 
+      headers: "contract,DEPKOD,DEPABBR,DEPNAME,DIVKOD,DIVABBR,DIVNAME,,,,,,,source" },
+    "USR": { 
+      filename: "Inet_PolzNew.txt", 
+      headers: "steward,contract,,,,,,,," }

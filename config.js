@@ -15,7 +15,7 @@ module.exports = {
     "PRI": { 
       filename: "Inet_Oplata_All.txt", 
       headers: "LACC,DEB,DAT,PRI,PLP,FIO,DOG,CRE,COM" },
-    "RCF": { 
+    "RCF": {
       filename: "Inet_RashodLS.txt", 
       headers: "contract,eclass,date,species,sum,dct,note,," },
     "SME": { 
@@ -28,5 +28,5 @@ module.exports = {
       filename: "Inet_PolzNew.txt", 
       headers: "steward,contract,,,,,,,," }
   },
-  "version": "v1.0.0 from 21.02.2018"
+  "version": "v1.1.1 from 25.02.2018"
 };

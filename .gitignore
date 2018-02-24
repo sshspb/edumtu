@@ -2,3 +2,7 @@
 config_local.js
 node_modules
 draft
+*.aux
+*.log
+*.gz
+*.pdf
