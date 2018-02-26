@@ -9,9 +9,9 @@ var config_local = require('../config_local');
 var Contract = require('../models/contract');
 var Department = require('../models/department');
 var Eclass = require('../models/eclass');
+var Income = require('../models/income');
 var Outlay = require('../models/outlay');
 var Source = require('../models/source');
-var Species = require('../models/species');
 var Steward = require('../models/steward');
 var async = require('async');
 
@@ -20,9 +20,9 @@ var count_list = {
   contract_count: function(callback) { Contract.count(callback); },
   department_count: function(callback) { Department.count(callback); },
   eclass_count: function(callback) { Eclass.count(callback); },
+  income_count: function(callback) { Income.count(callback); },
   outlay_count: function(callback) { Outlay.count(callback); },
   source_count: function(callback) { Source.count(callback); },
-  species_count: function(callback) { Species.count(callback); },
   steward_count: function(callback) { Steward.count(callback); }
 };
 
