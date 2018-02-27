@@ -3,6 +3,7 @@ var Contract = require('../models/contract');
 var Department = require('../models/department');
 var Steward = require('../models/steward');
 var Income = require('../models/income');
+var Outlay = require('../models/outlay');
 
 exports.contract_list = function(req, res, next) {
   // Список договоров данного ответственного если его role == 'master'
@@ -77,7 +78,6 @@ exports.contract_detail = function(req, res, next) {
       Department.findById(department.parent)
       .exec(function (err, parent) {
         if (err) { return next(err); }
-
         Income
         .where('contract').equals(req.params.id)
         .sort({date: -1})
@@ -86,27 +86,36 @@ exports.contract_detail = function(req, res, next) {
           for (var i = 0; i < list_incomes.length; i++) {
             list_incomes[i].datestr = moment(list_incomes[i].date).format("L");
           }
-
-          for (var i = 0; i < contract.estimate.length; i++) {
-            contract.estimate[i].url = '/catalog/outlays/'+req.params.id+'/'+encodeURI(contract.estimate[i].code);
-          }
-          var isBossD = (department._steward && (department._steward.toString() == req.user._id.toString())) 
-            ? true : false;
-          var allowedDepartment = department.node != '000000' && 
-            ( req.user.role == 'booker' || req.user.role == 'master' && isBossD );
-          var isBossP = (parent._steward && (parent._steward.toString() == req.user._id.toString())) 
-            ? true : false;
-          var allowedParent = parent.node != '000000' && 
-            ( req.user.role == 'booker' || req.user.role == 'master' && isBossP );
-          res.render('report/contract_detail', {
-            allowedDepartment: allowedDepartment,
-            allowedParent: allowedParent,
-            basehref: req.url,
-            contract: contract, 
-            estimate_list: contract.estimate,
-            department: department,  
-            parent: parent,
-            income_list: list_incomes
+          Outlay
+          .where('contract').equals(req.params.id)
+          .sort({date: -1})
+          .exec(function (err, list_outlays) {
+            if (err) { return next(err); }
+            for (var i = 0; i < list_outlays.length; i++) {
+              list_outlays[i].datestr = moment(list_outlays[i].date).format("L");
+            }
+            for (var i = 0; i < contract.estimate.length; i++) {
+              contract.estimate[i].url = '/catalog/outlays/'+req.params.id+'/'+encodeURI(contract.estimate[i].code);
+            }
+            var isBossD = (department._steward && (department._steward.toString() == req.user._id.toString())) 
+              ? true : false;
+            var allowedDepartment = department.node != '000000' && 
+              ( req.user.role == 'booker' || req.user.role == 'master' && isBossD );
+            var isBossP = (parent._steward && (parent._steward.toString() == req.user._id.toString())) 
+              ? true : false;
+            var allowedParent = parent.node != '000000' && 
+              ( req.user.role == 'booker' || req.user.role == 'master' && isBossP );
+            res.render('report/contract_detail', {
+              allowedDepartment: allowedDepartment,
+              allowedParent: allowedParent,
+              basehref: req.url,
+              contract: contract, 
+              estimate_list: contract.estimate,
+              department: department,  
+              parent: parent,
+              income_list: list_incomes,
+              outlay_list: list_outlays
+            });
           });
         });
       });

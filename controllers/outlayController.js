@@ -21,9 +21,7 @@ exports.outlay_list = function(req, res, next) {
         if (err) { return next(err); }
         for (var i = 0; i < list_outlays.length; i++) {
           list_outlays[i].datestr = moment(list_outlays[i].date).format("L");
-//console.log(moment(list_outlays[i].date).format("L"));
         }
-
         res.render('report/outlay_list', {
           basehref: req.url,
           contract: contract, 
@@ -34,12 +32,3 @@ exports.outlay_list = function(req, res, next) {
     });
   });
 };
-
-/*
-        contract: req.params.contract,
-        eclass: code,
-        date: 1,
-        sum: 1,
-        species: 1,
-        note: 1
-*/
