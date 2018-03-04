@@ -24,8 +24,8 @@ router.get('/steward/:id', function(req, res, next) {
   .select({ name: 1, role: 1, login: 1})
   .exec(function (err, steward) {
     if (err) { return next(err); }
-    console.log(steward[0]);
-    res.locals.helloworld = 'Hello world';
+//    console.log(steward[0]);
+//    res.locals.helloworld = 'Hello world';
     res.render('admin/admin_steward_detail', {
       selectedMaster: steward[0].role == 'master',
       selectedBooker: steward[0].role == 'booker',

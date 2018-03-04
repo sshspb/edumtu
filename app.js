@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 //var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var expressValidator = require('express-validator');
+//var expressValidator = require('express-validator');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
@@ -20,10 +20,9 @@ var app = express();
 
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var options = config_local.mongoDB;
-mongoose.connect(options, {
-  useMongoClient: true
-});
+mongoose.connect(config_local.mongoDB);
+//var options = config_local.mongoDB;
+//mongoose.connect(options, { useMongoClient: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
@@ -36,7 +35,7 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(expressValidator());
+//app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'public')));
