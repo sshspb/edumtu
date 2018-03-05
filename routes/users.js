@@ -10,7 +10,7 @@ router.get('/logout', function(req, res, next) {
 });
 
 router.get('/login', function(req, res) {
-  res.render('login');
+  res.render('login', { login: true });
 });
 
 router.post('/login', function(req, res, next) {
