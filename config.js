@@ -28,5 +28,5 @@ module.exports = {
       filename: "Inet_PolzNew.txt", 
       headers: "steward,contract,,,,,,,," }
   },
-  "version": "1.3.1 from 05.03.2018"
+  "version": "1.3.2 from 05.03.2018"
 };
