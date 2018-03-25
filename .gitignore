@@ -7,3 +7,5 @@ draft
 *.gz
 *.pdf
 *draft
+*.xls
+*.XLSX

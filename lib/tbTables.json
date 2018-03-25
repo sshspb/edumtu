@@ -1,0 +1,39 @@
+[  
+  { 
+    "collection": "Inet_SmetaLSAll", 
+    "fields": [
+      { "name": "steward", "type": "string", "original": "Руководитель" },
+      { "name": "contract", "type": "string", "original": "лицевой_счет" },
+      { "name": "depCode", "type": "string", "original": "код_факультета" },
+      { "name": "depAbbr", "type": "string", "original": "кр_название" },
+      { "name": "divCode", "type": "string", "original": "код_кафедры" },
+      { "name": "divAbbr", "type": "string", "original": "кр_кафедра" },
+      { "name": "eCode", "type": "string", "original": "Сокр_код" },
+      { "name": "eName", "type": "string", "original": "Название_статьи" },
+      { "name": "percent", "type": "double", "original": "Процент" },
+      { "name": "remains", "type": "decimal", "original": "Вх_Остаток" },
+      { "name": "plan", "type": "decimal", "original": "Сумма_назначения" },
+      { "name": "income", "type": "decimal", "original": "Доход_по_статье" },
+      { "name": "outlayO", "type": "decimal", "original": "Затраты_с_обяз" },
+      { "name": "outlay", "type": "decimal", "original": "Затраты_факт" },
+      { "name": "balance", "type": "decimal", "original": "Остаток_ден" },
+      { "name": "balanceE", "type": "decimal", "original": "Остаток_по_смете" },
+      { "name": "balanceWO", "type": "decimal", "original": "Остаток_смета_БО" }
+    ]
+  },
+  { 
+    "collection": "Inet_PolzNew", 
+    "fields": [
+      { "name": "steward", "type": "string", "original": "фамилия_и_о" },
+      { "name": "contract", "type": "string", "original": "ЛицевойСчет" },
+      { "name": "k1", "type": "bool", "original": "Сметы" },
+      { "name": "k2", "type": "bool", "original": "Доход" },
+      { "name": "k3", "type": "bool", "original": "УП" },
+      { "name": "k4", "type": "bool", "original": "Руковод" },
+      { "name": "k5", "type": "bool", "original": "ЦФ" },
+      { "name": "k6", "type": "bool", "original": "Рект" },
+      { "name": "k7", "type": "bool", "original": "Прих_обр" },
+      { "name": "k8", "type": "bool", "original": "Доступны_уровни" }
+    ]
+  }
+]

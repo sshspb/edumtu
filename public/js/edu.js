@@ -18,6 +18,10 @@ function cost() {
           total[k].total += cost;
           cell.innerHTML = rouble(cost);
         }
+        if (cell.matches('.date')) {
+          var date = new Date(cell.innerHTML);
+          cell.innerHTML = date.toLocaleDateString();
+        }
       }
     }
     var tfoot = tables[i].tFoot;
@@ -40,7 +44,8 @@ function rouble(n) {
   while (rgx.test(x1)) {
     x1 = x1.replace(rgx, '$1' + '&nbsp;' + '$2');
   }
-  return x1 + x2;
+  return x1;
+//  return x1 + x2;
 }
 
 document.addEventListener("DOMContentLoaded", cost);

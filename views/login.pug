@@ -1,49 +1,76 @@
-extends layout
+doctype html
+html(lang="ru")
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href='/css/style.css')
+    script(src='/js/jquery-3.3.1.min.js')
+    script(src='/js/bootstrap.min.js')
+  body
+    div(class='container')
+      div(class='row')
+        div(class='col-sm-3')
+          h5 Документы
+          pre.
+            Количество:
+            #[strong Подразделения:] !{data.departments}
+            #[strong Договоры:] !{data.contracts}
+            #[strong Сотрудники:] !{data.stewards}
+            #[strong Классификатор:] !{data.eclasses}
+            #[strong Источники:] !{data.sources}
+            #[strong Поступления:] !{data.incomes}
+            #[strong Затраты:] !{data.outlays}
+            #[strong ВидыЗатрат:] !{data.species}
 
-block content
-
-  h3(class="col-sm-offset-2 col-sm-10") Вход
-  p(class="col-sm-offset-2 col-sm-10") Введите имя пользователя и пароль.
-
-  form(class="form-horizontal login-form" name="login-form")
-
-    div(class="form-group")
-      label(for="input-username" class="col-sm-2 control-label") Login
-      div(class="col-sm-6")
-        input(name="username" type="text" class="form-control" id="input-username")
-
-    div(class="form-group")
-      label(for="input-password" class="col-sm-2 control-label") Password
-      div(class="col-sm-6")
-        input(name="password" type="password" class="form-control" id="input-password")
-
-    div(class="form-group")
-      div(class="col-sm-offset-2 col-sm-10")
-        button(type="submit" class="btn btn-primary" data-loading-text="Отправляю...") Войти
-        span(class="help-block error")
-
-  script.
-    $(document.forms['login-form']).on('submit', function() {
-      var form = $(this);
-      $('.error', form).html('');
-      $(":submit", form).button("loading");
-      $.ajax({
-        url: "/users/login",
-        method: "POST",
-        data: form.serialize(),
-        complete: function() {
-          $(":submit", form).button("reset");
-        },
-        statusCode: {
-          200: function() {
-            form.html("Вы вошли в сайт").addClass('alert-success');
-            window.location.href = "/";
+            modification time
+            Inet_SmetaLSAll.txt
+            #[strong !{data.fromdate}]
+            загружено
+            #[strong !{data.loaded}]
+          button(type="button" class="btn btn-primary" onclick="this.innerHTML='Загружаю...'; window.location.href='/importdata';") Импорт данных
+          h5= dataloaded
+        div(class='col-sm-9')
+          h2(class="col-sm-offset-1")= title
+          h3(class="col-sm-offset-1")= subtitle 
+          br
+          p(class="col-sm-offset-2") Введите имя пользователя и пароль.
+          form(class="form-horizontal login-form" name="login-form")
+            div(class="form-group")
+              label(for="input-username" class="col-sm-2 control-label") Login
+              div(class="col-sm-4")
+                input(name="username" type="text" class="form-control" id="input-username" autofocus)
+            div(class="form-group")
+              label(for="input-password" class="col-sm-2 control-label") Password
+              div(class="col-sm-4")
+                input(name="password" type="password" class="form-control" id="input-password")
+            div(class="form-group")
+              div(class="col-sm-offset-2 col-sm-9")
+                button(type="submit" class="btn btn-primary col-sm-3" data-loading-text="Отправляю...") Войти
+                span(class="help-block error")
+    script.
+      $(document.forms['login-form']).on('submit', function() {
+        var form = $(this);
+        $('.error', form).html('');
+        $(":submit", form).button("loading");
+        $.ajax({
+          url: "/",
+          method: "POST",
+          data: form.serialize(),
+          complete: function() {
+            $(":submit", form).button("reset");
           },
-          403: function(jqXHR) {
-            var error = JSON.parse(jqXHR.responseText);
-            $('.error', form).html(error.message);
+          statusCode: {
+            200: function() {
+              form.html("Вы вошли в сайт").addClass('alert-success');
+              window.location.href = "/";
+            },
+            403: function(jqXHR) {
+              var error = JSON.parse(jqXHR.responseText);
+              $('.error', form).html(error.message);
+            }
           }
-        }
+        });
+        return false;
       });
-      return false;
-    });

@@ -1,26 +1,33 @@
 extends layout
-
 block content
   div
     table(class='table tree table-condensed')
       thead
         tr
           th Подразделение
-          th Руководитель
+          th(class='text-right') Начало
+          th(class='text-right') План
+          th(class='text-right') Приход
+          th(class='text-right') Расход сОб
+          th(class='text-right') Расход факт
+          th(class='text-right') Остаток факт
           th(class='text-right') Остаток
+          th(class='text-right') Остаток безОб
       tbody
         each department in department_list
           tr(class= department.trClass)
             td
               span &nbsp;
-                if department.allowed
-                  a(href=department.url) #{department.name}
-                else
-                  span #{department.name}
-            td #{department.stewardName} 
-            td(class='text-right cost') #{department.saldo}
-      tfoot
-        tr
-          th Итого
-          th
-          th(class='text-right') #{footer.saldo}
+                a(href=department.url) #{department.code} #{department.abbr}
+            td(class='text-right cost') #{department.estimate.remains} 
+            td(class='text-right cost') #{department.estimate.plan} 
+            td(class='text-right cost') #{department.estimate.income} 
+            td(class='text-right cost') #{department.estimate.outlayO} 
+            td(class='text-right cost') #{department.estimate.outlay} 
+            td(class='text-right cost') #{department.estimate.balance} 
+            td(class='text-right cost') #{department.estimate.balanceE} 
+            td(class='text-right cost') #{department.estimate.balanceWO} 
+  script(src='/js/jquery.treegrid.js')
+  script(src='/js/jquery.treegrid.bootstrap3.js')
+  script
+    != "$(document).ready(function(){ $('#back').href= $('.tree').treegrid({initialState: 'expanded'}); });"

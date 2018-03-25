@@ -12,8 +12,10 @@
  */
  
 module.exports = {
-  "tbPath": "D:/data/edu/mtu2017",
-  "mongoDB": "mongodb://localhost/edu",
+  "tbPath": "D:/data/edu/data20180323",
+  "mongoDB": "mongodb://127.0.0.1:27017/edu",
+  "dbUrl":  "mongodb://127.0.0.1:27017",
+  "dbName": "edu",
   "httpPort": 3000
 };
 

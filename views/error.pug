@@ -1,7 +1,15 @@
-extends layout
-
-block content
-  p from error pug
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+doctype html
+html(lang="ru")
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href='/css/style.css')
+  body
+    div(class='container')
+      div(class='row')
+        div(class="col-sm-offset-1 col-sm-9")
+          h1= message
+          h2= error.status
+          pre #{error.stack}

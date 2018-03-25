@@ -1,82 +1,118 @@
-var fs = require('fs');
-var path = require('path');
-var util = require('util');
-var moment = require('moment');
-var express = require('express');
-var router = express.Router();
-var config = require('../config');
-var config_local = require('../config_local');
-var Contract = require('../models/contract');
-var Department = require('../models/department');
-var Eclass = require('../models/eclass');
-var Income = require('../models/income');
-var Outlay = require('../models/outlay');
-var Source = require('../models/source');
-var Steward = require('../models/steward');
-var async = require('async');
+const fs = require('fs');
+const path = require('path');
+const util = require('util');
+const async = require('async');
+const crypto = require('crypto');
+const express = require('express');
+const router = express.Router();
+const MongoClient = require('mongodb').MongoClient;
+const AuthError = require('../lib/error').AuthError;
+const HttpError = require('../lib/error').HttpError;
+const config = require('../config');
 
-var count_list = {
-  tbtime: function(callback) { tbStat('SME', callback); },
-  contract_count: function(callback) { Contract.count(callback); },
-  department_count: function(callback) { Department.count(callback); },
-  eclass_count: function(callback) { Eclass.count(callback); },
-  income_count: function(callback) { Income.count(callback); },
-  outlay_count: function(callback) { Outlay.count(callback); },
-  source_count: function(callback) { Source.count(callback); },
-  steward_count: function(callback) { Steward.count(callback); }
-};
-
-router.get('/', function(req, res) {   
-  async.parallel(count_list, function(err, results) {
-    res.render(req.user ? (req.user.role == 'admin' ? 'admin/index' : 'report/index') : 'home', { 
-      version: config.version,
-      basehref: req.url,
-      title: 'Оперативно-финансовый отдел', 
-      subtitle: 'учёта образовательной деятельности', 
-      error: err, 
-      data: results 
+router.get('/',  function(req, res) {
+  var docsQty = {
+    departments: 0,
+    contracts: 0,
+    stewards: 0,
+    sources: 0,
+    eclasss: 0,
+    incomes: 0,
+    outlays: 0,
+    species: 0
+  };
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    client.db(config.dbName)
+    .collection('quantitys')
+    .find({})
+    .toArray(function(err, quantitys) {
+      client.close();
+      if (err) { return next(err); }
+      if (quantitys.length) docsQty = quantitys[0];
+      if (req.user) {
+        if (req.user.role == 'admin') {
+          //res.render('admin/index');
+          res.render('report/index', { 
+            title: 'Оперативно-финансовый отдел', 
+            subtitle: 'учёта образовательной деятельности', 
+            data: docsQty
+          });
+        } else {
+          res.render('report/index', { 
+            title: 'Оперативно-финансовый отдел', 
+            subtitle: 'учёта образовательной деятельности', 
+            data: docsQty
+          });
+        }
+      } else {
+        res.render('login', { 
+          title: 'Оперативно-финансовый отдел', 
+          subtitle: 'учёта образовательной деятельности', 
+          data: docsQty
+        });
+      }
     });
   });
 });
 
-router.get('/importdata', function(req, res) {
-  var importData = require('../lib/importDataM');
-  importData(function(err) {
-    var title = '';
+router.post('/', function(req, res, next) {
+  var username = req.body.username;
+  var password = req.body.password;
+  authorize(username, password, function(err, user) {
     if (err) {
-      res.render('home', { 
-        basehref: req.url,
-        title:'Ошибка загрузки', 
-          subtitle: '', error: err 
-      });
-    } else {
-      async.parallel(count_list, function(err, results) {
-        res.render('home', { 
-          version: config.version,
-          basehref: req.url,
-          title: 'Данные загружены', 
-          subtitle: '', 
-          error: err, 
-          data: results 
-        });
-      });
+      if (err instanceof AuthError) {
+        return next(new HttpError(403, err.message));
+      } else {
+        return next(err);
+      }
     }
+    req.session.user = user.login;
+    res.send({});
   });
 });
 
-module.exports = router;
+router.get('/logout', function(req, res, next) {
+  req.session.destroy();
+  res.redirect('/');
+});
 
-/**
- * дата создания файла данных ТБ
- */
-function tbStat(tableName, callback) {
-    var tbTable = config.tbTables[tableName];
-    var stat = fs.statSync(path.join(config_local.tbPath, tbTable.filename));
-    var tbtime = {
-      atime: moment(stat.atime).format("LLL"),
-      mtime: moment(stat.mtime).format("LLL"),
-      ctime: moment(stat.ctime).format("LLL"),
-      birthtime: moment(stat.birthtime).format("LLL")
-    };
-    return callback(null, tbtime);
+router.get('/importdata', function(req, res) {
+  var importData = require('../lib/tbImport').importData;
+  var reformData = require('../lib/tbReform').reformData;
+  async.series([
+    importData,
+    reformData
+  ], 
+  function(err) {
+    req.session.destroy();
+    res.redirect('/');
+  });
+});
+
+function authorize(username, password, callback) {
+  var login = username.toUpperCase(); // login регистронезависимый
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    client.db(config.dbName)
+    .collection('stewards')
+    .findOne({login: login})
+    .then(
+      user => {
+        client.close();
+        if (user) {
+          if (crypto.createHmac('sha1', user.salt).update(password).digest('hex') === user.hashedPassword) {
+            callback(null, user);
+          } else {
+            callback(new AuthError("Пароль неверен"));
+          }
+        } else {
+          callback(new AuthError("Login неверен"));
+        }
+      },
+      error => {
+        callback(new AuthError("Login неверен"));
+      }
+   );
+  });
 }
+
+module.exports = router;

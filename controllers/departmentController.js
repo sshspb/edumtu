@@ -1,94 +1,50 @@
 var async = require('async');
-var Department = require('../models/department');
-var Contract = require('../models/contract');
-var Steward = require('../models/steward');
+const MongoClient = require('mongodb').MongoClient;
+const config = require('../config');
 
 exports.department_list = function(req, res, next) {
-  rows = [];
-  Department.find()
-  .populate('_steward', 'name')
-  .sort({_id: 1})
-  .exec(function (err, list_departments) {
-    if (err) { return next(err); }
-    var totalSaldo = 0;
-    for (var i = 0; i < list_departments.length; i++) {
-      var department = list_departments[i];
-      // var allowedDepartment = department._steward === req.user._id;
-      var trClass;
-      if (department.node == '000000') {
-        trClass = ''; 
-        totalSaldo = department.saldo;
-      } else if (department.parent == '000000') {
-        trClass = 'treegrid-' + department.node
-      } else {
-        trClass = 'treegrid-' + department.node + ' treegrid-parent-' + department.parent
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('departments').find()
+    .sort({_id: 1})
+    .toArray(function (err, list_departments) {
+      client.close();
+      if (err) { return next(err); }
+      for (var i = 0; i < list_departments.length; i++) {
+        var trClass = 'treegrid-'.concat(list_departments[i]._id);
+        if (list_departments[i].parent) 
+          trClass += ' treegrid-parent-'.concat(list_departments[i].parent);
+        list_departments[i].trClass = trClass;
       }
-      var isBoss = (department._steward 
-        && (department._steward._id.toString() == req.user._id.toString())) 
-        ? true : false;
-      rows.push({ 
-        "allowed": department.node != '000000' && 
-          ( req.user.role == 'booker' || 
-            req.user.role == 'master' && isBoss ),
-        "name": department.code + ' ' + department.name, 
-        "stewardName": department._steward ? department._steward.name : 'не указан',
-        "saldo": department.saldo,
-        "url": department.url,
-        "trClass": trClass
+      res.render('report/department_list', { 
+        department_list: list_departments
       });
-    }
-    res.render('report/department_list', { 
-//      userName: req.userName,
-      basehref: req.url,
-      title: 'Подразделения', 
-      department_list: rows,
-      footer: { saldo: rouble(totalSaldo) }
     });
   });
-};
+}
 
 exports.department_detail = function(req, res, next) {
   var like = RegExp('^' + req.params.id);
-  Department.findById(req.params.id)
-  .exec(function (err, department) {
-    if (err) { return next(err); }
-    Contract.aggregate([
-      { $match: {_id: like}},
-      { $lookup: {from: "sources", localField: "_source", foreignField: "_id", as: "source"}},
-      { $unwind:"$estimate" },
-      { $group: { 
-          _id: { 
-            url: {$concat: ["/catalog/contract/", "$_id"]}, 
-            name: "$name", 
-            source: { $arrayElemAt: [ "$source", 0 ] } 
-          }, 
-          remains: {$sum: "$estimate.remains"}, 
-          income: {$sum: "$estimate.income"}, 
-          outlay: {$sum: "$estimate.outlay"}, 
-          balance: {$sum: "$estimate.balance"}
-        }
-      },
-      { $project: { 
-        "url": "$_id.url",
-        "name": "$_id.name",
-        "source": "$_id.source.name",
-        "remains": 1,
-        "income": 1,
-        "outlay": 1,
-        "balance": 1,
-        "_id": 0 }
-      },
-      { $sort: { "name": 1} }
-    ])
-    .exec(function(err, list_contracts) {
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('departments').find({_id: req.params.id})
+    .toArray(function (err, list_departments) {
+      if (err) { return next(err); }
+      var department = list_departments[0];
+      db.collection('contracts').aggregate([
+        { $match: { department: like}},
+        { $sort: { _id: 1} }
+      ])
+      .toArray(function (err, list_contracts) {
+        client.close();
         if (err) { return next(err); }
         res.render('report/department_detail', { 
-          basehref: req.url,
-          title: department.name, 
+          title: department.code + ' ' + department.abbr, 
           contract_list: list_contracts
         });
-    });
-  });
+      })
+    })
+  })
 };
 
 function rouble(n) {

@@ -1,27 +1,14 @@
 extends layout
-
 block content
-
-  p Договор 
-    span(style='font-weight: 700;') &nbsp; #{contract.name}
-    span , &nbsp; &nbsp;
-      a(href=contract._source.url) #{contract._source.name}
-    span , &nbsp; Ответственный  &nbsp; 
-      if contract._steward
-        a(href=contract._steward.url) #{contract._steward.name} 
-      else
-        p &nbsp; Не указан
-  p Подразделение 
-    span &nbsp; 
-      if (allowedParent) 
-        a(href=parent.url) #{parent.name}
-      else
-        strong #{parent.name}
-    span &nbsp; &nbsp; / &nbsp; &nbsp;
-      if (allowedDepartment) 
+  p
+    each department in department_list
+      span &nbsp; / &nbsp;
         a(href=department.url) #{department.name}
-      else
-        strong #{department.name}
+    span &nbsp; / &nbsp; Договор 
+    span(style='font-weight: 700;') &nbsp; #{contract._id}
+    span , &nbsp; Ответственный  &nbsp; 
+      if steward
+        a(href=steward.url) #{steward._id} 
 
   div(style='margin-left:20px;margin-top:20px')
     ul(class="nav nav-tabs")
@@ -37,21 +24,33 @@ block content
               th Наименование
               th(class='text-right') Начало
               th(class='text-right') План
-              th(class='text-right') Исполнено
+              th(class='text-right') Приход
+              th(class='text-right') Расход сОб
+              th(class='text-right') Расход факт
+              th(class='text-right') Остаток факт
               th(class='text-right') Остаток
+              th(class='text-right') Остаток безОб
           tbody
             each estimate in estimate_list
               tr
-                th #{estimate.code} 
-                td: a(href=estimate.url) #{estimate.name} 
+                th: a(href=estimate.url) #{estimate._id.eCode} 
+                td: a(href=estimate.url) #{estimate._id.eName} 
                 td(class='text-right cost') #{estimate.remains} 
+                td(class='text-right cost') #{estimate.plan} 
                 td(class='text-right cost') #{estimate.income} 
+                td(class='text-right cost') #{estimate.outlayO} 
                 td(class='text-right cost') #{estimate.outlay} 
                 td(class='text-right cost') #{estimate.balance} 
+                td(class='text-right cost') #{estimate.balanceE} 
+                td(class='text-right cost') #{estimate.balanceWO} 
           tfoot#total
             tr
               th 
               th Итого
+              th(class='text-right') 
+              th(class='text-right') 
+              th(class='text-right') 
+              th(class='text-right')  
               th(class='text-right') 
               th(class='text-right') 
               th(class='text-right') 
@@ -66,8 +65,8 @@ block content
           tbody
             each income in income_list
               tr
-                td #{income.datestr}
-                td(class='text-right cost') #{income.sum}
+                td(class='date') #{income.date}
+                td(class='text-right cost') #{income.total}
                 td #{income.note}
           tfoot#total
             tr
@@ -85,8 +84,8 @@ block content
           tbody
             each outlay in outlay_list
               tr
-                td #{outlay.datestr}
-                td(class='text-right cost') #{outlay.sum}
+                td(class='date') #{outlay.date}
+                td(class='text-right cost') #{outlay.total}
                 td #{outlay.species}
                 td #{outlay.note}
           tfoot#total

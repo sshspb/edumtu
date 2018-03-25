@@ -1,25 +1,47 @@
-extends layout
-block content
-  h2= title
-  h3= subtitle 
-  br
-  if error
-    p Error Ошибка
-  else
-    h4 Количество документов:
-    ul
-      li #[strong Подразделения:] !{data.department_count}
-      li #[strong Договоры:] !{data.contract_count}
-      li #[strong Сотрудники:] !{data.steward_count}
-      li #[strong Источники:] !{data.source_count}
-      li #[strong Классификатор:] !{data.eclass_count}
-      li #[strong Поступления:] !{data.income_count}
-      li #[strong Затраты:] !{data.outlay_count}
-    h5 Данные от даты
-    pre.
-      Файл Inet_SmetaLSV.txt
-          atime: !{data.tbtime.atime}
-          #[strong mtime: !{data.tbtime.mtime}] modification time - время последнего изменения содержимого
-          ctime: !{data.tbtime.ctime}
-      birthtime: !{data.tbtime.birthtime}
-    h5 Program version #{version}
+doctype html
+html(lang="ru")
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href='/css/style.css')
+    script(src='/js/jquery-3.3.1.min.js')
+    script(src='/js/bootstrap.min.js')
+  body
+    nav(class="navbar navbar-default  navbar-fixed-top")
+      div(class="container")
+        ul(class="nav navbar-nav")
+          li
+            div(class='navbar-header' style="padding-top: 8px" )
+              button(type="button" class="btn btn-default" onclick="window.history.back();")
+                span(class="glyphicon glyphicon-arrow-left" aria-hidden="true")
+          li: a(href="/") #{userName}
+          li: a(href='/report/eclasses') План
+          li: a(href='/report/departments') Подразделения
+          li: a(href='/report/contracts') Договоры
+          li: a(href='/report/stewards') Ответственные
+        ul(class="nav navbar-nav navbar-right")
+          li: a(href='/logout') Выйти
+      div(class='container')
+        div(class='row')
+          div(class='col-sm-3')
+            h5 Документы
+            pre.
+              Количество:
+              #[strong Подразделения:] !{data.departments}
+              #[strong Договоры:] !{data.contracts}
+              #[strong Сотрудники:] !{data.stewards}
+              #[strong Классификатор:] !{data.eclasses}
+              #[strong Источники:] !{data.sources}
+              #[strong Поступления:] !{data.incomes}
+              #[strong Затраты:] !{data.outlays}
+              #[strong ВидыЗатрат:] !{data.species}
+              
+              modification time
+              Inet_SmetaLSAll.txt
+              #[strong !{data.fromdate}]
+              загружено
+              #[strong !{data.loaded}]
+            button(type="button" class="btn btn-primary" onclick="this.innerHTML='Загружаю...'; window.location.href='/importdata';") Импорт данных
+            h5= dataloaded

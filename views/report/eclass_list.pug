@@ -8,21 +8,33 @@ block content
         th Наименование
         th(class='text-right') Начало
         th(class='text-right') План
-        th(class='text-right') Исполнено
+        th(class='text-right') Приход
+        th(class='text-right') Расход сОб
+        th(class='text-right') Расход факт
+        th(class='text-right') Остаток факт
         th(class='text-right') Остаток
+        th(class='text-right') Остаток безОб
     tbody
       each eclass in eclass_list
         tr
-          th #{eclass.code} 
-          td #{eclass.name} 
+          th #{eclass._id.eCode} 
+          td #{eclass._id.eName} 
           td(class='text-right cost') #{eclass.remains} 
+          td(class='text-right cost') #{eclass.plan} 
           td(class='text-right cost') #{eclass.income} 
+          td(class='text-right cost') #{eclass.outlayO} 
           td(class='text-right cost') #{eclass.outlay} 
           td(class='text-right cost') #{eclass.balance} 
+          td(class='text-right cost') #{eclass.balanceE} 
+          td(class='text-right cost') #{eclass.balanceWO} 
     tfoot#total
       tr
         th Итого
         th 
+        th(class='text-right') 
+        th(class='text-right')  
+        th(class='text-right') 
+        th(class='text-right')  
         th(class='text-right') 
         th(class='text-right')  
         th(class='text-right') 

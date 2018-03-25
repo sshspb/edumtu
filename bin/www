@@ -5,15 +5,15 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('edu2site:server');
+//var debug = require('debug')('edu2site:server');
 var http = require('http');
-var config_local = require('../config_local');
+var config = require('../config');
 
 /**
  * Get port from environment and store in Express.
  */
-config_local.httpPort
-var port = normalizePort(process.env.PORT || config_local.httpPort || '3000');
+config.httpPort
+var port = normalizePort(process.env.PORT || config.httpPort || '3000');
 app.set('port', port);
 
 /**

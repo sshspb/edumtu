@@ -7,19 +7,31 @@ block content
         th Фамилия И.О.
         th(class='text-right') Начало
         th(class='text-right') План
-        th(class='text-right') Исполнено
+        th(class='text-right') Приход
+        th(class='text-right') Расход сОб
+        th(class='text-right') Расход факт
+        th(class='text-right') Остаток факт
         th(class='text-right') Остаток
+        th(class='text-right') Остаток безОб
     tbody
       each steward in steward_list
         tr
-          td: a(href=steward.url) #{steward.name}
-          td(class='text-right cost') #{steward.remains} 
-          td(class='text-right cost') #{steward.income} 
-          td(class='text-right cost') #{steward.outlay} 
-          td(class='text-right cost') #{steward.balance} 
+          td: a(href=steward.url) #{steward._id}
+          td(class='text-right cost') #{steward.estimate.remains} 
+          td(class='text-right cost') #{steward.estimate.plan} 
+          td(class='text-right cost') #{steward.estimate.income} 
+          td(class='text-right cost') #{steward.estimate.outlayO} 
+          td(class='text-right cost') #{steward.estimate.outlay} 
+          td(class='text-right cost') #{steward.estimate.balance} 
+          td(class='text-right cost') #{steward.estimate.balanceE} 
+          td(class='text-right cost') #{steward.estimate.balanceWO} 
     tfoot#total
       tr
         th Итого
+        th(class='text-right') 
+        th(class='text-right') 
+        th(class='text-right') 
+        th(class='text-right') 
         th(class='text-right') 
         th(class='text-right') 
         th(class='text-right') 
