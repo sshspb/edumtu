@@ -9,7 +9,7 @@ exports.eclass_list = function(req, res, next) {
       client.close();
       if (err) { return next(err); }
       res.render('report/eclass_list', { 
-        title: 'План', 
+        title: 'План СПбМТУ', 
         eclass_list: list_eclasses
       });
     });

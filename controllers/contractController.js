@@ -19,6 +19,7 @@ exports.contract_list = function(req, res, next) {
         list_contracts[i].steward_url = '/report/steward/' + encodeURIComponent(list_contracts[i].steward);
       }
       res.render('report/contract_list', { 
+        title: 'Договоры', 
         contract_list: list_contracts
       });
     });
@@ -68,8 +69,9 @@ exports.contract_detail = function(req, res, next) {
                 });
               }, 
               function() {
-                client.close(contract);
+                client.close();
                 res.render('report/contract_detail', {
+                  title: 'Договор ' + contract._id, 
                   contract: contract,
                   steward: { 
                     url: '/report/steward/'.concat(encodeURIComponent(contract.steward)), 

@@ -45,6 +45,7 @@ exports.outlay_list = function(req, res, next) {
             function() {
               client.close();
               res.render('report/outlay_list', {
+                title: 'Затраты', 
                 contract: contract,
                 eclass: eclass,
                 steward: { 

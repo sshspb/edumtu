@@ -9,9 +9,9 @@ html(lang="ru")
     script(src='/js/jquery-3.3.1.min.js')
     script(src='/js/bootstrap.min.js')
   body
-    div(class='container')
-      div(class='row')
-        div(class='col-sm-3')
+    .container
+      .row
+        .col-sm-3
           h5 Документы
           pre.
             Количество:
@@ -29,23 +29,25 @@ html(lang="ru")
             #[strong !{data.fromdate}]
             загружено
             #[strong !{data.loaded}]
+
+            !{data.version}
           button(type="button" class="btn btn-primary" onclick="this.innerHTML='Загружаю...'; window.location.href='/importdata';") Импорт данных
           h5= dataloaded
-        div(class='col-sm-9')
+        .col-sm-9
           h2(class="col-sm-offset-1")= title
           h3(class="col-sm-offset-1")= subtitle 
           br
           p(class="col-sm-offset-2") Введите имя пользователя и пароль.
           form(class="form-horizontal login-form" name="login-form")
-            div(class="form-group")
+            .form-group
               label(for="input-username" class="col-sm-2 control-label") Login
-              div(class="col-sm-4")
-                input(name="username" type="text" class="form-control" id="input-username" autofocus)
-            div(class="form-group")
+              .col-sm-4
+                input#input-username(name="username" type="text" class="form-control" autofocus)
+            .form-group
               label(for="input-password" class="col-sm-2 control-label") Password
-              div(class="col-sm-4")
-                input(name="password" type="password" class="form-control" id="input-password")
-            div(class="form-group")
+              .col-sm-4
+                input#input-password(name="password" type="password" class="form-control")
+            .form-group
               div(class="col-sm-offset-2 col-sm-9")
                 button(type="submit" class="btn btn-primary col-sm-3" data-loading-text="Отправляю...") Войти
                 span(class="help-block error")

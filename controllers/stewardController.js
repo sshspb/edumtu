@@ -29,6 +29,7 @@ exports.steward_detail = function(req, res, next) {
         client.close();
         if (err) { return next(err); }
         res.render('report/steward_detail', { 
+          title: 'Ответственный ' + req.params.id, 
           steward: req.params.id, 
           contract_list: list_contracts 
         });
