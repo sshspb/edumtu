@@ -19,7 +19,8 @@ router.get('/',  function(req, res) {
     eclasss: 0,
     incomes: 0,
     outlays: 0,
-    species: 0
+    species: 0,
+    version: 'Данные не загружены'
   }; 
   MongoClient.connect(config.dbUrl, function(err, client) {
     client.db(config.dbName)
