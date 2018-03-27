@@ -11,6 +11,16 @@ const HttpError = require('../lib/error').HttpError;
 const config = require('../config');
 
 router.get('/',  function(req, res) {
+  var docsQty = {
+    departments: 0,
+    contracts: 0,
+    stewards: 0,
+    sources: 0,
+    eclasss: 0,
+    incomes: 0,
+    outlays: 0,
+    species: 0
+  }; 
   MongoClient.connect(config.dbUrl, function(err, client) {
     client.db(config.dbName)
     .collection('quantitys')
