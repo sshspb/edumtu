@@ -18,7 +18,7 @@ block content
           tr(class= department.trClass)
             td
               span &nbsp;
-                a(href=department.url) #{department.code} #{department.abbr}
+                a(href=department.url) #{department.name}
             td(class='text-right cost') #{department.estimate.remains} 
             td(class='text-right cost') #{department.estimate.plan} 
             td(class='text-right cost') #{department.estimate.income} 
@@ -29,5 +29,10 @@ block content
             td(class='text-right cost') #{department.estimate.balanceWO} 
   script(src='/js/jquery.treegrid.js')
   script(src='/js/jquery.treegrid.bootstrap3.js')
-  script
-    != "$(document).ready(function(){ $('#back').href= $('.tree').treegrid({initialState: 'expanded'}); });"
+  script.
+    $(document).ready(function(){ 
+      $('#back').href= $('.tree').treegrid({initialState: 'collapsed'}); 
+      $('.tree').treegrid('getRootNodes').treegrid('expand');
+    });
+
+    //!= "$(document).ready(function(){ $('#back').href= $('.tree').treegrid({initialState: 'collapsed'}); });"

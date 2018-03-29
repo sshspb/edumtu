@@ -46,7 +46,7 @@ exports.contract_detail = function(req, res, next) {
           .find({contract: contract._id}).sort({date: -1})
           .toArray(function (err, list_outlays) {
             if (err) { return next(err); }
-            var node = contract.department;
+            var node = contract.parent;
             var depsId = [];
             var nl = 6;
             while (nl <= node.length) {
@@ -63,7 +63,7 @@ exports.contract_detail = function(req, res, next) {
                   var department = departments[0];
                   list_departments.push({ 
                     url: department.url,
-                    name: department.code + ' ' + department.abbr
+                    name: department.name
                   });
                   callback(null);
                 });
@@ -71,7 +71,7 @@ exports.contract_detail = function(req, res, next) {
               function() {
                 client.close();
                 res.render('report/contract_detail', {
-                  title: 'Договор ' + contract._id, 
+                  title: 'Договор ' + contract.name, 
                   contract: contract,
                   steward: { 
                     url: '/report/steward/'.concat(encodeURIComponent(contract.steward)), 

@@ -10,6 +10,7 @@ var steward_controller = require('../controllers/stewardController');
 router.get('/contracts', contract_controller.contract_list);
 router.get('/contract/:id', contract_controller.contract_detail);
 router.get('/departments', department_controller.department_list);
+router.get('/departments_contracts', department_controller.department_contract_list);
 router.get('/department/:id', department_controller.department_detail);
 router.get('/eclasses', eclass_controller.eclass_list);
 router.get('/outlays/:contract/:eclass', outlay_controller.outlay_list);

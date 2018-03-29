@@ -8,18 +8,50 @@ exports.department_list = function(req, res, next) {
     db.collection('departments').find()
     .sort({_id: 1})
     .toArray(function (err, list_departments) {
-      client.close();
       if (err) { return next(err); }
+      var list_objects = []
       for (var i = 0; i < list_departments.length; i++) {
         var trClass = 'treegrid-'.concat(list_departments[i]._id);
         if (list_departments[i].parent) 
           trClass += ' treegrid-parent-'.concat(list_departments[i].parent);
         list_departments[i].trClass = trClass;
       }
-      res.render('report/department_list', { 
-        title: 'Подразделения', 
+      res.render('report/department_list', {
+        title: 'Подразделения',
         department_list: list_departments
       });
+    });
+  });
+}
+
+exports.department_contract_list = function(req, res, next) {
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('departments').find()
+    .sort({_id: 1})
+    .toArray(function (err, list_departments) {
+      if (err) { return next(err); }
+      var list_objects = []
+      for (var i = 0; i < list_departments.length; i++) {
+        var trClass = 'treegrid-'.concat(list_departments[i]._id);
+        if (list_departments[i].parent) 
+          trClass += ' treegrid-parent-'.concat(list_departments[i].parent);
+        list_departments[i].trClass = trClass;
+        list_objects.push(list_departments[i]);
+        for (var j = 0; j < list_departments[i].contracts.length; j++) {
+          list_objects.push({
+            url: list_departments[i].contracts[j].url,
+            name: list_departments[i].contracts[j]._id,
+            trClass: 'contract treegrid-' + j + ' treegrid-parent-'.concat(list_departments[i]._id),
+            estimate: list_departments[i].contracts[j].estimate
+          });
+        }
+      }
+      res.render('report/department_list', {
+        title: 'Подразделения',
+        department_list: list_objects
+      });
+
     });
   });
 }
@@ -28,7 +60,7 @@ exports.department_detail = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
   db = client.db(config.dbName);
   db.collection('contracts')
-  .find({department: RegExp('^' + req.params.id)})
+  .find({parent: RegExp('^' + req.params.id)})
   .sort({ _id: 1})
   .toArray(function (err, list_contracts) {
     if (err) { return next(err); }
@@ -49,7 +81,7 @@ exports.department_detail = function(req, res, next) {
           var department = departments[0];
           list_departments.push({ 
             url: department.url,
-            name: department.code + ' ' + department.abbr
+            name: department.name
           });
           callback(null);
         });

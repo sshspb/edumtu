@@ -20,7 +20,7 @@ exports.outlay_list = function(req, res, next) {
         .sort({date: -1})
         .toArray(function (err, list_outlays) {
           if (err) { return next(err); }
-          var node = contract.department;
+          var node = contract.parent;
           var depsId = [];
           var nl = 6;
           while (nl <= node.length) {
@@ -37,7 +37,7 @@ exports.outlay_list = function(req, res, next) {
                 var department = departments[0];
                 list_departments.push({ 
                   url: department.url,
-                  name: department.code + ' ' + department.abbr
+                  name: department.name
                 });
                 callback(null);
               });

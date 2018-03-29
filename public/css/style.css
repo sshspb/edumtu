@@ -24,3 +24,7 @@ body {
   padding: 0;
   list-style: none;
 }
+
+.contract {
+  background: hsl(0, 0%, 93%);
+}
