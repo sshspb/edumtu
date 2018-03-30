@@ -31,8 +31,7 @@ block content
   script(src='/js/jquery.treegrid.bootstrap3.js')
   script.
     $(document).ready(function(){ 
-      $('#back').href= $('.tree').treegrid({initialState: 'collapsed'}); 
-      $('.tree').treegrid('getRootNodes').treegrid('expand');
+      $('.tree').treegrid({'initialState': 'collapsed'})
+      .treegrid('getRootNodes').treegrid('expand');
     });
-
     //!= "$(document).ready(function(){ $('#back').href= $('.tree').treegrid({initialState: 'collapsed'}); });"
