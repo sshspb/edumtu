@@ -29,9 +29,9 @@ block content
             td(class='text-right cost') #{department.estimate.balanceWO} 
   script(src='/js/jquery.treegrid.js')
   script(src='/js/jquery.treegrid.bootstrap3.js')
+  script(src='/js/jquery.cookie.js')
   script.
     $(document).ready(function(){ 
-      $('.tree').treegrid({'initialState': 'collapsed'})
+      $('.tree').treegrid({'initialState': 'collapsed', 'saveState': true})
       .treegrid('getRootNodes').treegrid('expand');
     });
-    //!= "$(document).ready(function(){ $('#back').href= $('.tree').treegrid({initialState: 'collapsed'}); });"
