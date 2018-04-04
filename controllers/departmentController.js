@@ -17,7 +17,6 @@ exports.department_list = function(req, res, next) {
         list_departments[i].trClass = trClass;
       }
       res.render('report/department_list' + req.variant, {
-        //variant: 1,
         title: 'Подразделение',
         record_list: list_departments
       });
@@ -49,7 +48,6 @@ exports.department_contract_list = function(req, res, next) {
         }
       }
       res.render('report/department_list' + req.variant, {
-        //variant: req.variant,
         title: 'Подразделения',
         record_list: list_objects
       });
@@ -98,8 +96,7 @@ exports.department_detail = function(req, res, next) {
         longTitle += ' / <span style="font-weight: 700;">' + list_departments[list_departments.length-1].name + '</span>';
 
         res.render('report/department_detail', { 
-          //variant: req.variant,
-          title: 'Подразделение ' + list_departments[list_departments.length-1].name,
+          title: 'Договор',
           longTitle: longTitle,
           record_list: list_contracts
         });

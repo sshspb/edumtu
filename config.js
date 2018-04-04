@@ -5,5 +5,5 @@ module.exports = {
     "mongoDB": config_local.mongoDB || "mongodb://127.0.0.1:27017/edu",
     "dbUrl":  config_local.dbUrl || "mongodb://127.0.0.1:27017",
     "dbName": config_local.dbName || "edu",
-    "version": "edumtu v1.5.1 03.04.2018"
+    "version": "edumtu v1.5.2 05.04.2018"
 }

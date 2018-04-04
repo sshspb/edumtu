@@ -28,6 +28,6 @@ block content
   script(src='/js/jquery.cookie.js')
   script.
     $(document).ready(function(){ 
-      $('.tree').treegrid({initialState: 'collapsed'}).treegrid('getRootNodes').treegrid('expand');
+      $('.tree').treegrid({initialState: 'collapsed', saveState: true}).treegrid('getRootNodes').treegrid('expand');
     });
     
