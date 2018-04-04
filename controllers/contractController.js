@@ -19,8 +19,9 @@ exports.contract_list = function(req, res, next) {
         list_contracts[i].steward_url = '/report/steward/' + encodeURIComponent(list_contracts[i].steward);
       }
       res.render('report/contract_list', { 
+        //variant: req.variant,
         title: 'Договоры', 
-        contract_list: list_contracts
+        record_list: list_contracts
       });
     });
   });
@@ -71,14 +72,15 @@ exports.contract_detail = function(req, res, next) {
               function() {
                 client.close();
                 res.render('report/contract_detail', {
-                  title: 'Договор ' + contract.name, 
+                  //variant: req.variant,
+                  title: 'Классификация операций сектора государственного управления', 
                   contract: contract,
                   steward: { 
                     url: '/report/steward/'.concat(encodeURIComponent(contract.steward)), 
                     _id: contract.steward 
                   },
                   department_list: list_departments,
-                  estimate_list: list_estimates,
+                  record_list: list_estimates,
                   income_list: list_incomes,
                   outlay_list: list_outlays
                 });

@@ -1,0 +1,33 @@
+extends layout
+block content
+  div
+    table(class='table tree table-condensed')
+      thead
+          tr
+                th Подразделение
+                th(class='text-right') Плановая сумма на год
+                th(class='text-right') Ост. на начало
+                th(class='text-right') Затраты с планом
+                th(class='text-right') Остаток по смете
+                th(class='text-right') Факт. Оплата
+                th(class='text-right') Ост по факт зат
+      tbody
+        each department in record_list
+          tr(class= department.trClass)
+                td
+                  span &nbsp;
+                    a(href=department.url) #{department.name}
+                td(class='text-right cost') #{department.estimate.plan} 
+                td(class='text-right cost') #{department.estimate.remains} 
+                td(class='text-right cost') #{department.estimate.outlayO} 
+                td(class='text-right cost') #{department.estimate.balanceE} 
+                td(class='text-right cost') #{department.estimate.income} 
+                td(class='text-right cost') #{department.estimate.balance} 
+  script(src='/js/jquery.treegrid.js')
+  script(src='/js/jquery.treegrid.bootstrap3.js')
+  script(src='/js/jquery.cookie.js')
+  script.
+    $(document).ready(function(){ 
+      $('.tree').treegrid({initialState: 'collapsed'}).treegrid('getRootNodes').treegrid('expand');
+    });
+    

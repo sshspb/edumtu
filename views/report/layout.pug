@@ -2,33 +2,42 @@ doctype html
 html(lang="ru")
   head
     title= title
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    link(rel='stylesheet', href='/css/bootstrap.css')
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="/css/bootstrap.css")
+    link(rel="stylesheet", href="/css/style.css")
     link(rel='stylesheet', href='/css/jquery.treegrid.css')
-    link(rel='stylesheet', href='/css/style.css')
-    script(src='/js/jquery-3.3.1.min.js')
-    script(src='/js/bootstrap.min.js')
-
+    script(src="/js/jquery-3.3.1.min.js")
+    script(src="/js/bootstrap.min.js")
   body
+    - var variant_list = ["Вариант 1", "Вариант 2", "Вар: План", "Вар: Финансы"];
     nav(class="navbar navbar-default  navbar-fixed-top")
       div(class="container")
         ul(class="nav navbar-nav")
           li
-            div(class='navbar-header' style="padding-top: 8px" )
+            div(class="navbar-header")
               button(type="button" class="btn btn-default" onclick="window.history.back();")
-                span(class="glyphicon glyphicon-arrow-left" aria-hidden="true")
-          li: a(href="/") #{userName}
-          li: a(href='/report/eclasses') План
-          li: a(href='/report/departments') Подразделения
-          li: a(href='/report/departments_contracts') Подразд+Договоры
-          li: a(href='/report/contracts') Договоры
-          li: a(href='/report/stewards') Ответственные
+                img(src="/images/leftArrow.png" style="height: 38px; padding: 8px")
+          li: a(href="/" class="thumbnail") #{userName}
+          li: a(href="/report/eclasses" class="thumbnail") СПбГМТУ
+          li: a(href="/report/departments" class="thumbnail") Подразделения
+          li: a(href="/report/departments_contracts" class="thumbnail") Подразд+Договоры
+          li: a(href="/report/contracts" class="thumbnail") Договоры
+          li: a(href="/report/stewards" class="thumbnail") Ответственные
+          li(class="dropdown")
+            a(class="thumbnail" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button") #{variant_list[variant]}
+              span(class="caret")
+            ul(class="dropdown-menu")
+              li: a(href="/report/variant/0") #{variant_list[0]}
+              li: a(href="/report/variant/1") #{variant_list[1]}
+              li(role="separator" class="divider")
+              li: a(href="/report/variant/2") #{variant_list[2]}
+              li: a(href="/report/variant/3") #{variant_list[3]}
         ul(class="nav navbar-nav navbar-right")
-          li: a(href='/logout') Выйти
+          li: a(href="/logout" class="thumbnail") Выйти
+    div(class="container")
+      //div(style='width:100px;height:70px')
+      div(style='height:60px')
+      block content
 
-    div(class='container')
-     div(style='width:100px;height:70px')
-     block content
-
-  script(src='/js/edu.js')
+  script(src="/js/edu.js")

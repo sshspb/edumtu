@@ -16,9 +16,10 @@ exports.department_list = function(req, res, next) {
           trClass += ' treegrid-parent-'.concat(list_departments[i].parent);
         list_departments[i].trClass = trClass;
       }
-      res.render('report/department_list', {
-        title: 'Подразделения',
-        department_list: list_departments
+      res.render('report/department_list' + req.variant, {
+        //variant: 1,
+        title: 'Подразделение',
+        record_list: list_departments
       });
     });
   });
@@ -42,14 +43,15 @@ exports.department_contract_list = function(req, res, next) {
           list_objects.push({
             url: list_departments[i].contracts[j].url,
             name: list_departments[i].contracts[j]._id,
-            trClass: 'contract treegrid-' + j + ' treegrid-parent-'.concat(list_departments[i]._id),
+            trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(list_departments[i]._id, ' contract '),
             estimate: list_departments[i].contracts[j].estimate
           });
         }
       }
-      res.render('report/department_list', {
+      res.render('report/department_list' + req.variant, {
+        //variant: req.variant,
         title: 'Подразделения',
-        department_list: list_objects
+        record_list: list_objects
       });
 
     });
@@ -96,9 +98,10 @@ exports.department_detail = function(req, res, next) {
         longTitle += ' / <span style="font-weight: 700;">' + list_departments[list_departments.length-1].name + '</span>';
 
         res.render('report/department_detail', { 
+          //variant: req.variant,
           title: 'Подразделение ' + list_departments[list_departments.length-1].name,
           longTitle: longTitle,
-          contract_list: list_contracts
+          record_list: list_contracts
         });
       })
     })
@@ -115,29 +118,3 @@ function rouble(n) {
   }
   return x1 + x2;
 }
-
-/*
-exports.department_detail = function(req, res, next) {
-  //var like = RegExp('^' + req.params.id);
-  MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
-    db.collection('departments').find({_id: req.params.id})
-    .toArray(function (err, list_departments) {
-      if (err) { return next(err); }
-      var department = list_departments[0];
-      db.collection('contracts').aggregate([
-        { $match: { department: RegExp('^' + req.params.id)}},
-        { $sort: { _id: 1} }
-      ])
-      .toArray(function (err, list_contracts) {
-        client.close();
-        if (err) { return next(err); }
-        res.render('report/department_detail', { 
-          title: 'Подразделение ' + department.code + ' ' + department.abbr, 
-          contract_list: list_contracts
-        });
-      })
-    })
-  })
-};
-*/

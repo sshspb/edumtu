@@ -1,42 +1,4 @@
 extends layout
 
 block content
-  div
-    table(class='table table-striped table-condensed')
-      thead
-        tr
-          th Договор
-          th Ответственный
-          th(class='text-right') Начало
-          th(class='text-right') План
-          th(class='text-right') Приход
-          th(class='text-right') Расход сОб
-          th(class='text-right') Расход факт
-          th(class='text-right') Остаток факт
-          th(class='text-right') Остаток
-          th(class='text-right') Остаток безОб
-      tbody
-        each contract in contract_list
-          tr
-            td: a(href=contract.url) #{contract._id} 
-            td: a(href=contract.steward_url) #{contract.steward} 
-            td(class='text-right cost') #{contract.estimate.remains} 
-            td(class='text-right cost') #{contract.estimate.plan} 
-            td(class='text-right cost') #{contract.estimate.income} 
-            td(class='text-right cost') #{contract.estimate.outlayO} 
-            td(class='text-right cost') #{contract.estimate.outlay} 
-            td(class='text-right cost') #{contract.estimate.balance} 
-            td(class='text-right cost') #{contract.estimate.balanceE} 
-            td(class='text-right cost') #{contract.estimate.balanceWO} 
-      tfoot#total
-        tr
-          th Итого
-          th 
-          th(class='text-right') 
-          th(class='text-right') 
-          th(class='text-right') 
-          th(class='text-right') 
-          th(class='text-right') 
-          th(class='text-right') 
-          th(class='text-right') 
-          th(class='text-right') 
+  include estimate.pug

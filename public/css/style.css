@@ -25,6 +25,10 @@ body {
   list-style: none;
 }
 
+.thumbnail {
+  margin-bottom: 0;
+}
+
 .contract {
   background: hsl(0, 0%, 93%);
 }

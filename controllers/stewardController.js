@@ -14,8 +14,9 @@ exports.steward_list = function(req, res, next) {
       client.close();
       if (err) { return next(err); }
       res.render('report/steward_list', { 
-        title: 'Ответственные', 
-        steward_list: list_stewards
+        //variant: req.variant,
+        title: 'Ответственный', 
+        record_list: list_stewards
       });
     });
   });
@@ -29,9 +30,9 @@ exports.steward_detail = function(req, res, next) {
         client.close();
         if (err) { return next(err); }
         res.render('report/steward_detail', { 
-          title: 'Ответственный ' + req.params.id, 
-          steward: req.params.id, 
-          contract_list: list_contracts 
+          //variant: req.variant,
+          title: req.params.id, 
+          record_list: list_contracts 
         });
       });
   });

@@ -1,0 +1,57 @@
+block estimate
+  -
+    //var data = [ "remains", "plan", "income", "outlayO", "outlay", "balance", "balanceE", "balanceWO"];
+    var estimate_index = [
+      [ { header: "Плановая сумма на год", value: "plan"},
+        { header: "Ост. на начало", value: "remains"},
+        { header: "Затраты с планом", value: "outlayO"},
+        { header: "Остаток по смете", value: "balanceE"},
+        { header: "Факт. Оплата", value: "income"},
+        { header: "Ост по факт зат", value: "balance"} ],
+      [
+         { header: "Ост. на начало", value: "remains"},
+         { header: "Поступление денеж срв.", value: "income"},
+         { header: "Кассовые затраты", value: "outlay"},
+         { header: "Остаток денеж. средств", value: "balance"} ],
+      [
+         { header: "Задание", value: "plan"},
+         { header: "Исполнено", value: "outlayO"},
+         { header: "Остаток", value: "balanceE"} ],
+      [
+         { header: "ОстНачало", value: "remains"},
+         { header: "Доходы", value: "income"},
+         { header: "Расходы", value: "outlay"},
+         { header: "Остаток", value: "balance"} ]
+    ]
+    var header_list = estimate_index[variant];
+  div
+    table(class='table table-striped table-condensed')
+      thead
+        tr
+          th #{title}
+            each header_item in header_list
+              th(class='text-right') #{header_item.header}
+      tbody
+        each record in record_list
+          if record.trClass
+            tr(class= record.trClass)
+              td
+                span &nbsp;
+                  a(href=record.url) #{record.name}
+              each header_item in header_list
+                td(class='text-right cost') #{record.estimate[header_item.value]}
+          else
+            tr
+              if record.url
+                td: a(href=record.url) #{record.name}
+                each header_item in header_list
+                  td(class='text-right cost') #{record.estimate[header_item.value]}
+              else
+                td #{record.name}
+                each header_item in header_list
+                  td(class='text-right cost') #{record.estimate[header_item.value]}
+      tfoot#total
+        tr
+          th Итого
+            each header_item in header_list
+              th(class='text-right') 
