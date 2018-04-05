@@ -8,12 +8,7 @@ exports.eclass_list = function(req, res, next) {
     .toArray(function (err, list_eclasses) {
       client.close();
       if (err) { return next(err); }
-      /* for (var i = 0; i < list_eclasses.length; i++) {
-        list_eclasses[i].name = list_eclasses[i]._id.eCode + ' ' + list_eclasses[i]._id.eName;
-        list_eclasses[i].estimate = list_eclasses[i];
-      } */
       res.render('report/eclass_list', { 
-        //variant: req.variant,
         title: 'Классификация операций сектора государственного управления', 
         record_list: list_eclasses
       });
@@ -22,5 +17,18 @@ exports.eclass_list = function(req, res, next) {
 };
 
 exports.eclass_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: eclass detail: ' + req.params.id);
+    MongoClient.connect(config.dbUrl, function(err, client) {
+      db = client.db(config.dbName);
+       db.collection('outlays')
+          .find({eclass: req.params.id} ) 
+          .sort({date: -1})
+          .toArray(function (err, list_outlays) {
+            if (err) { return next(err); }
+            res.render('report/eclass_detail', { 
+              title: req.params.id, 
+              outlay_list: list_outlays
+            });
+          });
+        });
+        
 };

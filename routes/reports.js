@@ -14,6 +14,7 @@ router.get('/departments', department_controller.department_list);
 router.get('/departments_contracts', department_controller.department_contract_list);
 router.get('/department/:id', department_controller.department_detail);
 router.get('/eclasses', eclass_controller.eclass_list);
+router.get('/eclass/:id', eclass_controller.eclass_detail);
 router.get('/outlays/:contract/:eclass', outlay_controller.outlay_list);
 router.get('/stewards', steward_controller.steward_list);
 router.get('/steward/:id', steward_controller.steward_detail);
