@@ -91,7 +91,7 @@ html(lang="ru")
     script.
       $(document).ready(
         setTimeout(function(){ 
-          $('#back').href= $('.tree').treegrid({initialState: 'collapsed'}); 
-          $('.tree').treegrid('getRootNodes').treegrid('expand');
+          $('.tree').treegrid({initialState: 'collapsed'}); 
+          .treegrid('getRootNodes').treegrid('expand');
         }, 1000);
       );

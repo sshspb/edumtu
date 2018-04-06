@@ -18,12 +18,12 @@ exports.contract_list = function(req, res, next) {
       if (err) { return next(err); }
       var listLength = list_contracts.length;
       for (var i = 0; i < listLength; i++) {
-        list_contracts[i].url = '/report/contract/' + encodeURIComponent(list_contracts[i]._id);
-        list_contracts[i].steward_url = '/report/steward/' + encodeURIComponent(list_contracts[i].steward);
+        list_contracts[i].stewardUrl = '/report/steward/' + encodeURIComponent(list_contracts[i].steward);
       }
       res.render('report/contract_list', { 
         longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
-        title: 'Договоры', 
+        title: 'Договор', 
+        title2: 'Руководитель', 
         record_list: list_contracts
       });
     });

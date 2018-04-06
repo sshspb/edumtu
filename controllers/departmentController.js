@@ -16,8 +16,9 @@ exports.department_list = function(req, res, next) {
         if (list_departments[i].parent) 
           trClass += ' treegrid-parent-'.concat(list_departments[i].parent);
         list_departments[i].trClass = trClass;
+        list_departments[i].stewardUrl = null;
       }
-      res.render('report/department_list' + res.locals.variant, {
+      res.render('report/tree_list', {
         longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Подразделение',
         record_list: list_departments
@@ -45,14 +46,17 @@ exports.department_contract_list = function(req, res, next) {
           list_objects.push({
             url: list_departments[i].contracts[j].url,
             name: list_departments[i].contracts[j]._id,
+            steward: list_departments[i].contracts[j].steward,
+            stewardUrl: '/report/steward/' + encodeURIComponent(list_departments[i].contracts[j].steward),
             trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(list_departments[i]._id, ' contract '),
             estimate: list_departments[i].contracts[j].estimate
           });
         }
       }
-      res.render('report/department_list' + res.locals.variant, {
+      res.render('report/tree_list', {
         longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Подразделение/Договор',
+        title2: 'Руководитель',
         record_list: list_objects
       });
 

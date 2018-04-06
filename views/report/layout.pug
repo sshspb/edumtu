@@ -24,20 +24,21 @@ html(lang="ru")
               li: a(href="/report/option/scope/0") #{scope_list[0]}
               li: a(href="/report/option/scope/1") #{scope_list[1]}
           li: a(href="/report/eclasses" class="thumbnail") СПбГМТУ
-          li: a(href="/report/departments" class="thumbnail") Подразделения
+          li: a(href="/report/departments" class="thumbnail") Подразд.
           li: a(href="/report/departments_contracts" class="thumbnail") Подр+Договоры
           li: a(href="/report/contracts" class="thumbnail") Договоры
           li: a(href="/report/stewards_contracts" class="thumbnail") Отв+Договоры
-          li: a(href="/report/stewards" class="thumbnail") Ответственные
+          li: a(href="/report/stewards" class="thumbnail") Ответств.
           li(class="dropdown")
             a(class="thumbnail" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button") #{variant_list[variant]}
               span(class="caret")
             ul(class="dropdown-menu")
               li: a(href="/report/option/variant/0") #{variant_list[0]}
               li: a(href="/report/option/variant/1") #{variant_list[1]}
-              li(role="separator" class="divider")
               li: a(href="/report/option/variant/2") #{variant_list[2]}
+              li(role="separator" class="divider")
               li: a(href="/report/option/variant/3") #{variant_list[3]}
+              li: a(href="/report/option/variant/4") #{variant_list[4]}
         ul(class="nav navbar-nav navbar-right")
           li: a(href="/logout" class="thumbnail") Выйти
     div(class="container")

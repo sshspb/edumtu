@@ -6,6 +6,8 @@ block content
       thead
           tr
             th!= title
+            if title2
+              th!= title2
             each headers in estimate_index[variant]
               th(class='text-right') #{headers.header}
       tbody
@@ -14,6 +16,10 @@ block content
             td
               span &nbsp;
                 a(href=department.url) #{department.name}
+            if title2
+              td
+                span &nbsp;
+                  a(href=department.stewardUrl) #{department.steward}
             each headers in estimate_index[variant]
               td(class='text-right cost') #{department.estimate[headers.value]} 
   script(src='/js/jquery.treegrid.js')
