@@ -16,10 +16,6 @@ exports.contract_list = function(req, res, next) {
     ]).toArray(function(err, list_contracts) {
       client.close();
       if (err) { return next(err); }
-      var listLength = list_contracts.length;
-      for (var i = 0; i < listLength; i++) {
-        list_contracts[i].stewardUrl = '/report/steward/' + encodeURIComponent(list_contracts[i].steward);
-      }
       res.render('report/contract_list', { 
         longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Договор', 

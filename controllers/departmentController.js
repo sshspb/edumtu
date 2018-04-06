@@ -47,7 +47,7 @@ exports.department_contract_list = function(req, res, next) {
             url: list_departments[i].contracts[j].url,
             name: list_departments[i].contracts[j]._id,
             steward: list_departments[i].contracts[j].steward,
-            stewardUrl: '/report/steward/' + encodeURIComponent(list_departments[i].contracts[j].steward),
+            stewardUrl: list_departments[i].contracts[j].stewardUrl,
             trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(list_departments[i]._id, ' contract '),
             estimate: list_departments[i].contracts[j].estimate
           });
@@ -105,9 +105,9 @@ exports.department_detail = function(req, res, next) {
           longTitle += ' / ' + list_departments[list_departments.length-1].name;
 
         res.render('report/department_detail', { 
-          //longTitle: '<span style="font-weight: 700;">' + longTitle + '</span>',
           longTitle: longTitle,
           title: 'Договор',
+          title2: 'Руководитель',
           record_list: list_contracts
         });
       })
