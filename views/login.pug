@@ -66,7 +66,7 @@ html(lang="ru")
           statusCode: {
             200: function() {
               form.html("Вы вошли в сайт").addClass('alert-success');
-              window.location.href = "/";
+              window.location.href = "/report/eclasses";
             },
             403: function(jqXHR) {
               var error = JSON.parse(jqXHR.responseText);

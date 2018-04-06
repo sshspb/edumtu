@@ -8,6 +8,7 @@
       { "name": "depAbbr", "type": "string", "original": "кр_название" },
       { "name": "divCode", "type": "string", "original": "код_кафедры" },
       { "name": "divAbbr", "type": "string", "original": "кр_кафедра" },
+      { "name": "scope", "type": "string", "original": "Тип_договора" },
       { "name": "eCode", "type": "string", "original": "Сокр_код" },
       { "name": "eName", "type": "string", "original": "Название_статьи" },
       { "name": "percent", "type": "double", "original": "Процент" },

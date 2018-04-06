@@ -39,11 +39,14 @@ router.get('/',  function(req, res) {
             data: docsQty
           });
         } else {
+          res.redirect('/report/eclasses');
+          /*
           res.render('report/index', { 
             title: 'Оперативно-финансовый отдел', 
             subtitle: 'учёта образовательной деятельности', 
             data: docsQty
           });
+          */
         }
       } else {
         res.render('login', { 

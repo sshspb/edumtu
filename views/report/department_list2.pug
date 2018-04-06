@@ -1,10 +1,11 @@
 extends layout
 block content
   div
+    h4!= longTitle
     table(class='table tree table-condensed')
       thead
           tr
-                th Подразделение
+                th!= title
                 th(class='text-right') Задание
                 th(class='text-right') Исполнено
                 th(class='text-right') Остаток

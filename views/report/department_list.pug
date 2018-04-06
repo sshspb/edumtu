@@ -64,6 +64,7 @@ html(lang="ru")
         ];
         var header_list = estimate_index[variant];
       div
+        h4!= longTitle
         table(class='table table-striped table-condensed')
           thead
             tr
@@ -84,7 +85,7 @@ html(lang="ru")
                 each header_item in header_list
                   th(class='text-right') 
 
-    //script(src='/js/jquery.cookie.js')
+    script(src='/js/jquery.cookie.js')
     script(src='/js/jquery.treegrid.js')
     script(src='/js/jquery.treegrid.bootstrap3.js')
     script.

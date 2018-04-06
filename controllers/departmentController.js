@@ -1,22 +1,24 @@
 var async = require('async');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
+const scope_list = config.scope_list;
 
 exports.department_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-    db.collection('departments').find()
+    db.collection('departments')
+    .find({ scope: {$eq: res.locals.scope} })
     .sort({_id: 1})
     .toArray(function (err, list_departments) {
       if (err) { return next(err); }
-      var list_objects = []
       for (var i = 0; i < list_departments.length; i++) {
         var trClass = 'treegrid-'.concat(list_departments[i]._id);
         if (list_departments[i].parent) 
           trClass += ' treegrid-parent-'.concat(list_departments[i].parent);
         list_departments[i].trClass = trClass;
       }
-      res.render('report/department_list' + req.variant, {
+      res.render('report/department_list' + res.locals.variant, {
+        longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Подразделение',
         record_list: list_departments
       });
@@ -27,7 +29,8 @@ exports.department_list = function(req, res, next) {
 exports.department_contract_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-    db.collection('departments').find()
+    db.collection('departments')
+    .find({ scope: {$eq: res.locals.scope} })
     .sort({_id: 1})
     .toArray(function (err, list_departments) {
       if (err) { return next(err); }
@@ -47,8 +50,9 @@ exports.department_contract_list = function(req, res, next) {
           });
         }
       }
-      res.render('report/department_list' + req.variant, {
-        title: 'Подразделения',
+      res.render('report/department_list' + res.locals.variant, {
+        longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
+        title: 'Подразделение/Договор',
         record_list: list_objects
       });
 
@@ -60,7 +64,7 @@ exports.department_detail = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
   db = client.db(config.dbName);
   db.collection('contracts')
-  .find({parent: RegExp('^' + req.params.id)})
+  .find({parent: RegExp('^' + req.params.id), "scope": {$eq: res.locals.scope}})
   .sort({ _id: 1})
   .toArray(function (err, list_contracts) {
     if (err) { return next(err); }
@@ -71,6 +75,7 @@ exports.department_detail = function(req, res, next) {
       depsId.push(node.slice(0, nl));
       nl += 6;
     }
+    depsId.shift();
     var list_departments = [];
     async.eachSeries(depsId, 
       function(dep_id, callback) {
@@ -78,10 +83,9 @@ exports.department_detail = function(req, res, next) {
         .find({_id: dep_id})
         .toArray(function (err, departments) {
           if (err) { return next(err); }
-          var department = departments[0];
           list_departments.push({ 
-            url: department.url,
-            name: department.name
+            url: departments[0].url,
+            name: departments[0].name
           });
           callback(null);
         });
@@ -89,15 +93,17 @@ exports.department_detail = function(req, res, next) {
       function() {
         client.close();
         if (err) { return next(err); }
-        longTitle = 'Подразделение';
+        var longTitle = scope_list[res.locals.scope];
         for (var i = 0; i < list_departments.length-1; i++) {
           longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
         }
-        longTitle += ' / <span style="font-weight: 700;">' + list_departments[list_departments.length-1].name + '</span>';
+        if (list_departments.length) 
+          longTitle += ' / ' + list_departments[list_departments.length-1].name;
 
         res.render('report/department_detail', { 
-          title: 'Договор',
+          //longTitle: '<span style="font-weight: 700;">' + longTitle + '</span>',
           longTitle: longTitle,
+          title: 'Договор',
           record_list: list_contracts
         });
       })

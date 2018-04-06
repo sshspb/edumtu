@@ -1,6 +1,7 @@
 const async = require('async');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
+const scope_list = config.scope_list;
 
 exports.outlay_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
@@ -27,6 +28,7 @@ exports.outlay_list = function(req, res, next) {
             depsId.push(node.slice(0, nl));
             nl += 6;
           }
+          depsId.shift();
           var list_departments = [];
           async.eachSeries(depsId, 
             function(dep_id, callback) {
@@ -44,15 +46,20 @@ exports.outlay_list = function(req, res, next) {
             }, 
             function() {
               client.close();
+
+              var longTitle = scope_list[res.locals.scope];
+              for (var i = 0; i < list_departments.length; i++) {
+                longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+              }
+              longTitle += ' / Договор <span style="font-weight: 700;">' + contract.name + '</span>, Ответственный ' + 
+                  '<a href="'+'/report/steward/' + encodeURIComponent(contract.steward) + '">' + contract.steward +'</a>';
+              var title = 'Исполнено по статье КОСГУ <span style="font-weight: 700;">' + 
+                          eclass._id.eCode + ' ' + eclass._id.eName + '</span>';
+
               res.render('report/outlay_list', {
-                title: 'Затраты', 
-                contract: contract,
+                longTitle: longTitle,
+                title: title, 
                 eclass: eclass,
-                steward: { 
-                  url: '/report/steward/'.concat(encodeURIComponent(contract.steward)), 
-                  _id: contract.steward 
-                },
-                department_list: list_departments,
                 outlay_list: list_outlays
               });
             }

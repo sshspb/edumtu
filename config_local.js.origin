@@ -12,7 +12,7 @@
  */
  
 module.exports = {
-  "tbPath": "D:/data/edu/data20180323",
+  "tbPath": "D:/data/edu/data20180405",
   "mongoDB": "mongodb://127.0.0.1:27017/edu",
   "dbUrl":  "mongodb://127.0.0.1:27017",
   "dbName": "edu",

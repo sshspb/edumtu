@@ -1,10 +1,11 @@
 extends layout
 block content
   div
+    h4!= longTitle
     table(class='table tree table-condensed')
       thead
           tr
-                th Подразделение
+                th!= title
                 th(class='text-right') Плановая сумма на год
                 th(class='text-right') Ост. на начало
                 th(class='text-right') Затраты с планом

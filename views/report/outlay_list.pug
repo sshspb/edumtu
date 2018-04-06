@@ -1,17 +1,7 @@
 extends layout
 block content
-  p
-    each department in department_list
-      span &nbsp; / &nbsp;
-        a(href=department.url) #{department.name}
-    span &nbsp; / &nbsp; Договор 
-    span(style='font-weight: 700;') &nbsp; 
-      a(href=contract.url) #{contract._id}
-    span , &nbsp; Ответственный  &nbsp; 
-      a(href=steward.url) #{steward._id} 
-  p Исполнено по коду экономического классификатора
-    span(style='font-weight: 700;') &nbsp; &nbsp; #{eclass._id.eCode} #{eclass._id.eName}
-
+  h4!= longTitle
+  p!= title
   table(class='table table-striped table-condensed')
     thead
       tr
