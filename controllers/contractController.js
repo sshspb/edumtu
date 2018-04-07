@@ -17,7 +17,7 @@ exports.contract_list = function(req, res, next) {
       client.close();
       if (err) { return next(err); }
       res.render('report/contract_list', { 
-        longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
+        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Договор', 
         title2: 'Руководитель', 
         record_list: list_contracts

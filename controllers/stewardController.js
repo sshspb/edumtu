@@ -12,7 +12,7 @@ exports.steward_list = function(req, res, next) {
       client.close();
       if (err) { return next(err); }
       res.render('report/steward_list', { 
-        longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
+        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Ответственный', 
         record_list: list_stewards
       });
@@ -36,8 +36,6 @@ exports.steward_contract_list = function(req, res, next) {
           trClass: 'treegrid-' + i,
           name: list_stewards[i].name,
           url:  list_stewards[i].url,
-          steward: null,
-          stewardUrl: null,
           estimate: list_stewards[i].estimate
         })
         for (var j = 0; j < list_stewards[i].contracts.length; j++) {
@@ -45,15 +43,13 @@ exports.steward_contract_list = function(req, res, next) {
             trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-' + i + ' contract ',
             name: list_stewards[i].contracts[j].name,
             url:  list_stewards[i].contracts[j].url,
-            steward: null,
-            stewardUrl: null,
             estimate: list_stewards[i].contracts[j].estimate
           })
         }
       }
 
       res.render('report/tree_list', {
-        longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
+        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Ответственный/Договор', 
         record_list: list_objects
       });
@@ -72,7 +68,7 @@ exports.steward_detail = function(req, res, next) {
         client.close();
         if (err) { return next(err); }
         res.render('report/steward_detail', { 
-          longTitle: scope_list[res.locals.scope],
+          longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
           title: req.params.id, 
           record_list: list_contracts 
         });

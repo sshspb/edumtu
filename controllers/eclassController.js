@@ -12,7 +12,7 @@ exports.eclass_list = function(req, res, next) {
       client.close();
       if (err) { return next(err); }
       res.render('report/eclass_list', { 
-        longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
+        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Классификация операций сектора государственного управления', 
         record_list: list_eclasses
       });

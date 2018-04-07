@@ -19,7 +19,7 @@ exports.department_list = function(req, res, next) {
         list_departments[i].stewardUrl = null;
       }
       res.render('report/tree_list', {
-        longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
+        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Подразделение',
         record_list: list_departments
       });
@@ -54,7 +54,7 @@ exports.department_contract_list = function(req, res, next) {
         }
       }
       res.render('report/tree_list', {
-        longTitle: 'Деятельность: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
+        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         title: 'Подразделение/Договор',
         title2: 'Руководитель',
         record_list: list_objects
@@ -103,7 +103,7 @@ exports.department_detail = function(req, res, next) {
         }
         if (list_departments.length) 
           longTitle += ' / ' + list_departments[list_departments.length-1].name;
-
+        
         res.render('report/department_detail', { 
           longTitle: longTitle,
           title: 'Договор',
@@ -114,14 +114,3 @@ exports.department_detail = function(req, res, next) {
     })
   })
 };
-
-function rouble(n) {
-  var x = n.toFixed(2).split('.');
-  var x1 = x[0];
-  var x2 = x.length > 1 ? ',' + x[1] : '';
-  var rgx = /(\d+)(\d{3})/;
-  while (rgx.test(x1)) {
-    x1 = x1.replace(rgx, '$1' + ' ' + '$2');
-  }
-  return x1 + x2;
-}
