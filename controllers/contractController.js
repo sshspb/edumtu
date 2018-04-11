@@ -3,29 +3,6 @@ const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
 const scope_list = config.scope_list;
 
-exports.contract_list = function(req, res, next) {
-  MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
-    var match = { scope: res.locals.scope };
-    if (req.user.role == 'master') {
-      match.steward = req.user._id;
-    }
-    db.collection('contracts').aggregate([
-      { $match: match},
-      { $sort: { _id: 1} }
-    ]).toArray(function(err, list_contracts) {
-      client.close();
-      if (err) { return next(err); }
-      res.render('report/contract_list', { 
-        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
-        title: 'Договор', 
-        title2: 'Руководитель', 
-        record_list: list_contracts
-      });
-    });
-  });
-};
-
 exports.contract_detail = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
@@ -71,17 +48,15 @@ exports.contract_detail = function(req, res, next) {
               }, 
               function() {
                 client.close();
-
-                var longTitle = scope_list[res.locals.scope];
+                var longTitle = 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>';
                 for (var i = 0; i < list_departments.length; i++) {
                   longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
                 }
                 longTitle += ' / Договор <span style="font-weight: 700;">' + contract.name + '</span>, Ответственный ' + 
                     '<a href="'+'/report/steward/' + encodeURIComponent(contract.steward) + '">' + contract.steward +'</a>';
-
                 res.render('report/contract_detail', {
                   longTitle: longTitle,
-                  title: 'Классификация операций сектора государственного управления', 
+                  title: 'КОСГУ', 
                   record_list: list_estimates,
                   income_list: list_incomes,
                   outlay_list: list_outlays

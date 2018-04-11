@@ -3,18 +3,21 @@
 function cost() {
   var tables = document.body.getElementsByTagName('TABLE');
   for (var i = 0; i < tables.length; i++) {
-    var total = [];
     var rows = tables[i].tBodies[0].rows;
     var rowsLength = rows.length;
+    var total = [];
+    var totalLength = tables[i].tHead.rows[0].cells.length;
+    for (var k = 0; k < totalLength; k++) {
+      total[k] = { "cost": 0, "total": 0};
+    }
     for (var j = 0; j < rowsLength; j++) {
       var cells = rows[j].cells;
       var cellsLength = cells.length;
-      for (var k = 0; k < cellsLength; k++) {
-        if (!j) total[k] = { "cost": 0, "total": 0};
+      for (var k = 0; k < cellsLength && k < 10; k++) {
         var cell = cells[k];
         if (cell.matches('.cost')) {
           var cost = Number(cell.innerHTML);
-          total[k].cost = 1;
+          total[k]["cost"] = 1;
           total[k].total += cost;
           cell.innerHTML = rouble(cost);
         }
@@ -27,7 +30,7 @@ function cost() {
     var tfoot = tables[i].tFoot;
     if (tfoot && tfoot.matches('#total')) {
       var footCells = tfoot.rows[0].cells;
-      for (var n = 0; n < total.length; n++) {
+      for (var n = 0; n < totalLength && n < footCells.length; n++) {
         if (total[n].cost) {
           footCells[n].innerHTML = rouble(total[n].total);
         }

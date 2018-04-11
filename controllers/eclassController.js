@@ -12,8 +12,8 @@ exports.eclass_list = function(req, res, next) {
       client.close();
       if (err) { return next(err); }
       res.render('report/eclass_list', { 
-        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
-        title: 'Классификация операций сектора государственного управления', 
+        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + ' / СПбГМТУ </span>',
+        title: 'КОСГУ', 
         record_list: list_eclasses
       });
     });

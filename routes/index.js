@@ -88,6 +88,8 @@ router.get('/importdata', function(req, res) {
     reformData
   ], 
   function(err) {
+    if (err) console.log('Opss Error while import data');
+    else console.log('OK import done');
     req.session.destroy();
     res.redirect('/');
   });
