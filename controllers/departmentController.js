@@ -112,10 +112,12 @@ exports.department_detail = function(req, res, next) {
             longTitle += ' / Подразделение <span style="font-weight: 700;">' + 
               list_departments[list_departments.length-1].name + '</span>';
           }
-          res.render('report/eclass_list', {
+          res.render('report/contract_detail', {
             longTitle: longTitle,
             title: 'КОСГУ', 
-            record_list: list_estimates
+            record_list: list_estimates,
+            income_list: [],
+            outlay_list: []
           });
         }
       );

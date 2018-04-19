@@ -32,3 +32,17 @@ body {
 .contract {
   background: hsl(0, 0%, 93%);
 }
+
+thead th {
+  background: hsl(0, 0%, 95%);
+  position: sticky;
+  top: 50px;
+  z-index: 10;
+}
+
+tfoot th {
+    background: hsl(0, 0%, 93%);
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}

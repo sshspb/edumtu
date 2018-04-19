@@ -101,10 +101,12 @@ exports.steward_detail = function(req, res, next) {
         scope_list[res.locals.scope] + 
         '</span>, Ответственный  <span style="font-weight: 700;">' + 
         req.params.id;
-      res.render('report/eclass_list', {
+      res.render('report/contract_detail', {
         longTitle: longTitle,
         title: 'КОСГУ', 
-        record_list: list_estimates
+        record_list: list_estimates,
+        income_list: [],
+        outlay_list: []
       });
     });
   });
