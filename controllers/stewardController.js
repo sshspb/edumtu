@@ -103,7 +103,7 @@ exports.steward_detail = function(req, res, next) {
         req.params.id;
       res.render('report/contract_detail', {
         longTitle: longTitle,
-        title: 'КОСГУ', 
+        title: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         record_list: list_estimates,
         income_list: [],
         outlay_list: []

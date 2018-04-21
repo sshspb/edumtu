@@ -13,7 +13,7 @@ exports.eclass_list = function(req, res, next) {
       if (err) { return next(err); }
       res.render('report/eclass_list', { 
         longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + ' / СПбГМТУ </span>',
-        title: 'КОСГУ', 
+        title: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         record_list: list_eclasses
       });
     });
