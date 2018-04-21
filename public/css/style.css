@@ -16,6 +16,10 @@ body {
   margin-bottom: 0;
 }
 
+.contract {
+  background: hsl(140, 10%, 98%);
+}
+
 thead th {
   background: hsl(0, 0%, 95%);
   position: sticky;
@@ -29,3 +33,4 @@ tfoot th {
     bottom: 0;
     z-index: 10;
 }
+

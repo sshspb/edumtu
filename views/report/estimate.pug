@@ -1,6 +1,6 @@
 block estimate
   div
-    table(class='table table-striped table-condensed')
+    table(class='table table-condensed table-striped')
       thead
         tr
           th!= title
@@ -11,11 +11,11 @@ block estimate
       tbody
         each record in record_list
           tr
-          td: a(href=record.url) #{record.name}
-          if title2
-            td: a(href=record.stewardUrl) #{record.steward}
-          each header_item in estimate_index[variant]
-            td(class='text-right cost') #{record.estimate[header_item.value]}
+            td: a(href=record.url) #{record.name}
+            if title2
+              td: a(href=record.stewardUrl) #{record.steward}
+            each header_item in estimate_index[variant]
+              td(class='text-right cost') #{record.estimate[header_item.value]}
       tfoot#total
         tr
           th Итого
