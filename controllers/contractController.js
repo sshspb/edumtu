@@ -55,8 +55,9 @@ exports.contract_detail = function(req, res, next) {
                 longTitle += ' / Договор <span style="font-weight: 700;">' + contract.name + '</span>, Ответственный ' + 
                     '<a href="'+'/report/steward/' + encodeURIComponent(contract.steward) + '">' + contract.steward +'</a>';
                 res.render('report/contract_detail', {
+                  title: contract.name,
+                  title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
                   longTitle: longTitle,
-                  title: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
                   record_list: list_estimates,
                   income_list: list_incomes,
                   outlay_list: list_outlays

@@ -30,9 +30,10 @@ exports.department_contract_list = function(req, res, next) {
         }
       }
       res.render('report/tree_list', {
-        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
-        title: 'Подразделение/ЛицСчёт',
+        title: 'Подразделения',
+        title1: 'Подразделение/ЛицСчёт',
         title2: 'Ответственный',
+        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         record_list: list_objects
       });
 
@@ -113,8 +114,9 @@ exports.department_detail = function(req, res, next) {
               list_departments[list_departments.length-1].name + '</span>';
           }
           res.render('report/contract_detail', {
+            title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
+            title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,
-            title: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             record_list: list_estimates,
             income_list: [],
             outlay_list: []

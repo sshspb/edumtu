@@ -49,8 +49,9 @@ exports.steward_contract_list = function(req, res, next) {
       });
 
       res.render('report/tree_list', {
+        title: scope_list[res.locals.scope] + '/Ответственные',
+        title1: 'Ответственный/ЛицСчёт', 
         longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
-        title: 'Ответственный/ЛицСчёт', 
         record_list: list_objects
       });
     });
@@ -102,8 +103,9 @@ exports.steward_detail = function(req, res, next) {
         '</span>, Ответственный  <span style="font-weight: 700;">' + 
         req.params.id;
       res.render('report/contract_detail', {
+        title: scope_list[res.locals.scope] + '/' + req.params.id,
+        title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
-        title: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         record_list: list_estimates,
         income_list: [],
         outlay_list: []

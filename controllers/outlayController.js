@@ -53,12 +53,13 @@ exports.outlay_list = function(req, res, next) {
               }
               longTitle += ' / Договор <span style="font-weight: 700;">' + contract.name + '</span>, Ответственный ' + 
                   '<a href="'+'/report/steward/' + encodeURIComponent(contract.steward) + '">' + contract.steward +'</a>';
-              var title = 'Исполнено по статье КОСГУ <span style="font-weight: 700;">' + 
+              var note = 'Исполнено по статье КОСГУ <span style="font-weight: 700;">' + 
                           eclass._id.eCode + ' ' + eclass._id.eName + '</span>';
 
               res.render('report/outlay_list', {
+                title: contract.name + '/' + eclass._id.eCode, 
+                note: note,
                 longTitle: longTitle,
-                title: title, 
                 eclass: eclass,
                 outlay_list: list_outlays
               });
