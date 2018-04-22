@@ -15,10 +15,10 @@ html(lang="ru")
         div(class="btn-toolbar")
           div(class="btn-group")
             button(type="button" class="btn btn-default" onclick="window.history.back();")
-              img(src="/images/leftArrow.png" style="height: 15px;")
+              span(class = "glyphicon glyphicon-chevron-left" style="color: Gray;")
           div(class="btn-group")
             button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{scope_list[scope]}
-              span(class="caret") 
+              span(class="caret" style="margin-left: 5px;") 
             ul(class="dropdown-menu")
               li: a(href="/report/option/scope/0") #{scope_list[0]}
               li: a(href="/report/option/scope/1") #{scope_list[1]}
@@ -27,7 +27,7 @@ html(lang="ru")
             button(type="button" class="btn btn-default" onclick="location='/report/stewards_contracts';") Ответственные/ЛицСчета
           div(class="btn-group")
             button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{variant_list[variant]}
-              span(class="caret")
+              span(class="caret" style="margin-left: 5px;")
             ul(class="dropdown-menu")
               li: a(href="/report/option/variant/0") #{variant_list[0]}
               li: a(href="/report/option/variant/1") #{variant_list[1]}

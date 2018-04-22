@@ -52,7 +52,7 @@ exports.contract_detail = function(req, res, next) {
                 for (var i = 0; i < list_departments.length; i++) {
                   longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
                 }
-                longTitle += ' / Договор <span style="font-weight: 700;">' + contract.name + '</span>, Ответственный ' + 
+                longTitle += ' / Договор <span style="font-weight: 700;">' + contract.name + '</span>, ответственный ' + 
                     '<a href="'+'/report/steward/' + encodeURIComponent(contract.steward) + '">' + contract.steward +'</a>';
                 res.render('report/contract_detail', {
                   title: contract.name,

@@ -100,7 +100,7 @@ exports.steward_detail = function(req, res, next) {
       client.close();
       var longTitle = 'Вид деятельности: <span style="font-weight: 700;">' + 
         scope_list[res.locals.scope] + 
-        '</span>, Ответственный  <span style="font-weight: 700;">' + 
+        '</span>, ответственный  <span style="font-weight: 700;">' + 
         req.params.id;
       res.render('report/contract_detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.id,
