@@ -10,31 +10,30 @@ html(lang="ru")
     script(src="/js/jquery-3.3.1.min.js")
     script(src="/js/bootstrap.min.js")
   body
-    nav(class="navbar navbar-default  navbar-fixed-top")
+    div(style="position: fixed; z-index: 1030; top: 0; right: 0; left: 0; background-color: #f8f8f8;")
       div(class="container")
-        ul(class="nav navbar-nav")
-          li
-            div(class="navbar-header")
-              button(type="button" class="btn btn-default" onclick="window.history.back();")
-                img(src="/images/leftArrow.png" style="height: 38px; padding: 8px")
-          li(class="dropdown")
-            a(class="thumbnail" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button") #{scope_list[scope]}
-              span(class="caret")
+        div(class="btn-toolbar")
+          div(class="btn-group")
+            button(type="button" class="btn btn-default" onclick="window.history.back();")
+              img(src="/images/leftArrow.png" style="height: 15px;")
+          div(class="btn-group")
+            button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{scope_list[scope]}
+              span(class="caret") 
             ul(class="dropdown-menu")
               li: a(href="/report/option/scope/0") #{scope_list[0]}
               li: a(href="/report/option/scope/1") #{scope_list[1]}
-          li: a(href="/report/departments_contracts" class="thumbnail") Подразделения/ЛицСчета
-          li: a(href="/report/stewards_contracts" class="thumbnail") Ответственные/ЛицСчета
-          li(class="dropdown")
-            a(class="thumbnail" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button") #{variant_list[variant]}
+          div(class="btn-group")
+            button(type="button" class="btn btn-default" onclick="location='/report/departments_contracts';") Подразделения/ЛицСчета
+            button(type="button" class="btn btn-default" onclick="location='/report/stewards_contracts';") Ответственные/ЛицСчета
+          div(class="btn-group")
+            button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{variant_list[variant]}
               span(class="caret")
             ul(class="dropdown-menu")
               li: a(href="/report/option/variant/0") #{variant_list[0]}
               li: a(href="/report/option/variant/1") #{variant_list[1]}
-        ul(class="nav navbar-nav navbar-right")
-          li: a(href="/logout" class="thumbnail") Выйти
+          div(class="btn-group navbar-right" style="float: right; margin-right: 10px;")
+            button(type="button" class="btn btn-default" onclick="location='/logout';") Выйти
     div(class="container")
-      div(style='width:100px;height:60px')
+      div(style='width:100px;height:33px')
       block content
-
   script(src="/js/edu.js")
