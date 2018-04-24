@@ -117,7 +117,7 @@ exports.department_estimate_list = function(req, res, next) {
               list_departments[list_departments.length-1].name + '</span>';
           }
           longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
-          res.render('report/contract_detail', {
+          res.render('report/detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,
@@ -180,7 +180,7 @@ exports.department_income_list = function(req, res, next) {
               list_departments[list_departments.length-1].name + '</span>';
           }
           longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
-          res.render('report/contract_detail', {
+          res.render('report/detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,
@@ -207,7 +207,7 @@ exports.department_outlay_list = function(req, res, next) {
       { $match: { 
         parent: { $regex: '^' + req.params.department }
       }},
-      { $sort: { date: -1 } }
+      { $sort: { date: -1, eCode: 1 } }
     ])
     .toArray(function (err, list_outlays) {
       if (err) { return next(err); }
@@ -243,7 +243,7 @@ exports.department_outlay_list = function(req, res, next) {
               list_departments[list_departments.length-1].name + '</span>';
           }
           longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
-          res.render('report/contract_detail', {
+          res.render('report/detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,
@@ -271,7 +271,7 @@ exports.department_ecode_outlay_list = function(req, res, next) {
         parent: { $regex: '^' + req.params.department },
         eCode: req.params.ecode
       }},
-      { $sort: { date: -1 } }
+      { $sort: { date: -1, eCode: 1 } }
     ])
     .toArray(function (err, list_outlays) {
       if (err) { return next(err); }
@@ -307,7 +307,7 @@ exports.department_ecode_outlay_list = function(req, res, next) {
               list_departments[list_departments.length-1].name + '</span>';
           }
           longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
-          res.render('report/contract_detail', {
+          res.render('report/detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,

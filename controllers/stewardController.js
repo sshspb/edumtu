@@ -99,7 +99,7 @@ exports.steward_estimate_list = function(req, res, next) {
       client.close();
       var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
         '</span>, вид деятельности: ' + scope_list[res.locals.scope];
-      res.render('report/contract_detail', {
+      res.render('report/detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
@@ -132,7 +132,7 @@ exports.steward_income_list = function(req, res, next) {
       if (err) { return next(err); }
       var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
         '</span>, вид деятельности: ' + scope_list[res.locals.scope];
-      res.render('report/contract_detail', {
+      res.render('report/detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
@@ -165,7 +165,7 @@ exports.steward_outlay_list = function(req, res, next) {
       if (err) { return next(err); }
       var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
         '</span>, вид деятельности: ' + scope_list[res.locals.scope];
-      res.render('report/contract_detail', {
+      res.render('report/detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
@@ -199,7 +199,7 @@ exports.steward_ecode_outlay_list = function(req, res, next) {
       if (err) { return next(err); }
       var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
         '</span>, вид деятельности: ' + scope_list[res.locals.scope];
-      res.render('report/contract_detail', {
+      res.render('report/detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
