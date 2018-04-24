@@ -3,6 +3,10 @@ const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
 const scope_list = config.scope_list;
 
+exports.eclass_list = function(req, res, next) {
+  res.redirect("/report/department/" + res.locals.scope + "00000");
+}
+
 exports.department_contract_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
@@ -41,14 +45,14 @@ exports.department_contract_list = function(req, res, next) {
   });
 }
 
-exports.department_detail = function(req, res, next) {
+exports.department_estimate_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
 
     db.collection('estimates')
     .aggregate([
       { $match: { 
-        parent: { $regex: '^' + req.params.id }, 
+        parent: { $regex: '^' + req.params.department }, 
         "_id.scope": { $eq: res.locals.scope}
       }},
       { $group : { 
@@ -65,8 +69,7 @@ exports.department_detail = function(req, res, next) {
       }},
       { $project: {
           name: { $concat: [ "$_id.eCode", " ", "$_id.eName" ] },
-          url: { $concat: [ "/report/eclass/", "$_id.eCode" ] },
-          //scope: "$_id.scope",
+          url: { $concat: [ "/report/outlays/department/", req.params.department, "/ecode/", "$_id.eCode"  ] },
           estimate: {
             remains: "$remains",
             plan: "$plan",
@@ -77,12 +80,12 @@ exports.department_detail = function(req, res, next) {
             balanceE: "$balanceE",
             balanceWO: "$balanceWO",
             balanceO: "$balanceO"
-      }}}, 
+      }}},
       { $sort: { name: 1} }
     ])
     .toArray(function (err, list_estimates) {
       if (err) { return next(err); }
-      var node = req.params.id;
+      var node = req.params.department;
       var depsId = [];
       var nl = 6;
       while (nl <= node.length) {
@@ -105,18 +108,24 @@ exports.department_detail = function(req, res, next) {
         }, 
         function() {
           client.close();
-          var longTitle = 'Вид деятельности: <span style="font-weight: 700;"> ' + scope_list[res.locals.scope] + '</span>';
+          var longTitle = 'Подразделение ';
           for (var i = 0; i < list_departments.length - 1; i++) {
             longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
           }
           if (list_departments.length) {
-            longTitle += ' / Подразделение <span style="font-weight: 700;">' + 
+            longTitle += ' / <span style="font-weight: 700;">' + 
               list_departments[list_departments.length-1].name + '</span>';
           }
+          longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
           res.render('report/contract_detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,
+            tabs: [
+              { flag: true, href: "/report/department/" + encodeURIComponent(req.params.department)},
+              { flag: false, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
+              { flag: false, href: "/report/outlays/department/" + encodeURIComponent(req.params.department)}
+            ],
             record_list: list_estimates,
             income_list: [],
             outlay_list: []
@@ -127,3 +136,192 @@ exports.department_detail = function(req, res, next) {
   });
 }
 
+exports.department_income_list = function(req, res, next) {
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('incomes')
+    .aggregate([
+      { $match: { 
+        parent: { $regex: '^' + req.params.department }
+      }},
+      { $sort: { date: -1 } }
+    ])
+    .toArray(function (err, list_incomes) {
+      if (err) { return next(err); }
+      var node = req.params.department;
+      var depsId = [];
+      var nl = 6;
+      while (nl <= node.length) {
+        depsId.push(node.slice(0, nl));
+        nl += 6;
+      }
+      var list_departments = [];
+      async.eachSeries(depsId, 
+        function(dep_id, callback) {
+          db.collection('departments')
+          .find({_id: dep_id})
+          .toArray(function (err, departments) {
+            if (err) { return next(err); }
+            list_departments.push({ 
+              url: departments[0].url,
+              name: departments[0].name
+            });
+            callback(null);
+          });
+        }, 
+        function() {
+          client.close();
+          var longTitle = 'Подразделение ';
+          for (var i = 0; i < list_departments.length - 1; i++) {
+            longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+          }
+          if (list_departments.length) {
+            longTitle += ' / <span style="font-weight: 700;">' + 
+              list_departments[list_departments.length-1].name + '</span>';
+          }
+          longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
+          res.render('report/contract_detail', {
+            title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
+            title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+            longTitle: longTitle,
+            tabs: [
+              { flag: false, href: "/report/department/" + encodeURIComponent(req.params.department)},
+              { flag: true, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
+              { flag: false, href: "/report/outlays/department/" + encodeURIComponent(req.params.department)}
+            ],
+            record_list: [],
+            income_list: list_incomes,
+            outlay_list: []
+          });
+        }
+      );
+    });
+  });
+}
+
+exports.department_outlay_list = function(req, res, next) {
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('outlays')
+    .aggregate([
+      { $match: { 
+        parent: { $regex: '^' + req.params.department }
+      }},
+      { $sort: { date: -1 } }
+    ])
+    .toArray(function (err, list_outlays) {
+      if (err) { return next(err); }
+      var node = req.params.department;
+      var depsId = [];
+      var nl = 6;
+      while (nl <= node.length) {
+        depsId.push(node.slice(0, nl));
+        nl += 6;
+      }
+      var list_departments = [];
+      async.eachSeries(depsId, 
+        function(dep_id, callback) {
+          db.collection('departments')
+          .find({_id: dep_id})
+          .toArray(function (err, departments) {
+            if (err) { return next(err); }
+            list_departments.push({ 
+              url: departments[0].url,
+              name: departments[0].name
+            });
+            callback(null);
+          });
+        }, 
+        function() {
+          client.close();
+          var longTitle = 'Подразделение ';
+          for (var i = 0; i < list_departments.length - 1; i++) {
+            longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+          }
+          if (list_departments.length) {
+            longTitle += ' / <span style="font-weight: 700;">' + 
+              list_departments[list_departments.length-1].name + '</span>';
+          }
+          longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
+          res.render('report/contract_detail', {
+            title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
+            title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+            longTitle: longTitle,
+            tabs: [
+              { flag: false, href: "/report/department/" + encodeURIComponent(req.params.department)},
+              { flag: false, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
+              { flag: true, href: "/report/outlays/department/" + encodeURIComponent(req.params.department)}
+            ],
+            record_list: [],
+            income_list: [],
+            outlay_list: list_outlays
+          });
+        }
+      );
+    });
+  });
+}
+
+exports.department_ecode_outlay_list = function(req, res, next) {
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('outlays')
+    .aggregate([
+      { $match: { 
+        parent: { $regex: '^' + req.params.department },
+        eCode: req.params.ecode
+      }},
+      { $sort: { date: -1 } }
+    ])
+    .toArray(function (err, list_outlays) {
+      if (err) { return next(err); }
+      var node = req.params.department;
+      var depsId = [];
+      var nl = 6;
+      while (nl <= node.length) {
+        depsId.push(node.slice(0, nl));
+        nl += 6;
+      }
+      var list_departments = [];
+      async.eachSeries(depsId, 
+        function(dep_id, callback) {
+          db.collection('departments')
+          .find({_id: dep_id})
+          .toArray(function (err, departments) {
+            if (err) { return next(err); }
+            list_departments.push({ 
+              url: departments[0].url,
+              name: departments[0].name
+            });
+            callback(null);
+          });
+        }, 
+        function() {
+          client.close();
+          var longTitle = 'Подразделение ';
+          for (var i = 0; i < list_departments.length - 1; i++) {
+            longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+          }
+          if (list_departments.length) {
+            longTitle += ' / <span style="font-weight: 700;">' + 
+              list_departments[list_departments.length-1].name + '</span>';
+          }
+          longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
+          res.render('report/contract_detail', {
+            title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
+            title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+            longTitle: longTitle,
+            tabs: [
+              { flag: false, href: "/report/department/" + encodeURIComponent(req.params.department)},
+              { flag: false, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
+              { flag: true, href: "/report/outlays/department/" + encodeURIComponent(req.params.department)}
+            ],
+            record_list: [],
+            income_list: [],
+            outlay_list: list_outlays
+          });
+        }
+      );
+    });
+  });
+}

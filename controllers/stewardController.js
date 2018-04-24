@@ -58,14 +58,13 @@ exports.steward_contract_list = function(req, res, next) {
   });
 };
 
-exports.steward_detail = function(req, res, next) {
+exports.steward_estimate_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-
     db.collection('estimates')
     .aggregate([
       { $match: { 
-        "_id.steward": {$eq: req.params.id}, 
+        "_id.steward": {$eq: req.params.steward}, 
         "_id.scope": {$eq: res.locals.scope} 
       }},
       { $group : { 
@@ -82,7 +81,7 @@ exports.steward_detail = function(req, res, next) {
       }},
       { $project: {
           name: { $concat: [ "$_id.eCode", " ", "$_id.eName" ] },
-          url: { $concat: [ "/report/eclass/", "$_id.eCode" ] },
+          url: { $concat: [ "/report/outlays/steward/", req.params.steward, "/ecode/", "$_id.eCode" ] },
           estimate: {
             remains: "$remains",
             plan: "$plan",
@@ -98,14 +97,17 @@ exports.steward_detail = function(req, res, next) {
     ])
     .toArray(function (err, list_estimates) {
       client.close();
-      var longTitle = 'Вид деятельности: <span style="font-weight: 700;">' + 
-        scope_list[res.locals.scope] + 
-        '</span>, ответственный  <span style="font-weight: 700;">' + 
-        req.params.id;
+      var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
+        '</span>, вид деятельности: ' + scope_list[res.locals.scope];
       res.render('report/contract_detail', {
-        title: scope_list[res.locals.scope] + '/' + req.params.id,
+        title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
+        tabs: [
+          { flag: true, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
+          { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
+          { flag: false, href: "/report/outlays/steward/" + encodeURIComponent(req.params.steward)}
+        ],
         record_list: list_estimates,
         income_list: [],
         outlay_list: []
@@ -113,3 +115,103 @@ exports.steward_detail = function(req, res, next) {
     });
   });
 };
+
+exports.steward_income_list = function(req, res, next) {
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('incomes')
+    .aggregate([
+      { $match: { 
+        steward: { $eq: req.params.steward }, 
+        scope: { $eq: res.locals.scope } 
+      }},
+      { $sort: { date: -1 } }
+    ])
+    .toArray(function (err, list_incomes) {
+      client.close();
+      if (err) { return next(err); }
+      var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
+        '</span>, вид деятельности: ' + scope_list[res.locals.scope];
+      res.render('report/contract_detail', {
+        title: scope_list[res.locals.scope] + '/' + req.params.steward,
+        title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+        longTitle: longTitle,
+        tabs: [
+          { flag: false, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
+          { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
+          { flag: true, href: "/report/outlays/steward/" + encodeURIComponent(req.params.steward)}
+        ],
+        record_list: [],
+        income_list: list_incomes,
+        outlay_list: []
+      });
+    });
+  });
+}
+
+exports.steward_outlay_list = function(req, res, next) {
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('outlays')
+    .aggregate([
+      { $match: { 
+        steward: { $eq: req.params.steward }, 
+        scope: { $eq: res.locals.scope } 
+      }},
+      { $sort: { date: -1 } }
+    ])
+    .toArray(function (err, list_outlays) {
+      client.close();
+      if (err) { return next(err); }
+      var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
+        '</span>, вид деятельности: ' + scope_list[res.locals.scope];
+      res.render('report/contract_detail', {
+        title: scope_list[res.locals.scope] + '/' + req.params.steward,
+        title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+        longTitle: longTitle,
+        tabs: [
+          { flag: false, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
+          { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
+          { flag: true, href: "/report/outlays/steward/" + encodeURIComponent(req.params.steward)}
+        ],
+        record_list: [],
+        income_list: [],
+        outlay_list: list_outlays
+      });
+    });
+  });
+}
+
+exports.steward_ecode_outlay_list = function(req, res, next) {
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('outlays')
+    .aggregate([
+      { $match: { 
+        steward: { $eq: req.params.steward }, 
+        scope: { $eq: res.locals.scope },
+        eCode: req.params.ecode
+      }},
+      { $sort: { date: -1 } }
+    ])
+    .toArray(function (err, list_outlays) {
+      client.close();
+      if (err) { return next(err); }
+      var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
+        '</span>, вид деятельности: ' + scope_list[res.locals.scope];
+      res.render('report/contract_detail', {
+        title: scope_list[res.locals.scope] + '/' + req.params.steward,
+        title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+        longTitle: longTitle,
+        tabs: [
+          { flag: false, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
+          { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
+          { flag: true, href: "/report/outlays/steward/" + encodeURIComponent(req.params.steward)}
+        ],
+        record_list: [],
+        income_list: [],
+        outlay_list: list_outlays
+      });
+    });
+  });
+}

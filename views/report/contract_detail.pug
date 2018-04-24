@@ -3,14 +3,29 @@ block content
   h5!= longTitle
   div
     ul(class="nav nav-tabs")
-      li(class="active"): a(data-toggle="tab" href="#estimates") Смета
-      li: a(data-toggle="tab" href="#incomes") Доходы
-      li: a(data-toggle="tab" href="#outlays") Расходы
-    div(class="tab-content")
-      div(id="estimates" class="tab-pane fade in active")
-        include estimate.pug
-      div(id="incomes" class="tab-pane fade")
-        table(class='table table-striped table-condensed')
+      li(class= tabs[0].flag ? "active" : ""): a(href= tabs[0].href) Смета
+      li(class= tabs[1].flag ? "active" : ""): a(href= tabs[1].href) Доходы
+      li(class= tabs[2].flag ? "active" : ""): a(href= tabs[2].href) Расходы
+    div
+      table(class='table table-condensed table-striped')
+        if tabs[0].flag
+          thead
+            tr
+              th!= title1
+              each header_item in estimate_index[variant]
+                th(class='text-right') #{header_item.header}
+          tbody
+            each record in record_list
+              tr
+                td: a(href=record.url) #{record.name}
+                each header_item in estimate_index[variant]
+                  td(class='text-right cost') #{record.estimate[header_item.value]}
+          tfoot#total
+            tr
+              th Итого
+              each header_item in estimate_index[variant]
+                th(class='text-right') 
+        if tabs[1].flag
           thead
             tr
               th Дата
@@ -27,24 +42,35 @@ block content
               th Итого
               th(class='text-right') 
               th
-      div(id="outlays" class="tab-pane fade")
-        table(class='table table-striped table-condensed')
+        if tabs[2].flag
           thead
             tr
               th Дата
+              th КОСГУ
+              th Операция
+              th ВидЗатрат
               th(class='text-right')  Сумма
-              th Вид
+              th Контрагент
+              th Контракт
               th Примечание
           tbody
             each outlay in outlay_list
               tr
                 td(class='date') #{outlay.date}
-                td(class='text-right cost') #{outlay.total}
+                td #{outlay.eCode}
+                td #{outlay.operation}
                 td #{outlay.species}
+                td(class='text-right cost') #{outlay.total}
+                td #{outlay.partner}
+                td #{outlay.agreement}
                 td #{outlay.note}
           tfoot#total
             tr
               th Итого
+              th
+              th
+              th
               th(class='text-right') 
+              th
               th
               th

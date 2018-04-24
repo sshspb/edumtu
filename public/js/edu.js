@@ -51,4 +51,25 @@ function rouble(n) {
 //  return x1 + x2;
 }
 
+function eCodeFilter(self) {
+  var eCode = self.innerHTML.split(' ')[0];
+  console.log('eCode = ' + eCode);
+  document.getElementsByTagName("A")[2].click();
+  document.addEventListener("DOMContentLoaded", function() {
+    var rows = document.getElementById("outlaysBody").rows;
+    var rowsLength = rows.length;
+    for (var j = 0; j < rowsLength; j++) {
+      //var roweCode = rows[j].cells[1].innerHTML.split(' ')[0];
+      var roweCode = rows[j].cells[1].innerHTML;
+      console.log("roweCode = " + roweCode);
+      console.log(roweCode == eCode )
+      if (roweCode == eCode) {
+        rows[j].style.display = "table-row";
+      } else {
+        rows[j].style.display = "none";
+      }
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", cost);

@@ -1,6 +1,21 @@
 [  
+  {
+    "collection": "Inet_MURashodLS", 
+    "fields": [
+      { "name": "contract", "type": "string", "original": "лицевой_счет" },
+      { "name": "eCode", "type": "string", "original": "Код_смета" },
+      { "name": "date", "type": "date", "original": "дата_операции" },
+      { "name": "operation", "type": "string", "original": "Операция" },
+      { "name": "species", "type": "string", "original": "Вид затрат" },
+      { "name": "total", "type": "decimal", "original": "Сумма" },
+      { "name": "partner", "type": "string", "original": "Контрагент" },
+      { "name": "agreement", "type": "string", "original": "Контракт" },
+      { "name": "note", "type": "string", "original": "примечание" }
+    ]
+  
+  },
   { 
-    "collection": "Inet_SmetaLSAll", 
+    "collection": "Inet_MUSmetaLSAll",
     "fields": [
       { "name": "steward", "type": "string", "original": "Руководитель" },
       { "name": "contract", "type": "string", "original": "лицевой_счет" },

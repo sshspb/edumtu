@@ -50,6 +50,7 @@ router.get('/',  function(req, res) {
         }
       } else {
         res.render('login', { 
+          scope: req.session && req.session.scope ? req.session.scope : "0",
           title: 'Оперативно-финансовый отдел', 
           subtitle: 'учёта образовательной деятельности', 
           data: docsQty
