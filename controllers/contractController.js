@@ -52,6 +52,7 @@ exports.contract_estimate_list = function(req, res, next) {
               title: contract.name,
               title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
               longTitle: longTitle,
+              ecode: '',
               tabs: [
                 { flag: true, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
                 { flag: false, href: "/report/incomes/contract/" + encodeURIComponent(req.params.contract)},
@@ -117,6 +118,7 @@ exports.contract_income_list = function(req, res, next) {
               title: contract.name,
               title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
               longTitle: longTitle,
+              ecode: '',
               tabs: [
                 { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
                 { flag: true, href: "/report/incomes/contract/" + encodeURIComponent(req.params.contract)},
@@ -182,6 +184,7 @@ exports.contract_outlay_list = function(req, res, next) {
               title: contract.name,
               title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
               longTitle: longTitle,
+              ecode: '',
               tabs: [
                 { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
                 { flag: false, href: "/report/incomes/contract/" + encodeURIComponent(req.params.contract)},
@@ -247,6 +250,7 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
               title: contract.name,
               title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
               longTitle: longTitle,
+              ecode: req.params.ecode,
               tabs: [
                 { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
                 { flag: false, href: "/report/incomes/contract/" + encodeURIComponent(req.params.contract)},

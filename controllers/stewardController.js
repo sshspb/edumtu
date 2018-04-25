@@ -103,6 +103,7 @@ exports.steward_estimate_list = function(req, res, next) {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
+        ecode: '',
         tabs: [
           { flag: true, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
           { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
@@ -136,10 +137,11 @@ exports.steward_income_list = function(req, res, next) {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
+        ecode: '',
         tabs: [
           { flag: false, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
-          { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
-          { flag: true, href: "/report/outlays/steward/" + encodeURIComponent(req.params.steward)}
+          { flag: true, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
+          { flag: false, href: "/report/outlays/steward/" + encodeURIComponent(req.params.steward)}
         ],
         record_list: [],
         income_list: list_incomes,
@@ -169,6 +171,7 @@ exports.steward_outlay_list = function(req, res, next) {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
+        ecode: '',
         tabs: [
           { flag: false, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
           { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
@@ -203,6 +206,7 @@ exports.steward_ecode_outlay_list = function(req, res, next) {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
         longTitle: longTitle,
+        ecode: req.params.ecode,
         tabs: [
           { flag: false, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
           { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},

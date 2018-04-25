@@ -121,6 +121,7 @@ exports.department_estimate_list = function(req, res, next) {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,
+            ecode: '',
             tabs: [
               { flag: true, href: "/report/department/" + encodeURIComponent(req.params.department)},
               { flag: false, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
@@ -184,6 +185,7 @@ exports.department_income_list = function(req, res, next) {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,
+            ecode: '',
             tabs: [
               { flag: false, href: "/report/department/" + encodeURIComponent(req.params.department)},
               { flag: true, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
@@ -247,6 +249,7 @@ exports.department_outlay_list = function(req, res, next) {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,
+            ecode: '',
             tabs: [
               { flag: false, href: "/report/department/" + encodeURIComponent(req.params.department)},
               { flag: false, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
@@ -311,6 +314,7 @@ exports.department_ecode_outlay_list = function(req, res, next) {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
             longTitle: longTitle,
+            ecode: req.params.ecode,
             tabs: [
               { flag: false, href: "/report/department/" + encodeURIComponent(req.params.department)},
               { flag: false, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},

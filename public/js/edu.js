@@ -3,13 +3,13 @@
 function cost() {
   var tables = document.body.getElementsByTagName('TABLE');
   for (var i = 0; i < tables.length; i++) {
-    var rows = tables[i].tBodies[0].rows;
-    var rowsLength = rows.length;
     var total = [];
     var totalLength = tables[i].tHead.rows[0].cells.length;
     for (var k = 0; k < totalLength; k++) {
       total[k] = { "cost": 0, "total": 0};
     }
+    var rows = tables[i].tBodies[0].rows;
+    var rowsLength = rows.length;
     for (var j = 0; j < rowsLength; j++) {
       var cells = rows[j].cells;
       var cellsLength = cells.length;
@@ -23,6 +23,7 @@ function cost() {
         }
         if (cell.matches('.date')) {
           var date = new Date(cell.innerHTML);
+          rows[j].setAttribute("data-month", date.getMonth());
           cell.innerHTML = date.toLocaleDateString();
         }
       }
@@ -51,25 +52,42 @@ function rouble(n) {
 //  return x1 + x2;
 }
 
-function eCodeFilter(self) {
-  var eCode = self.innerHTML.split(' ')[0];
-  console.log('eCode = ' + eCode);
-  document.getElementsByTagName("A")[2].click();
-  document.addEventListener("DOMContentLoaded", function() {
-    var rows = document.getElementById("outlaysBody").rows;
-    var rowsLength = rows.length;
-    for (var j = 0; j < rowsLength; j++) {
-      //var roweCode = rows[j].cells[1].innerHTML.split(' ')[0];
-      var roweCode = rows[j].cells[1].innerHTML;
-      console.log("roweCode = " + roweCode);
-      console.log(roweCode == eCode )
-      if (roweCode == eCode) {
-        rows[j].style.display = "table-row";
-      } else {
-        rows[j].style.display = "none";
+function monthFilter(month, title) {
+  document.getElementById("outlaysmenu").innerHTML = title + '<span class="caret" style="margin-left: 5px;"></span>';
+  var total = [];
+  var table = document.getElementById("outlaystable");
+  var columnCount = table.tHead.rows[0].cells.length;
+  for (var k = 0; k < columnCount; k++) {
+    total[k] = { "cost": 0, "total": 0};
+  }
+  var rows = table.tBodies[0].rows;
+  for (var j = 0; j < rows.length; j++) {
+    if (!month || rows[j].getAttribute("data-month") == month) {
+      rows[j].style.display = "table-row";
+      var cells = rows[j].cells;
+      for (var k = 0; k < cells.length && k < 10; k++) {
+        var cell = cells[k];
+        if (cell.matches('.cost')) {
+          var cost = Number(cell.innerHTML.replace(/&nbsp;/g, ''));
+console.log(cell.innerHTML);
+console.log(cost);
+          total[k]["cost"] = 1;
+          total[k].total += cost;
+        }
+      }
+    } else {
+      rows[j].style.display = "none";
+    }
+  }
+  var tfoot = table.tFoot;
+  if (tfoot && tfoot.matches('#total')) {
+    var footCells = tfoot.rows[0].cells;
+    for (var n = 0; n < columnCount && n < footCells.length; n++) {
+      if (total[n].cost) {
+        footCells[n].innerHTML = rouble(total[n].total);
       }
     }
-  });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", cost);

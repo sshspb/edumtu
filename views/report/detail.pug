@@ -5,10 +5,29 @@ block content
     ul(class="nav nav-tabs")
       li(class= tabs[0].flag ? "active" : ""): a(href= tabs[0].href) Смета
       li(class= tabs[1].flag ? "active" : ""): a(href= tabs[1].href) Доходы
-      li(class= tabs[2].flag ? "active" : ""): a(href= tabs[2].href) Расходы
+      li(class= tabs[2].flag ? "active" : ""): a(href= tabs[2].href) Расходы #{ecode}
+      if tabs[2].flag
+        li(class="dropdown")
+          button(type="button" class="btn btn-default dropdown-toggle" id="outlaysmenu" data-toggle="dropdown") Все записи
+            span(class="caret" style="margin-left: 5px;")
+          ul(class="dropdown-menu")
+            li: a(href="#" onclick="monthFilter('11','Декабрь')") Декабрь
+            li: a(href="#" onclick="monthFilter('10','Ноябрь')") Ноябрь
+            li: a(href="#" onclick="monthFilter('9','Октябрь')") Октябрь
+            li: a(href="#" onclick="monthFilter('8','Сентябрь')") Сентябрь
+            li: a(href="#" onclick="monthFilter('7','Август')") Август
+            li: a(href="#" onclick="monthFilter('6','Июль')") Июль
+            li: a(href="#" onclick="monthFilter('5','Июнь')") Июнь
+            li: a(href="#" onclick="monthFilter('4','Май')") Май
+            li: a(href="#" onclick="monthFilter('3','Апрель')") Апрель
+            li: a(href="#" onclick="monthFilter('2','Март')") Март
+            li: a(href="#" onclick="monthFilter('1','Февраль')") Февраль
+            li: a(href="#" onclick="monthFilter('0','Январь')") Январь
+            li(class = "divider")
+            li: a(href="#" onclick="monthFilter(null,'Все записи')") Все записи
     div
-      table(class='table table-condensed table-striped')
-        if tabs[0].flag
+      if tabs[0].flag
+        table(class='table table-condensed table-striped')
           thead
             tr
               th!= title1
@@ -25,7 +44,8 @@ block content
               th Итого
               each header_item in estimate_index[variant]
                 th(class='text-right') 
-        if tabs[1].flag
+      if tabs[1].flag
+        table(class='table table-condensed table-striped')
           thead
             tr
               th Дата
@@ -42,7 +62,8 @@ block content
               th Итого
               th(class='text-right') 
               th
-        if tabs[2].flag
+      if tabs[2].flag
+        table(class='table table-condensed table-striped' id='outlaystable')
           thead
             tr
               th Дата
