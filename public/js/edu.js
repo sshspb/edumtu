@@ -6,7 +6,7 @@ function cost() {
     var total = [];
     var totalLength = tables[i].tHead.rows[0].cells.length;
     for (var k = 0; k < totalLength; k++) {
-      total[k] = { "cost": 0, "total": 0};
+      total[k] = { "cost": 0, "total": 0, "uptoruble": false};
     }
     var rows = tables[i].tBodies[0].rows;
     var rowsLength = rows.length;
@@ -17,9 +17,10 @@ function cost() {
         var cell = cells[k];
         if (cell.matches('.cost')) {
           var cost = Number(cell.innerHTML);
-          total[k]["cost"] = 1;
           total[k].total += cost;
-          cell.innerHTML = rouble(cost);
+          total[k].cost = 1;
+          total[k].uptoruble = cell.matches('.uptoruble');
+          cell.innerHTML = roubleToString(cost, total[k].uptoruble);
         }
         if (cell.matches('.date')) {
           var date = new Date(cell.innerHTML);
@@ -33,23 +34,22 @@ function cost() {
       var footCells = tfoot.rows[0].cells;
       for (var n = 0; n < totalLength && n < footCells.length; n++) {
         if (total[n].cost) {
-          footCells[n].innerHTML = rouble(total[n].total);
+          footCells[n].innerHTML = roubleToString(total[n].total, total[n].uptoruble);
         }
       }
     }
   }
 }
 
-function rouble(n) {
+function roubleToString(n, uptoruble) {
   var x = n.toFixed(2).split('.');
   var x1 = x[0];
-  var x2 = x.length > 1 ? ',' + x[1] : '';
+  var x2 = x.length > 1 ? ',' + x[1] : ',00';
   var rgx = /(\d+)(\d{3})/;
   while (rgx.test(x1)) {
     x1 = x1.replace(rgx, '$1' + '&nbsp;' + '$2');
   }
-  return x1;
-//  return x1 + x2;
+  return uptoruble ? x1 : x1 + x2;
 }
 
 function monthFilter(month, title) {
@@ -68,9 +68,10 @@ function monthFilter(month, title) {
       for (var k = 0; k < cells.length && k < 10; k++) {
         var cell = cells[k];
         if (cell.matches('.cost')) {
-          var cost = Number(cell.innerHTML.replace(/&nbsp;/g, ''));
-console.log(cell.innerHTML);
-console.log(cost);
+          var cost = cell.innerHTML;
+          cost = cost.replace(/&nbsp;/g, '');
+          cost = cost.replace(',', '.');
+          cost = Number(cost);
           total[k]["cost"] = 1;
           total[k].total += cost;
         }
@@ -84,7 +85,7 @@ console.log(cost);
     var footCells = tfoot.rows[0].cells;
     for (var n = 0; n < columnCount && n < footCells.length; n++) {
       if (total[n].cost) {
-        footCells[n].innerHTML = rouble(total[n].total);
+        footCells[n].innerHTML = roubleToString(total[n].total, false);
       }
     }
   }
