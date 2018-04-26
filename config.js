@@ -1,6 +1,6 @@
 const config_local = require('./config_local');
 module.exports = {
-  "version": "edumtu v1.8.2 27.04.2018",
+  "version": "edumtu v1.8.3 27.04.2018",
   "scope_list": ["Основная", "Наука"],
   "variant_list": ["Вариант: Смета", "Вариант: Факт"],
   "estimate_index": [

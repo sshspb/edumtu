@@ -43,7 +43,7 @@ block content
             tr
               th Итого
               each header_item in estimate_index[variant]
-                th(class='text-right') 
+                th(class='text-right cost') 
       if tabs[1].flag
         table(class='table table-condensed table-striped')
           thead
@@ -60,7 +60,7 @@ block content
           tfoot#total
             tr
               th Итого
-              th(class='text-right') 
+              th(class='text-right cost') 
               th
       if tabs[2].flag
         table(class='table table-condensed table-striped' id='outlaystable')
@@ -91,7 +91,7 @@ block content
               th
               th
               th
-              th(class='text-right') 
+              th(class='text-right cost')
               th
               th
               th

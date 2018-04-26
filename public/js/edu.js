@@ -84,7 +84,7 @@ function monthFilter(month, title) {
   if (tfoot && tfoot.matches('#total')) {
     var footCells = tfoot.rows[0].cells;
     for (var n = 0; n < columnCount && n < footCells.length; n++) {
-      if (total[n].cost) {
+      if (total[n].cost || footCells[n].matches('.cost')) {
         footCells[n].innerHTML = roubleToString(total[n].total, false);
       }
     }
