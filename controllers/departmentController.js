@@ -108,15 +108,15 @@ exports.department_estimate_list = function(req, res, next) {
         }, 
         function() {
           client.close();
-          var longTitle = 'Подразделение ';
+          var longTitle = '&nbsp;Подразделение&nbsp; ';
           for (var i = 0; i < list_departments.length - 1; i++) {
-            longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
           }
           if (list_departments.length) {
-            longTitle += ' / <span style="font-weight: 700;">' + 
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;<span style="font-weight: 700;">' + 
               list_departments[list_departments.length-1].name + '</span>';
           }
-          longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
+          longTitle += ', &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
           res.render('report/detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
@@ -172,15 +172,15 @@ exports.department_income_list = function(req, res, next) {
         }, 
         function() {
           client.close();
-          var longTitle = 'Подразделение ';
+          var longTitle = '&nbsp;Подразделение&nbsp; ';
           for (var i = 0; i < list_departments.length - 1; i++) {
-            longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
           }
           if (list_departments.length) {
-            longTitle += ' / <span style="font-weight: 700;">' + 
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;<span style="font-weight: 700;">' + 
               list_departments[list_departments.length-1].name + '</span>';
           }
-          longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
+          longTitle += ', &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
           res.render('report/detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
@@ -236,15 +236,15 @@ exports.department_outlay_list = function(req, res, next) {
         }, 
         function() {
           client.close();
-          var longTitle = 'Подразделение ';
+          var longTitle = '&nbsp;Подразделение&nbsp; ';
           for (var i = 0; i < list_departments.length - 1; i++) {
-            longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
           }
           if (list_departments.length) {
-            longTitle += ' / <span style="font-weight: 700;">' + 
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;<span style="font-weight: 700;">' + 
               list_departments[list_departments.length-1].name + '</span>';
           }
-          longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
+          longTitle += ', &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
           res.render('report/detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
@@ -301,15 +301,15 @@ exports.department_ecode_outlay_list = function(req, res, next) {
         }, 
         function() {
           client.close();
-          var longTitle = 'Подразделение ';
+          var longTitle = '&nbsp;Подразделение&nbsp; ';
           for (var i = 0; i < list_departments.length - 1; i++) {
-            longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
           }
           if (list_departments.length) {
-            longTitle += ' / <span style="font-weight: 700;">' + 
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;<span style="font-weight: 700;">' + 
               list_departments[list_departments.length-1].name + '</span>';
           }
-          longTitle += ', вид деятельности: ' + scope_list[res.locals.scope];
+          longTitle += ', &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
           res.render('report/detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
             title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',

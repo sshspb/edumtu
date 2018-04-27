@@ -51,7 +51,7 @@ exports.steward_contract_list = function(req, res, next) {
       res.render('report/tree_list', {
         title: scope_list[res.locals.scope] + '/Ответственные',
         title1: 'Ответственный/ЛицСчёт', 
-        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
+        longTitle: '&nbsp;Вид деятельности:&nbsp; <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         record_list: list_objects
       });
     });
@@ -97,8 +97,8 @@ exports.steward_estimate_list = function(req, res, next) {
     ])
     .toArray(function (err, list_estimates) {
       client.close();
-      var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
-        '</span>, вид деятельности: ' + scope_list[res.locals.scope];
+      var longTitle = '&nbsp;Ответственный&nbsp;  <span style="font-weight: 700;">' + req.params.steward +
+        '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
       res.render('report/detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
@@ -131,8 +131,8 @@ exports.steward_income_list = function(req, res, next) {
     .toArray(function (err, list_incomes) {
       client.close();
       if (err) { return next(err); }
-      var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
-        '</span>, вид деятельности: ' + scope_list[res.locals.scope];
+      var longTitle = '&nbsp;Ответственный&nbsp;  <span style="font-weight: 700;">' + req.params.steward +
+        '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
       res.render('report/detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
@@ -165,8 +165,8 @@ exports.steward_outlay_list = function(req, res, next) {
     .toArray(function (err, list_outlays) {
       client.close();
       if (err) { return next(err); }
-      var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
-        '</span>, вид деятельности: ' + scope_list[res.locals.scope];
+      var longTitle = '&nbsp;Ответственный&nbsp;  <span style="font-weight: 700;">' + req.params.steward +
+        '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
       res.render('report/detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
@@ -200,8 +200,8 @@ exports.steward_ecode_outlay_list = function(req, res, next) {
     .toArray(function (err, list_outlays) {
       client.close();
       if (err) { return next(err); }
-      var longTitle = 'Ответственный  <span style="font-weight: 700;">' + req.params.steward +
-        '</span>, вид деятельности: ' + scope_list[res.locals.scope];
+      var longTitle = '&nbsp;Ответственный&nbsp;  <span style="font-weight: 700;">' + req.params.steward +
+        '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
       res.render('report/detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
         title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',

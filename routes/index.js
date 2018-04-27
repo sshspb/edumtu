@@ -29,7 +29,10 @@ router.get('/',  function(req, res) {
     .toArray(function(err, quantitys) {
       client.close();
       if (err) { return next(err); }
-      if (quantitys.length) docsQty = quantitys[0];
+      if (quantitys.length) {
+        docsQty = quantitys[0];
+        docsQty.version = config.version;
+      } 
       if (req.user) {
         if (req.user.role == 'admin') {
           //res.render('admin/index');

@@ -40,13 +40,14 @@ exports.contract_estimate_list = function(req, res, next) {
           }, 
           function() {
             client.close();
-            var longTitle = 'Договор: ';
+            var longTitle = '&nbsp;Договор:&nbsp; ';
             for (var i = 0; i < list_departments.length; i++) {
-              longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+              longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="' + 
+                list_departments[i].url + '">' + list_departments[i].name + '</a>';
             }
-            longTitle += ' / <span style="font-weight: 700;">' + contract.name + 
-                '</span>; вид деятельности: ' +  scope_list[res.locals.scope] +
-                '; ответственный: <a href="/report/steward/' + 
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
+                contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope_list[res.locals.scope] +
+                '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
                 encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
             res.render('report/detail', {
               title: contract.name,
@@ -106,13 +107,14 @@ exports.contract_income_list = function(req, res, next) {
           }, 
           function() {
             client.close();
-            var longTitle = 'Договор: ';
+            var longTitle = '&nbsp;Договор:&nbsp; ';
             for (var i = 0; i < list_departments.length; i++) {
-              longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+              longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="' + 
+                list_departments[i].url + '">' + list_departments[i].name + '</a>';
             }
-            longTitle += ' / <span style="font-weight: 700;">' + contract.name + 
-                '</span>; вид деятельности: ' +  scope_list[res.locals.scope] +
-                '; ответственный: <a href="/report/steward/' + 
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
+                contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope_list[res.locals.scope] +
+                '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
                 encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
             res.render('report/detail', {
               title: contract.name,
@@ -172,13 +174,14 @@ exports.contract_outlay_list = function(req, res, next) {
           }, 
           function() {
             client.close();
-            var longTitle = 'Договор: ';
+            var longTitle = '&nbsp;Договор:&nbsp; ';
             for (var i = 0; i < list_departments.length; i++) {
-              longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+              longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="' + 
+                list_departments[i].url + '">' + list_departments[i].name + '</a>';
             }
-            longTitle += ' / <span style="font-weight: 700;">' + contract.name + 
-                '</span>; вид деятельности: ' +  scope_list[res.locals.scope] +
-                '; ответственный: <a href="/report/steward/' + 
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
+                contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope_list[res.locals.scope] +
+                '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
                 encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
             res.render('report/detail', {
               title: contract.name,
@@ -238,13 +241,14 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
           }, 
           function() {
             client.close();
-            var longTitle = 'Договор: ';
+            var longTitle = '&nbsp;Договор:&nbsp; ';
             for (var i = 0; i < list_departments.length; i++) {
-              longTitle += ' / <a href="'+list_departments[i].url+'">' + list_departments[i].name +'</a>';
+              longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="' + 
+                list_departments[i].url + '">' + list_departments[i].name + '</a>';
             }
-            longTitle += ' / <span style="font-weight: 700;">' + contract.name + 
-                '</span>; вид деятельности: ' +  scope_list[res.locals.scope] +
-                '; ответственный: <a href="/report/steward/' + 
+            longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
+                contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope_list[res.locals.scope] +
+                '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
                 encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
             res.render('report/detail', {
               title: contract.name,
