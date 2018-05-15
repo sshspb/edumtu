@@ -2,7 +2,7 @@ extends layout
 block content
   h5!= longTitle
   div
-    ul(class="nav nav-tabs")
+    ul(class="nav nav-tabs hidden-print")
       li(class= tabs[0].flag ? "active" : ""): a(href= tabs[0].href) Смета
       li(class= tabs[1].flag ? "active" : ""): a(href= tabs[1].href) Доходы
       li(class= tabs[2].flag ? "active" : ""): a(href= tabs[2].href) Расходы #{ecode}

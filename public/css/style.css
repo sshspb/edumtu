@@ -34,3 +34,18 @@ tfoot th {
 .contract {
   background: #F8F8F8;
 }
+
+@media print {
+  tfoot th {
+    position: static;
+  }
+  a:visited {
+    text-decoration: none;
+  }
+  a[href]:after {
+    content: "";
+  }
+  abbr[title]:after {
+    content: "`";
+  }
+}
