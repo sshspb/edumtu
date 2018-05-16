@@ -8,11 +8,20 @@ exports.eclass_list = function(req, res, next) {
 }
 
 exports.department_contract_list = function(req, res, next) {
+  // url: /report/departments_contracts
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
+    // query - пользователь руководитель договора или экономист
     var query;
-    if (res.locals.userRole == 'booker')  query = { scope: {$eq: res.locals.scope} };
-    else query = { scope: {$eq: res.locals.scope}, steward: res.locals.userName };
+    var longTitle;
+    if (res.locals.userRole == 'booker') {
+      query = { scope: {$eq: res.locals.scope} };
+      longTitle = '&nbsp;Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>';
+    } else {
+      query = { scope: {$eq: res.locals.scope}, steward: res.locals.userName };
+      longTitle = '&nbsp;Ответственный&nbsp;  <span style="font-weight: 700;">' + req.params.steward +
+      '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
+      } 
     db.collection('departments').find(query).sort({_id: 1})
     .toArray(function (err, list_departments) {
       client.close();
@@ -49,13 +58,24 @@ exports.department_contract_list = function(req, res, next) {
 exports.department_estimate_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-
+    // query - пользователь руководитель договора или экономист
+    // TODO если руководитель подразделения
+    var query;
+    if (res.locals.userRole == 'booker') {
+      query = { $match: { 
+        parent: { $regex: '^' + req.params.department }, 
+        "_id.scope": { $eq: res.locals.scope }
+      }};
+    } else {
+      query = { $match: { 
+        parent: { $regex: '^' + req.params.department }, 
+        "_id.scope": { $eq: res.locals.scope },
+        "_id.steward": { $eq: res.locals.userName }
+      }};
+    }
     db.collection('estimates')
     .aggregate([
-      { $match: { 
-        parent: { $regex: '^' + req.params.department }, 
-        "_id.scope": { $eq: res.locals.scope}
-      }},
+      query,
       { $group : { 
           _id: { eCode: "$_id.eCode", eName: "$_id.eName"},
           remains: { $sum: "$estimate.remains"},
@@ -205,11 +225,24 @@ exports.department_income_list = function(req, res, next) {
 exports.department_outlay_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
+    // query - пользователь руководитель договора или экономист
+    // TODO если руководитель подразделения
+    var query;
+    if (res.locals.userRole == 'booker') {
+      query = { $match: { 
+        parent: { $regex: '^' + req.params.department }, 
+        scope: { $eq: res.locals.scope }
+      }};
+    } else {
+      query = { $match: { 
+        parent: { $regex: '^' + req.params.department }, 
+        scope: { $eq: res.locals.scope },
+        steward: { $eq: res.locals.userName }
+      }};
+    }
     db.collection('outlays')
     .aggregate([
-      { $match: { 
-        parent: { $regex: '^' + req.params.department }
-      }},
+      query,
       { $sort: { date: -1, eCode: 1 } }
     ])
     .toArray(function (err, list_outlays) {
@@ -269,14 +302,25 @@ exports.department_outlay_list = function(req, res, next) {
 exports.department_ecode_outlay_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
+    // query - пользователь руководитель договора или экономист
+    // TODO если руководитель подразделения
+    var query;
+    if (res.locals.userRole == 'booker') {
+      query = { $match: { 
+        parent: { $regex: '^' + req.params.department }, 
+        eCode: req.params.ecode,
+        scope: { $eq: res.locals.scope }
+      }};
+    } else {
+      query = { $match: { 
+        parent: { $regex: '^' + req.params.department }, 
+        eCode: req.params.ecode,
+        scope: { $eq: res.locals.scope },
+        steward: { $eq: res.locals.userName }
+      }};
+    }
     db.collection('outlays')
-    .aggregate([
-      { $match: { 
-        parent: { $regex: '^' + req.params.department },
-        eCode: req.params.ecode
-      }},
-      { $sort: { date: -1, eCode: 1 } }
-    ])
+    .aggregate([ query, { $sort: { date: -1, eCode: 1 }} ])
     .toArray(function (err, list_outlays) {
       if (err) { return next(err); }
       var node = req.params.department;
