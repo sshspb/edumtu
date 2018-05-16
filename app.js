@@ -31,6 +31,7 @@ app.use(require('./lib/loadUser'));
 
 app.use('/', require('./routes/index'));
 app.use('/report', checkAuth, require('./routes/reports'));
+app.use('/admin', checkAuth, require('./routes/admin'));
 
 app.use(function(req, res, next) {
   var err = new HttpError(404, req.originalUrl + ' not found');

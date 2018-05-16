@@ -28,7 +28,7 @@ block content
     div
       if tabs[0].flag
         table(class='table table-condensed table-striped')
-          thead
+          thead(class='sticky')
             tr
               th!= title1
               each header_item in estimate_index[variant]
@@ -46,7 +46,7 @@ block content
                 th(class='text-right cost') 
       if tabs[1].flag
         table(class='table table-condensed table-striped')
-          thead
+          thead(class='sticky')
             tr
               th Дата
               th(class='text-right')  Сумма
@@ -64,7 +64,7 @@ block content
               th
       if tabs[2].flag
         table(class='table table-condensed table-striped' id='outlaystable')
-          thead
+          thead(class='sticky')
             tr
               th Дата
               th КОСГУ

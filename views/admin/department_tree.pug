@@ -1,0 +1,20 @@
+extends layout
+block content
+  div
+    table(class='table tree table-condensed table-hover')
+      thead
+          tr
+            th Подразделение
+            th Руководитель
+      tbody
+        each department in record_list
+          tr(class= department.trClass)
+            td #{department.name}
+            td 
+  script(src='/js/jquery.treegrid.js')
+  script(src='/js/jquery.treegrid.bootstrap3.js')
+  script(src='/js/jquery.cookie.js')
+  script.
+    $(document).ready(function(){ 
+      $('.tree').treegrid({initialState: 'collapsed', saveState: true}).treegrid('getRootNodes').treegrid('expand');
+    });

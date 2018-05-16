@@ -10,10 +10,12 @@ exports.eclass_list = function(req, res, next) {
 exports.department_contract_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-    db.collection('departments')
-    .find({ scope: {$eq: res.locals.scope} })
-    .sort({_id: 1})
+    var query;
+    if (res.locals.userRole == 'booker')  query = { scope: {$eq: res.locals.scope} };
+    else query = { scope: {$eq: res.locals.scope}, steward: res.locals.userName };
+    db.collection('departments').find(query).sort({_id: 1})
     .toArray(function (err, list_departments) {
+      client.close();
       if (err) { return next(err); }
       var list_objects = []
       for (var i = 0; i < list_departments.length; i++) {
@@ -40,7 +42,6 @@ exports.department_contract_list = function(req, res, next) {
         longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         record_list: list_objects
       });
-
     });
   });
 }

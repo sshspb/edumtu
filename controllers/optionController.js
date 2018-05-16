@@ -7,5 +7,10 @@ exports.set_variant = function(req, res, next) {
 
 exports.set_scope = function(req, res, next) {
   req.session.scope = req.params.id;
-  res.redirect('/report/department/' + req.session.scope + config.univ._id);
+  if (req.userRole == 'booker') {
+    res.redirect('/report/department/' + req.session.scope + config.univ._id);
+  } else {
+    res.redirect('/report/steward/' + encodeURIComponent(req.userName));
+  }
+
 };

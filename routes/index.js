@@ -10,7 +10,7 @@ const AuthError = require('../lib/error').AuthError;
 const HttpError = require('../lib/error').HttpError;
 const config = require('../config');
 
-router.get('/',  function(req, res) {
+router.get('/',  function(req, res, next) {
   var docsQty = {
     departments: 0,
     contracts: 0,
@@ -23,26 +23,27 @@ router.get('/',  function(req, res) {
     version: 'Данные не загружены'
   }; 
   MongoClient.connect(config.dbUrl, function(err, client) {
-    client.db(config.dbName)
-    .collection('quantitys')
+    var db = client.db(config.dbName);
+    db.collection('quantitys')
     .find({})
     .toArray(function(err, quantitys) {
-      client.close();
       if (err) { return next(err); }
       if (quantitys.length) {
         docsQty = quantitys[0];
         docsQty.version = config.version;
       } 
       if (req.user) {
+        client.close();
         if (req.user.role == 'admin') {
           //res.render('admin/index');
-          res.render('report/index', { 
+          res.render('admin/index', { 
             title: 'Оперативно-финансовый отдел', 
             subtitle: 'учёта образовательной деятельности', 
             data: docsQty
           });
         } else {
-          res.redirect('/report/eclasses');
+          //res.redirect('/report/eclasses');
+          res.redirect('/report/option/scope/' + res.locals.scope);
           /*
           res.render('report/index', { 
             title: 'Оперативно-финансовый отдел', 
@@ -52,11 +53,23 @@ router.get('/',  function(req, res) {
           */
         }
       } else {
-        res.render('login', { 
-          scope: req.session && req.session.scope ? req.session.scope : "0",
-          title: 'Оперативно-финансовый отдел', 
-          subtitle: 'учёта образовательной деятельности', 
-          data: docsQty
+        var nousers = false;
+        db.collection('users').count({role: 'admin'}, function(err, cnt) {
+          client.close();
+          if (err) { 
+            console.log(err); 
+            return next(err); 
+          }
+          if (!cnt) { 
+            nousers = true; 
+          }
+          res.render('login', { 
+            scope: req.session && req.session.scope ? req.session.scope : "0",
+            title: 'Оперативно-финансовый отдел', 
+            subtitle: 'учёта образовательной деятельности', 
+            data: docsQty,
+            nousers: nousers
+          });
         });
       }
     });
@@ -100,11 +113,10 @@ router.get('/importdata', function(req, res) {
 });
 
 function authorize(username, password, callback) {
-  var login = username.toUpperCase(); // login регистронезависимый
   MongoClient.connect(config.dbUrl, function(err, client) {
     client.db(config.dbName)
-    .collection('stewards')
-    .findOne({login: login})
+    .collection('users')
+    .findOne({login: username})
     .then(
       user => {
         client.close();

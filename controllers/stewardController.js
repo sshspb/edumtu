@@ -5,22 +5,22 @@ const scope_list = config.scope_list;
 exports.steward_contract_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-
+    var query;
+    if (res.locals.userRole == 'booker')  query = { scope: {$eq: res.locals.scope} };
+    else query = { scope: {$eq: res.locals.scope}, name: res.locals.userName };
     db.collection('stewards_contracts')
-    .find({ scope: res.locals.scope })
+    .find(query)
     .toArray(function (err, list_stewards) {
       client.close();
       if (err) { return next(err); }
-
       var list_objects = []
       var total = { remains: 0, plan: 0, income: 0,
             outlayO: 0, outlay: 0, balance: 0, balanceE: 0, balanceWO: 0, balanceO: 0 };
-  
       for (var i = 0; i < list_stewards.length; i++) {
         list_objects.push({
           trClass: 'treegrid-' + i + ' treegrid-parent-000',
           name: list_stewards[i].name,
-          url:  list_stewards[i].url,
+          url:  '/report/steward/' + list_stewards[i].url,
           estimate: list_stewards[i].estimate
         })
         for (var j = 0; j < list_stewards[i].contracts.length; j++) {
