@@ -1,40 +1,47 @@
 extends layout
 
 block content
-  br
-  h4(class="col-sm-offset-2") Регистрация на сайте
-  h3(class="col-sm-offset-2") #{steward.name}
-  br
+  .container
+    .row
+      .col-sm-6.col-md-offset-1
+        - var booker = steward.role == "booker" ? 1 : 0
+        br
+        h4(class="col-sm-offset-3") #{title} - регистрация на сайте
+        br
 
-  form(class="form-horizontal login-form" name="login-form" method="POST" action='')
+        form(class="form-horizontal login-form" name="login-form" method="POST" action='/admin/steward')
 
-    input(type="hidden" name="oldlogin" value= steward.login id="oldlogin")
+          input(type="hidden" name="oldlogin" value= steward.login id="oldlogin")
+          input(type="hidden" name="role" value= steward.role id="role")
 
-    div(class="form-group")
-      label(for="input-username" class="col-sm-2 control-label") Login
-      div(class="col-sm-6")
-        input(name="username" value= steward.login type="text" class="form-control" id="input-username")
-      if steward.login
-        span(class="col-sm-offset-2 col-sm-7") Пустое поле Login - пользователя удалить
+          div(class="form-group")
+            label(for="input-name" class="col-sm-3 control-label") Фамилия И.О.
+            div(class="col-sm-6")
+              if booker
+                input(name="name" value= steward.name type="text" class="form-control" id="input-username")
+              else
+                input(name="name" value= steward.name type="text" class="form-control" id="input-username" readonly)
+          br
 
-    div(class="form-group")
-      label(for="input-password" class="col-sm-2 control-label") Password
-      div(class="col-sm-6")
-        input(name="password" value="" type="text" class="form-control" id="input-password")
-      if steward.login
-        span(class="col-sm-offset-2 col-sm-7") Пустое поле Password - пароль не менять
+          div(class="form-group")
+            label(for="input-username" class="col-sm-3 control-label") Login
+            div(class="col-sm-6")
+              input(name="username" value= steward.login type="text" class="form-control" id="input-username")
+            if steward.login
+              span(class="col-sm-offset-3 col-sm-7") Пустое поле Login - пользователя удалить
 
-    br
-    br
-    div(class="form-group")
-      div(class="col-sm-offset-2 col-sm-4")
-        button(type="submit" class="btn btn-primary") Регистрировать
-      div(class="col-sm-3")
-        button(type="button" id="cancel" class="btn btn-danger" autofocus ) Отменить
+          div(class="form-group")
+            label(for="input-password" class="col-sm-3 control-label") Password
+            div(class="col-sm-6")
+              input(name="password" value="" type="text" class="form-control" id="input-password")
 
-  script.
-    $(document).ready(function(){
-      $('#cancel').on('click', function () {
-        window.location.href = "/admin/stewards";
-      });
-    });
+          br
+          br
+          div(class="form-group")
+            div(class="col-sm-offset-3 col-sm-4")
+              button(type="submit" class="btn btn-primary") Регистрировать
+            div(class="col-sm-3")
+              if booker
+                button(type="button" id="cancel" class="btn btn-danger" onclick="window.location.href='/admin/bookers'") Отменить
+              else
+                button(type="button" id="cancel" class="btn btn-danger" onclick="window.location.href='/admin/stewards'") Отменить

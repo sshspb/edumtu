@@ -23,8 +23,8 @@ html(lang="ru")
               li: a(href="/report/option/scope/0") #{scope_list[0]}
               li: a(href="/report/option/scope/1") #{scope_list[1]}
           div(class="btn-group")
-            button(type="button" class="btn btn-default" onclick="location='/report/departments_contracts';") Подразделения/ЛицСчета
-            button(type="button" class="btn btn-default" onclick="location='/report/stewards_contracts';") Ответственные/ЛицСчета
+            button(type="button" class="btn btn-default" onclick="location='/report/departments_contracts';") Подразделения / ЛицСчета
+            button(type="button" class="btn btn-default" onclick="location='/report/stewards_contracts';") !{userRole=='booker' ? 'Ответственные' : userName} / ЛицСчета
           div(class="btn-group")
             button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{variant_list[variant]}
               span(class="caret" style="margin-left: 5px;")

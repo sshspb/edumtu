@@ -1,4 +1,26 @@
 extends layout
 
 block content
-  span
+  .container
+    .row
+      .col-sm-3.col-md-offset-1
+        h5 Документы
+        pre.
+          Количество:
+          #[strong Подразделения:] !{data.departments}
+          #[strong Договоры:] !{data.contracts}
+          #[strong Сотрудники:] !{data.stewards}
+          #[strong Классификатор:] !{data.eclasses}
+          #[strong Источники:] !{data.sources}
+          #[strong Поступления:] !{data.incomes}
+          #[strong Затраты:] !{data.outlays}
+          #[strong ВидыЗатрат:] !{data.species}
+
+          modification time
+          Inet_MUSmetaLSAll.txt
+          #[strong !{data.fromdate}]
+          загружено
+          #[strong !{data.loaded}]
+
+          !{data.version}
+        button(type="button" class="btn btn-default" onclick="this.innerHTML='Загружаю...'; window.location.href='/importdata';") Импорт данных

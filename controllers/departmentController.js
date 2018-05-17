@@ -13,15 +13,8 @@ exports.department_contract_list = function(req, res, next) {
     db = client.db(config.dbName);
     // query - пользователь руководитель договора или экономист
     var query;
-    var longTitle;
-    if (res.locals.userRole == 'booker') {
-      query = { scope: {$eq: res.locals.scope} };
-      longTitle = '&nbsp;Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>';
-    } else {
-      query = { scope: {$eq: res.locals.scope}, steward: res.locals.userName };
-      longTitle = '&nbsp;Ответственный&nbsp;  <span style="font-weight: 700;">' + req.params.steward +
-      '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
-      } 
+    if (res.locals.userRole == 'booker') query = { scope: {$eq: res.locals.scope} };
+    else query = { scope: {$eq: res.locals.scope}, steward: res.locals.userName };
     db.collection('departments').find(query).sort({_id: 1})
     .toArray(function (err, list_departments) {
       client.close();
@@ -48,7 +41,7 @@ exports.department_contract_list = function(req, res, next) {
         title: 'Подразделения',
         title1: 'Подразделение/ЛицСчёт',
         title2: 'Ответственный',
-        longTitle: 'Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
+        longTitle: '&nbsp;Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
         record_list: list_objects
       });
     });

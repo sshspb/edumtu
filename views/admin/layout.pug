@@ -11,29 +11,7 @@ html(lang="ru")
   body
     .container
       .row
-        .col-sm-3.col-md-offset-1
-          h5 Документы
-          pre.
-            Количество:
-            #[strong Подразделения:] !{data.departments}
-            #[strong Договоры:] !{data.contracts}
-            #[strong Сотрудники:] !{data.stewards}
-            #[strong Классификатор:] !{data.eclasses}
-            #[strong Источники:] !{data.sources}
-            #[strong Поступления:] !{data.incomes}
-            #[strong Затраты:] !{data.outlays}
-            #[strong ВидыЗатрат:] !{data.species}
-
-            modification time
-            Inet_MUSmetaLSAll.txt
-            #[strong !{data.fromdate}]
-            загружено
-            #[strong !{data.loaded}]
-
-            !{data.version}
-          button(type="button" class="btn btn-default" onclick="this.innerHTML='Загружаю...'; window.location.href='/importdata';") Импорт данных
-          h5= dataloaded
-        .col-sm-6
+        .col-sm-6.col-md-offset-1
             div(class="hidden-print")
               div(class="btn-toolbar" style="background-color: #f8f8f8; margin-bottom: 5px;")
                 div(class="btn-group")
@@ -43,4 +21,4 @@ html(lang="ru")
                   button(type="button" class="btn btn-default" onclick="location='/admin/departments';") Подразделения
                 div(class="btn-group navbar-right" style="float: right; margin-right: 10px;")
                   button(type="button" class="btn btn-default" onclick="location='/logout';") Выйти
-            block content
+    block content
