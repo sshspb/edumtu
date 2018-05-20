@@ -24,7 +24,7 @@ html(lang="ru")
               li: a(href="/report/option/scope/1") #{scope_list[1]}
           div(class="btn-group")
             button(type="button" class="btn btn-default" onclick="location='/report/departments_contracts';") Подразделения / ЛицСчета
-            button(type="button" class="btn btn-default" onclick="location='/report/stewards_contracts';") !{userRole=='booker' ? 'Ответственные' : userName} / ЛицСчета
+            button(type="button" class="btn btn-default" onclick="location='/report/stewards_contracts';") Ответственные / ЛицСчета
           div(class="btn-group")
             button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{variant_list[variant]}
               span(class="caret" style="margin-left: 5px;")
@@ -32,6 +32,7 @@ html(lang="ru")
               li: a(href="/report/option/variant/0") #{variant_list[0]}
               li: a(href="/report/option/variant/1") #{variant_list[1]}
           div(class="btn-group navbar-right" style="float: right; margin-right: 10px;")
+            div(style="float: left; padding: 7px 15px; font-size: 16px; line-height: 18px;") !{userName}
             button(type="button" class="btn btn-default" onclick="location='/logout';") Выйти
     div(class="container")
       div(style="width:100px;height:33px" class="hidden-print")

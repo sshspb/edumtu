@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  .container
+    .row
+      .col-sm-9.col-md-offset-2
+        h5!= longTitle
+    .row
+      form(method="POST" action='')
+        .col-sm-2
+          input(type="hidden" name="oldChiefs" value= oldChiefs id="chifs")
+          hr
+          button(type="submit" id="save" class="btn btn-primary") Сохранить
+          hr
+          br
+          br
+          hr
+          button(type="button" id="cancel" class="btn btn-danger" onclick="location='/admin/departments'") Отменить
+          hr
+        .col-sm-3
+          table(class='table table-striped table-condensed')
+            thead
+              tr
+                th 
+                th Руководители
+            tbody
+              each chief in chief_list_1
+                tr
+                  td: input(type='checkbox' name='chiefs' value= chief._id.name checked= chief.flag)
+                  td #{chief._id.name}
+        .col-sm-3
+          table(class='table table-striped table-condensed')
+            thead
+              tr
+                th 
+                th Руководители
+            tbody
+              each chief in chief_list_2
+                tr
+                  td: input(type='checkbox' name='chiefs' value= chief._id.name checked= chief.flag)
+                  td #{chief._id.name}
+        .col-sm-3
+          table(class='table table-striped table-condensed')
+            thead
+              tr
+                th 
+                th Руководители
+            tbody
+              each chief in chief_list_3
+                tr
+                  td: input(type='checkbox' name='chiefs' value= chief._id.name checked= chief.flag)
+                  td #{chief._id.name}
