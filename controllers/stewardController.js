@@ -3,6 +3,8 @@ const config = require('../config');
 const scope_list = config.scope_list;
 
 exports.steward_contract_list = function(req, res, next) {
+  // url: /report/stewards_contracts
+  // отчёт - список "Ответственные / ЛицСчета"
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
 
@@ -68,7 +70,7 @@ exports.steward_contract_list = function(req, res, next) {
             if (scopeChief) {
               list_objects.push({
                 trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-' + i + ' contract ',
-                name: list_stewards[i].contracts[j].name,
+                name: list_stewards[i].contracts[j].fullname || list_stewards[i].contracts[j].name,
                 url:  list_stewards[i].contracts[j].url,
                 estimate: list_stewards[i].contracts[j].estimate
               });

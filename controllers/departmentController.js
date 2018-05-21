@@ -73,7 +73,7 @@ exports.department_contract_list = function(req, res, next) {
         res.render('report/tree_list', {
           title: 'Подразделения',
           title1: 'Подразделение/ЛицСчёт',
-          //title2: 'Ответственный',
+          title2: 'Ответственный',
           longTitle: '&nbsp;Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + '</span>',
           record_list: list_objects
         });
