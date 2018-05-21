@@ -20,8 +20,11 @@ module.exports = {
     ],
     "univ": { _id: "00000", code : "000", abbr : "СПбГМТУ" },
     "tbPath": config_local.tbPath,
-    "httpPort": config_local.httpPort || 3000,
     "mongoDB": config_local.mongoDB || "mongodb://127.0.0.1:27017/edu",
     "dbUrl":  config_local.dbUrl || "mongodb://127.0.0.1:27017",
-    "dbName": config_local.dbName || "edu"  
+    "dbName": config_local.dbName || "edu",
+    "httpPort": config_local.httpPort || 3000,
+    "ssl": config_local.ssl || 0,
+    "sslKey": config_local.sslKey || "./bin/key.pem",
+    "sslCert": config_local.sslCert || "./bin/cert.pem"
   }

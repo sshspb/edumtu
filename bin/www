@@ -3,29 +3,41 @@
 /**
  * Module dependencies.
  */
+var config = require('../config');
 
 var app = require('../app');
 //var debug = require('debug')('edu2site:server');
-var http = require('http');
-var config = require('../config');
 
 /**
  * Get port from environment and store in Express.
  */
-config.httpPort
 var port = normalizePort(process.env.PORT || config.httpPort || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
+var http;
+var server;
+var protocol = '';
+if (config.ssl) {
+  var fs = require('fs');
+  var options = {
+    key: fs.readFileSync(config.sslKey, 'utf8'),
+    cert: fs.readFileSync(config.sslCert, 'utf8')
+  };
+  http = require('https');
+  server = http.createServer(options, app);
+  protocol = 'HTTPSecure';
+} else {
+  http = require('http');
+  server = http.createServer(app);
+  protocol = 'HTTP';
+}
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -33,7 +45,6 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
@@ -53,7 +64,6 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -81,12 +91,11 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+    ? ' pipe ' + addr
+    : ' port ' + addr.port;
 //  debug('Listening on ' + bind);
-  console.log('Started in ' + app.get('env') + ' mode.\nListening on ' + bind);
+  console.log('Started in ' + app.get('env') + ' mode.\nListening ' + protocol + bind);
 }
