@@ -353,4 +353,32 @@ router.post('/steward', function(req, res, next) {
   }
 });
 
+router.get('/passwd', function(req, res, next) {
+  res.render('admin/passwd', {});
+});
+
+router.post('/passwd', function(req, res, next) {
+  // смена пароля admin
+  var salt = Math.random() + '';
+  var hashedPassword = crypto.createHmac('sha1', salt).update(req.body.password).digest('hex');
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName);
+    db.collection('users')
+    .updateOne(
+      {"role" : "admin", "login" : "admin"}, 
+      { $set: {
+        "name" : "Администратор",
+        "salt" : salt,
+        "hashedPassword" : hashedPassword
+      } }, 
+      { upsert: true }, 
+      function (err, updatedUser) {
+        client.close();
+        if (err) { return next(err); }
+        res.redirect('/');
+      }
+    );
+  });
+});
+
 module.exports = router;

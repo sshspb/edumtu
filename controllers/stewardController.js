@@ -1,6 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
 const scope_list = config.scope_list;
+const title1 = '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>';
 
 exports.steward_contract_list = function(req, res, next) {
   // url: /report/stewards_contracts
@@ -184,7 +185,7 @@ exports.steward_estimate_list = function(req, res, next) {
           '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
         res.render('report/detail', {
           title: scope_list[res.locals.scope] + '/' + req.params.steward,
-          title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+          title1: title1,
           longTitle: longTitle,
           ecode: '',
           tabs: [
@@ -219,7 +220,7 @@ exports.steward_income_list = function(req, res, next) {
         '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
       res.render('report/detail', {
         title: scope_list[res.locals.scope] + '/' + req.params.steward,
-        title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+        title1: title1,
         longTitle: longTitle,
         ecode: '',
         tabs: [
@@ -277,7 +278,7 @@ exports.steward_outlay_list = function(req, res, next) {
           '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
         res.render('report/detail', {
           title: scope_list[res.locals.scope] + '/' + req.params.steward,
-          title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+          title1: title1,
           longTitle: longTitle,
           ecode: '',
           tabs: [
@@ -338,7 +339,7 @@ exports.steward_ecode_outlay_list = function(req, res, next) {
           '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope];
         res.render('report/detail', {
           title: scope_list[res.locals.scope] + '/' + req.params.steward,
-          title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
+          title1: title1,
           longTitle: longTitle,
           ecode: req.params.ecode,
           tabs: [

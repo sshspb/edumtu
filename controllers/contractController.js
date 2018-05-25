@@ -2,6 +2,7 @@ const async = require('async');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
 const scope_list = config.scope_list;
+const title1 = '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>';
 
 exports.contract_estimate_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
@@ -57,23 +58,10 @@ exports.contract_estimate_list = function(req, res, next) {
             }, 
             function() {
               client.close();
-              var longTitle = '&nbsp;Договор:&nbsp; ';
-              for (var i = 0; i < list_departments.length; i++) {
-                longTitle += ' <span style="color: #ccc">/</span> &nbsp;';
-                if (list_departments[i].url) {
-                  longTitle += '<a href="' + list_departments[i].url + '">' + list_departments[i].name + '</a>';
-                } else {
-                  longTitle += list_departments[i].name;
-                }
-              }
-              longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
-                  contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope_list[res.locals.scope] +
-                  '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
-                  encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
               res.render('report/detail', {
                 title: contract.name,
-                title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
-                longTitle: longTitle,
+                title1: title1,
+                longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope]),
                 ecode: '',
                 tabs: [
                   { flag: true, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
@@ -129,19 +117,10 @@ exports.contract_income_list = function(req, res, next) {
           }, 
           function() {
             client.close();
-            var longTitle = '&nbsp;Договор:&nbsp; ';
-            for (var i = 0; i < list_departments.length; i++) {
-              longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="' + 
-                list_departments[i].url + '">' + list_departments[i].name + '</a>';
-            }
-            longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
-                contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope_list[res.locals.scope] +
-                '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
-                encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
             res.render('report/detail', {
               title: contract.name,
-              title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
-              longTitle: longTitle,
+              title1: title1,
+              longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope]),
               ecode: '',
               tabs: [
                 { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
@@ -213,23 +192,10 @@ exports.contract_outlay_list = function(req, res, next) {
             }, 
             function() {
               client.close();
-              var longTitle = '&nbsp;Договор:&nbsp; ';
-              for (var i = 0; i < list_departments.length; i++) {
-                longTitle += ' <span style="color: #ccc">/</span> &nbsp;';
-                if (list_departments[i].url) {
-                  longTitle += '<a href="' + list_departments[i].url + '">' + list_departments[i].name + '</a>';
-                } else {
-                  longTitle += list_departments[i].name;
-                }
-              }
-              longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
-                  contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope_list[res.locals.scope] +
-                  '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
-                  encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
               res.render('report/detail', {
                 title: contract.name,
-                title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
-                longTitle: longTitle,
+                title1: title1,
+                longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope]),
                 ecode: '',
                 tabs: [
                   { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
@@ -285,19 +251,10 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
           }, 
           function() {
             client.close();
-            var longTitle = '&nbsp;Договор:&nbsp; ';
-            for (var i = 0; i < list_departments.length; i++) {
-              longTitle += ' <span style="color: #ccc">/</span> &nbsp;<a href="' + 
-                list_departments[i].url + '">' + list_departments[i].name + '</a>';
-            }
-            longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
-                contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope_list[res.locals.scope] +
-                '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
-                encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
             res.render('report/detail', {
               title: contract.name,
-              title1: '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>',
-              longTitle: longTitle,
+              title1: title1,
+              longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope]),
               ecode: req.params.ecode,
               tabs: [
                 { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
@@ -313,4 +270,21 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
       });
     });
   });
+}
+
+function longTitle(list_departments, contract, scope) {
+  var longTitle = '&nbsp;Договор:&nbsp; ';
+  for (var i = 0; i < list_departments.length; i++) {
+    longTitle += ' <span style="color: #ccc">/</span> &nbsp;';
+    if (list_departments[i].url) {
+      longTitle += '<a href="' + list_departments[i].url + '">' + list_departments[i].name + '</a>';
+    } else {
+      longTitle += list_departments[i].name;
+    }
+  }
+  longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
+      contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope +
+      '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
+      encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
+  return longTitle;  
 }

@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  .container
+    .row
+      .col-sm-6.col-md-offset-1
+        br
+        h4(class="col-sm-offset-3") Администратор - смена пароля
+        br
+
+        form(class="form-horizontal login-form" name="login-form" method="POST" action='')
+
+          div(class="form-group")
+            label(for="input-username" class="col-sm-3 control-label") Login
+            div(class="col-sm-6")
+              input(name="username" value="admin" type="text" class="form-control" id="input-username" readonly)
+
+          div(class="form-group")
+            label(for="input-password" class="col-sm-3 control-label") New Password
+            div(class="col-sm-6")
+              input(name="password" value="" type="text" class="form-control" id="input-password")
+
+          br
+          br
+          div(class="form-group")
+            div(class="col-sm-offset-3 col-sm-4")
+              button(type="submit" class="btn btn-primary") Запомнить
+            div(class="col-sm-3")
+              button(type="button" id="cancel" class="btn btn-danger" onclick="window.location.href='/s'") Отменить

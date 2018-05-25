@@ -11,15 +11,15 @@ html(lang="ru")
     script(src='/js/bootstrap.min.js')
   body
     .container
-      .row
-        .col-sm-6.col-md-offset-1
             div(class="hidden-print")
               div(class="btn-toolbar" style="background-color: #f8f8f8; margin-bottom: 5px;")
+                div(class="btn-group")
+                  button(type="button" class="btn btn-default" onclick="location='/admin/passwd';") Администратор
                 div(class="btn-group")
                   button(type="button" class="btn btn-default" onclick="location='/admin/bookers';") Экономисты
                   button(type="button" class="btn btn-default" onclick="location='/admin/stewards';") Руководители
                 div(class="btn-group")
                   button(type="button" class="btn btn-default" onclick="location='/admin/departments';") Подразделения
-                div(class="btn-group navbar-right" style="float: right; margin-right: 10px;")
+                div(class="btn-group")
                   button(type="button" class="btn btn-default" onclick="location='/logout';") Выйти
     block content
