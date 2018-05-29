@@ -18,8 +18,8 @@ router.get('/',  function(req, res, next) {
     sources: 0,
     eclasss: 0,
     incomes: 0,
-    outlays: 0,
-    species: 0,
+    outlays0: 0,
+    outlays1: 0,
     version: 'Данные не загружены'
   }; 
   MongoClient.connect(config.dbUrl, function(err, client) {
