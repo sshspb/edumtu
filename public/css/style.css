@@ -17,8 +17,7 @@ thead th {
   background: #F0F0F0;
 }
 
-thead th .sticky {
-  background: #F0F0F0;
+thead.sticky th  {
   position: sticky;
   top: 33px;
   z-index: 10;

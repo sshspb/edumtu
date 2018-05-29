@@ -99,7 +99,7 @@ exports.steward_contract_list = function(req, res, next) {
         list_objects.unshift({ 
           trClass: 'treegrid-000',
           name: "Всего",
-          url: '#',
+          url: "/report/department/" + res.locals.scope + "00000",
           estimate: total 
         });
   
