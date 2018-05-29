@@ -291,7 +291,7 @@ exports.department_outlay_list = function(req, res, next) {
         }
       }
 
-      db.collection('outlays')
+      db.collection('outlays' + req.session.variant)
       .aggregate([
         query,
         { $sort: { date: -1, eCode: 1 } }
@@ -380,7 +380,7 @@ exports.department_ecode_outlay_list = function(req, res, next) {
             ] 
         } };
       }
-      db.collection('outlays')
+      db.collection('outlays' + req.session.variant)
       .aggregate([ query, { $sort: { date: -1, eCode: 1 }} ])
       .toArray(function (err, list_outlays) {
         if (err) { return next(err); }
