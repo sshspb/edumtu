@@ -64,7 +64,7 @@
 ```
 # shutdown -r now
 ```
-Заходим обычным пользователем, предположим под именем site, и выполняем
+Заходим обычным пользователем, предположим под именем `edu`, и выполняем
 ```
 $ git clone https://github.com/sshspb/edumtu.git
 $ cd edumtu
@@ -72,14 +72,20 @@ $ npm install
 $ cp config_local.js.origin config_local.js
  ```
 Наконец
-- Разместить файлы с данными от 1С например в папке `/usr/home/site/data1c`, 
+- Разместить файлы с данными от 1С например в папке `/usr/home/edu/data1c`, 
 - отредактировать config_local.js 
-- и запустить сайт `$ npm start`
-
+- и запустить сайт 
+```
+$ npm start
+```
 Командный файл `pull.sh` объявить исполнимым 
-`$ chmod +x pull.sh`  
+```
+$ chmod +x pull.sh
+```
 и с его помощью обновлять версию сайта
-`$ ./pull.sh`
+```
+$ ./pull.sh
+```
 
 ### Администратор
 
