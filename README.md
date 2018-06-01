@@ -48,10 +48,10 @@
 
 Установить необходимое ПО
 ```
-# pkg install devel/git
-# pkg install www/node
-# pkg install www/npm
-# pkg install databases/mongodb36
+# pkg install git
+# pkg install node
+# pkg install npm
+# pkg install mongodb36
 ```
 Создать папку для базы данных
 ```
