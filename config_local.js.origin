@@ -12,12 +12,12 @@
  */
  
 module.exports = {
-  "tbPath": "D:/data/edu/data20180405",
+  "tbPath": "D:/data/edu/data1C",
   "mongoDB": "mongodb://127.0.0.1:27017/edu",
   "dbUrl":  "mongodb://127.0.0.1:27017",
   "dbName": "edu",
   "httpPort": 3000,
-  "ssl": 1,
+  "ssl": 0,
   "sslKey": "./bin/key.pem",
   "sslCert": "./bin/cert.pem"
 };
