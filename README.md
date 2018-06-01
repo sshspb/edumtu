@@ -58,26 +58,26 @@
 # mkdir -p /data/db
 # chown mongodb:mongodb /data/db
 ```
-Для автозапуска mongod добавить в файл `/etc/rc.conf` строку `mongod_enable="YES"` с помощью редактора `vi` или командой `echo`:
-```
-# echo 'mongod_enable="YES"' >> /etc/rc.conf
-```
-Перезагрузить FreeBSD
+Для автозапуска mongod добавить в файл `/etc/rc.conf` строку `mongod_enable="YES"` с помощью редактора `vi`.
+
+Перезагружаем FreeBSD
 ```
 # shutdown -r now
 ```
 Заходим обычным пользователем, предположим под именем site, и выполняем
 ```
- $ git clone https://github.com/sshspb/edumtu.git
- $ cd edumtu
- $ npm install
- $ cp config_local.js.origin config_local.js
+$ git clone https://github.com/sshspb/edumtu.git
+$ cd edumtu
+$ npm install
+$ cp config_local.js.origin config_local.js
  ```
 Наконец
-- Разместить файлы с данными от 1С например в папке /usr/home/site/data1c, 
+- Разместить файлы с данными от 1С например в папке `/usr/home/site/data1c`, 
 - отредактировать config_local.js 
 - и запустить сайт `$ npm start`
-  
+
+Обновить версию сайта можно с помощью командного файла `pull.sh`.
+
 ### Администратор
 
 У администратора есть три (навигационных) кнопки:
