@@ -46,19 +46,23 @@
 
 #### OS FreeBSD.
 
-Установить необходимое ПО
+Пример установки собственно самой OS FreeBSD можно посмотреть здесь: 
+
+https://github.com/sshspb/freebsd-install/blob/master/README.md 
+
+Для работы нашего сайта потребуется следующее ПО:
 ```
 # pkg install git
 # pkg install node
 # pkg install npm
 # pkg install mongodb36
 ```
-Создать папку для базы данных
+Создаём папку для базы данных
 ```
 # mkdir -p /data/db
 # chown mongodb:mongodb /data/db
 ```
-Для автозапуска `mongod` добавить в файл `/etc/rc.conf` строку `mongod_enable="YES"` с помощью редактора `vi`.
+Для автозапуска `mongod` необходимо добавить в файл `/etc/rc.conf` строку `mongod_enable="YES"` с помощью редактора `vi`.
 
 Перезагружаем FreeBSD
 ```
@@ -72,17 +76,17 @@ $ npm install
 $ cp config_local.js.origin config_local.js
  ```
 Наконец
-- Разместить файлы с данными от 1С например в папке `/usr/home/edu/data1c`, 
-- отредактировать `config_local.js`
-- и запустить сайт 
+- Разместим файлы с данными от 1С, например, в папке `/usr/home/edu/data1c`, 
+- отредактируем `config_local.js`
+- и запускаем сайт 
 ```
 $ npm start
 ```
-Командный файл `pull.sh` объявить исполнимым 
+Командный файл `pull.sh` объявляем исполнимым 
 ```
 $ chmod +x pull.sh
 ```
-и с его помощью в дальнейшем обновлять версию сайта
+и с его помощью в дальнейшем можем обновлять версию сайта
 ```
 $ ./pull.sh
 ```
