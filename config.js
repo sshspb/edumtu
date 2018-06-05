@@ -28,3 +28,30 @@ module.exports = {
     "sslKey": config_local.sslKey || "./bin/key.pem",
     "sslCert": config_local.sslCert || "./bin/cert.pem"
   }
+
+/*
+               Inet_MUSmetaLSAll   "Вариант: Смета",        "Вариант: Факт"
+
+1 "remains",   "Вх_Остаток",       "Ост. на начало",        "Ост. на начало"
+2 "plan",      "Сумма_назначения", "Плановая сумма на год", 
+3 "income",    "Доход_по_статье",                           "Поступление денеж срв."
+4 "outlayO",   "Затраты_с_обяз",   "Затраты с планом",
+5 "outlay",    "Затраты_факт",     "Кассовые затраты",       "Кассовые затраты"
+6 "balance",   "Остаток_ден",                                "Остаток денеж. средств" 
+7 "balanceE",  "Остаток_по_смете", "Остаток по смете"
+8 "balanceWO", "Остаток_смета_БО" 
+
+Вариант: Смета
+1 Ост. на начало	        Smeta       remains   smeta
+2 Плановая сумма на год	  Smeta       plan      smeta
+4 Затраты с планом	      Rashod      outlayO   outlays0
+7 Остаток по смете	      1+2-4       balanceE
+5 Кассовые затраты        RashodFakt  outlay    outlays1
+
+Вариант: Факт
+1 Ост. на начало	        Smeta       remains   smeta
+3 Поступление денеж срв.	Smeta       income    smeta
+5 Кассовые затраты        RashodFakt  outlay    outlays1
+6 Остаток денеж. средств  1+3-5       balance
+
+*/
