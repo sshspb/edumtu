@@ -2,7 +2,7 @@ const config_local = require('./config_local');
 module.exports = {
   "version": "edumtu v1.9.7 29.05.2018",
   "scope_list": ["Основная", "Наука"],
-  "variant_list": ["Вариант: Смета", "Вариант: Факт"],
+  "variant_list": ["Вариант: План", "Вариант: Факт"],
   "estimate_index": [
       [
         { header: "Ост. на начало", value: "remains"},
@@ -41,17 +41,17 @@ module.exports = {
 7 "balanceE",  "Остаток_по_смете", "Остаток по смете"
 8 "balanceWO", "Остаток_смета_БО" 
 
-Вариант: Смета
-1 Ост. на начало	        Smeta       remains   smeta
-2 Плановая сумма на год	  Smeta       plan      smeta
-4 Затраты с планом	      Rashod      outlayO   outlays0
-7 Остаток по смете	      1+2-4       balanceE
-5 Кассовые затраты        RashodFakt  outlay    outlays1
+Смета, Вариант: Смета
+1  Ост. на начало	        Smeta       remains   smeta
+2  Плановая сумма на год	Smeta       plan      smeta
+4  Затраты с планом	      Rashod      outlayO   outlays0
+7  Остаток по смете	      1+2-4       balanceE            = remains + plan - outlayO
+5  Кассовые затраты       RashodFakt  outlay    outlays1
 
-Вариант: Факт
-1 Ост. на начало	        Smeta       remains   smeta
-3 Поступление денеж срв.	Smeta       income    smeta
-5 Кассовые затраты        RashodFakt  outlay    outlays1
-6 Остаток денеж. средств  1+3-5       balance
+Смета, Вариант: Факт
+1  Ост. на начало	        Smeta       remains   smeta
+3  Поступление денеж срв.	Smeta       income    smeta
+5  Кассовые затраты       RashodFakt  outlay    outlays1
+6  Остаток денеж. средств 1+3-5       balance             = remains + income - outlay
 
 */

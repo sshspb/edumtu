@@ -157,7 +157,7 @@ exports.contract_outlay_list = function(req, res, next) {
       .toArray(function (err, contracts) {
         if (err) { return next(err); }
         var contract = contracts[0];
-        db.collection('outlays' + req.session.variant)
+        db.collection('outlays' + res.locals.variant)
         .find({contract: req.params.contract})
         .sort({date: -1, eCode: 1})
         .toArray(function (err, list_outlays) {
@@ -222,7 +222,7 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
     .toArray(function (err, contracts) {
       if (err) { return next(err); }
       var contract = contracts[0];
-      db.collection('outlays' + req.session.variant)
+      db.collection('outlays' + res.locals.variant)
       .find({contract: req.params.contract, eCode: req.params.ecode})
       .sort({date: -1, eCode: 1})
       .toArray(function (err, list_outlays) {

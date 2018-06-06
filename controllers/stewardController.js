@@ -266,7 +266,7 @@ exports.steward_outlay_list = function(req, res, next) {
         };
       }
 
-      db.collection('outlays' + req.session.variant)
+      db.collection('outlays' + res.locals.variant)
       .aggregate([
         { $match: query },
         { $sort: { date: -1 } }
@@ -327,7 +327,7 @@ exports.steward_ecode_outlay_list = function(req, res, next) {
         };
       }
     
-      db.collection('outlays' + req.session.variant)
+      db.collection('outlays' + res.locals.variant)
       .aggregate([
         { $match: query },
         { $sort: { date: -1 } }
