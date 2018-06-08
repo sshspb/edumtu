@@ -1,0 +1,23 @@
+extends layout
+block content
+  .container
+    h4 Сверка расхода, разность исходной базы данных и хранилища сайта
+    table(class='table tree table-condensed table-hover')
+      thead(class='sticky')
+          tr
+            th ЛицСчёт
+            each eCode in eCode_list
+              th(class='text-right') #{eCode}
+      tbody
+        each record in diff_list
+          tr(class= record.trClass)
+            td #{record.contract}
+            each eCode in eCode_list
+              td(class='text-right cost uptoruble') #{record[eCode]} 
+  script(src='/js/jquery.treegrid.js')
+  script(src='/js/jquery.treegrid.bootstrap3.js')
+  script(src='/js/jquery.cookie.js')
+  script.
+    $(document).ready(function(){ 
+      $('.tree').treegrid({initialState: 'collapsed'}).treegrid('getRootNodes');
+    });
