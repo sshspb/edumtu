@@ -385,8 +385,7 @@ router.get('/diff', function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
     
-    db.collection('smeta')
-    .find({})
+    db.collection('smeta').find({})
     .toArray(function (err, list_smeta) {
       client.close();
       if (err) { return next(err); }
@@ -401,14 +400,17 @@ router.get('/diff', function(req, res, next) {
       }
       list_eCode.sort();
 
-      planTotal = { trClass: 'treegrid-1', contract: 'План' };
-      factTotal = { trClass: 'treegrid-2', contract: 'Факт' };
+      var planTotal = { trClass: 'treegrid-1', contract: 'План' };
+      var factTotal = { trClass: 'treegrid-2', contract: 'Факт' };
       for (var j = 0; j < list_eCode.length; j++) {
         planTotal[list_eCode[j]] = 0.0;
         factTotal[list_eCode[j]] = 0.0;
       }
 
-      var next = '@@@', list_diff = [], plan_diff = [], fact_diff = [], plan = {}, fact = {},  planInsert = false, factInsert = false;
+      var next = '@@@';
+      var plan_diff = [], fact_diff = [];
+      var plan = {}, fact = {};
+      var planInsert = false, factInsert = false;
       for (var i = 0; i < list_smeta.length; i++) {
         if (next != list_smeta[i].contract) {
           next = list_smeta[i].contract;
@@ -441,6 +443,8 @@ router.get('/diff', function(req, res, next) {
           factTotal[eCode] += list_smeta[i].diffFact;
         }
       }
+      
+      var list_diff = [];
       list_diff.push(planTotal);
       for (var k = 0; k < plan_diff.length; k++) {
         list_diff.push(plan_diff[k]);
@@ -449,7 +453,7 @@ router.get('/diff', function(req, res, next) {
       for (var k = 0; k < fact_diff.length; k++) {
         list_diff.push(fact_diff[k]);
       }
-        //console.log(list_diff);
+
       res.render('admin/diff', {
         eCode_list: list_eCode,
         diff_list: list_diff
