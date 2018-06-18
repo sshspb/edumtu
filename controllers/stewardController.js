@@ -13,6 +13,7 @@ exports.steward_contract_list = function(req, res, next) {
     db.collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
+      if (err) { return next(err); }
 
       var query;
       if (res.locals.userRole == 'booker') {
@@ -21,7 +22,7 @@ exports.steward_contract_list = function(req, res, next) {
       } else {
         // пользователь - руководитель договора
         var chiefscope = [ { "_id.steward": { $eq: res.locals.userName } } ];
-        // пользователь - руководитель подразделения
+        // пользователь - руководитель подразделения - договора подразделения
         for (var i = 0; i < departs.length; i++) {
           chiefscope.push({contracts: {"$elemMatch": {"parent": {'$regex': '^'+ departs[i].department }}}});
         }
@@ -30,7 +31,6 @@ exports.steward_contract_list = function(req, res, next) {
             { $or: chiefscope } 
         ] };
       }
-
       db.collection('stewards_contracts')
       .aggregate([
         { $match: query },
@@ -39,16 +39,21 @@ exports.steward_contract_list = function(req, res, next) {
       .toArray(function (err, list_stewards) {
         client.close();
         if (err) { return next(err); }
-
         var list_objects = [];
         var allFin =  res.locals.source === "0";
         var total = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0, balanceWO: 0, balanceO: 0 };
         var newSteward, indexSteward;
-
         for (var i = 0; i < list_stewards.length; i++) {
           newSteward = true;
           for (var j = 0; j < list_stewards[i].contracts.length; j++) {
-            if (allFin || list_stewards[i].contracts[j].source === res.locals.source_list[res.locals.source].name) {
+            // если пользователь не экономист, надо отсеять чужие договоры и договоры чужих подразделений
+            var pass = (res.locals.userRole === 'booker' || list_stewards[i].contracts[j].steward === res.locals.userName);
+            if (!pass) {
+              for (var k = 0; k < departs.length; k++) {
+                pass = pass || RegExp('^'+ departs[k].department).test(list_stewards[i].contracts[j].parent)
+               }
+            }
+            if ( pass && (allFin || list_stewards[i].contracts[j].source === res.locals.source_list[res.locals.source].name) ) {
               // договор прошёл фильтр, внести в список
               if (newSteward) {
                 // руководителя внести в список
@@ -88,6 +93,7 @@ exports.steward_contract_list = function(req, res, next) {
               total.balanceWO += list_stewards[i].contracts[j].estimate.balanceWO;
               total.balanceO += list_stewards[i].contracts[j].estimate.balanceO;
             }
+
           }
         }
         list_objects.unshift({ 
