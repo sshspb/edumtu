@@ -10,7 +10,7 @@ router.get('/contract/:contract', contract_controller.contract_estimate_list);
 router.get('/incomes/contract/:contract', contract_controller.contract_income_list);
 router.get('/outlays/contract/:contract', contract_controller.contract_outlay_list);
 router.get('/outlays/contract/:contract/ecode/:ecode', contract_controller.contract_ecode_outlay_list);
-router.get('/eclasses', department_controller.eclass_list);
+//router.get('/eclasses', department_controller.eclass_list);
 router.get('/departments_contracts', department_controller.department_contract_list);
 router.get('/department/:department', department_controller.department_estimate_list);
 router.get('/incomes/department/:department', department_controller.department_income_list);
@@ -23,5 +23,6 @@ router.get('/outlays/steward/:steward', steward_controller.steward_outlay_list);
 router.get('/outlays/steward/:steward/ecode/:ecode', steward_controller.steward_ecode_outlay_list);
 router.get('/option/variant/:id', option_controller.set_variant);
 router.get('/option/scope/:id', option_controller.set_scope);
+router.get('/option/source/:id', option_controller.set_source);
 
 module.exports = router;

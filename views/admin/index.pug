@@ -9,19 +9,17 @@ block content
           Количество:
           #[strong Подразделения:] !{data.departments}
           #[strong Договоры:] !{data.contracts}
-          #[strong Сотрудники:] !{data.stewards}
-          #[strong Классификатор:] !{data.eclasses}
           #[strong Поступления:] !{data.incomes}
           #[strong Затраты0:] !{data.outlays0}
           #[strong Затраты1:] !{data.outlays1}
 
           modification time
-          Inet_MUSmetaLSAll.txt
+          Inet_MUSmetaFin.txt
           #[strong !{data.fromdate}]
           загружено
           #[strong !{data.loaded}]
 
           !{data.version}
-        button(type="button" class="btn btn-default" onclick="this.innerHTML='Загружаю...'; window.location.href='/importdata';") Импорт данных
+        button(type="button" class="btn btn-default" onclick="this.innerHTML='Загружаю...'; window.location.href='/admin/importdata';") Импорт данных
         button(type="button" class="btn btn-default" style="float: right" onclick="this.innerHTML='Вычисляю...'; window.location.href='/admin/diff';") Сверка расхода
         

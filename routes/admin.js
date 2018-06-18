@@ -4,6 +4,20 @@ const router = require('express').Router();
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
 
+router.get('/importdata', function(req, res) {
+  var importData = require('../lib/tbImport').importData;
+  var reformData = require('../lib/tbReform').reformData;
+  async.series([
+    importData,
+    reformData
+  ], 
+  function(err) {
+    if (err) console.log('Opss Error while import data');
+    else console.log('OK import done');
+    res.redirect('/admin/diff');
+  });
+});
+
 router.get('/departments', function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);

@@ -14,9 +14,6 @@ router.get('/',  function(req, res, next) {
   var docsQty = {
     departments: 0,
     contracts: 0,
-    stewards: 0,
-    sources: 0,
-    eclasss: 0,
     incomes: 0,
     outlays0: 0,
     outlays1: 0,
@@ -33,24 +30,19 @@ router.get('/',  function(req, res, next) {
         docsQty.version = config.version;
       } 
       if (req.user) {
-        client.close();
         if (req.user.role == 'admin') {
-          //res.render('admin/index');
+          client.close();
           res.render('admin/index', { 
             title: 'Оперативно-финансовый отдел', 
             subtitle: 'учёта образовательной деятельности', 
             data: docsQty
           });
         } else {
-          //res.redirect('/report/eclasses');
-          res.redirect('/report/option/scope/' + res.locals.scope);
-          /*
-          res.render('report/index', { 
-            title: 'Оперативно-финансовый отдел', 
-            subtitle: 'учёта образовательной деятельности', 
-            data: docsQty
-          });
-          */
+                  
+        //res.redirect('/report/option/scope/' + res.locals.scope);
+        //req.session.scope = res.locals.scope;
+        res.redirect('/report/department/' + res.locals.scope + config.univ._id);
+
         }
       } else {
         var nousers = false;
@@ -95,21 +87,6 @@ router.post('/', function(req, res, next) {
 router.get('/logout', function(req, res, next) {
   req.session.destroy();
   res.redirect('/');
-});
-
-router.get('/importdata', function(req, res) {
-  var importData = require('../lib/tbImport').importData;
-  var reformData = require('../lib/tbReform').reformData;
-  async.series([
-    importData,
-    reformData
-  ], 
-  function(err) {
-    if (err) console.log('Opss Error while import data');
-    else console.log('OK import done');
-    req.session.destroy();
-    res.redirect('/');
-  });
 });
 
 function authorize(username, password, callback) {

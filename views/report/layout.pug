@@ -23,6 +23,12 @@ html(lang="ru")
               li: a(href="/report/option/scope/0") #{scope_list[0]}
               li: a(href="/report/option/scope/1") #{scope_list[1]}
           div(class="btn-group")
+            button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{source_list[source].name}
+              span(class="caret" style="margin-left: 5px;") 
+            ul(class="dropdown-menu")
+              each  val in source_list
+                li: a(href ="/report/option/source/" + val.code) #{val.name}
+          div(class="btn-group")
             button(type="button" class="btn btn-default" onclick="location='/report/departments_contracts';") Подразделения / ЛицСчета
             button(type="button" class="btn btn-default" onclick="location='/report/stewards_contracts';") Ответственные / ЛицСчета
           div(class="btn-group")

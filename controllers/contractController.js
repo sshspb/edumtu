@@ -61,7 +61,7 @@ exports.contract_estimate_list = function(req, res, next) {
               res.render('report/detail', {
                 title: contract.name,
                 title1: title1,
-                longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope]),
+                longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope], res.locals.source_list[res.locals.source].name),
                 ecode: '',
                 tabs: [
                   { flag: true, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
@@ -120,7 +120,7 @@ exports.contract_income_list = function(req, res, next) {
             res.render('report/detail', {
               title: contract.name,
               title1: title1,
-              longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope]),
+              longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope], res.locals.source_list[res.locals.source].name),
               ecode: '',
               tabs: [
                 { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
@@ -195,7 +195,7 @@ exports.contract_outlay_list = function(req, res, next) {
               res.render('report/detail', {
                 title: contract.name,
                 title1: title1,
-                longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope]),
+                longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope], res.locals.source_list[res.locals.source].name),
                 ecode: '',
                 tabs: [
                   { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
@@ -254,7 +254,7 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
             res.render('report/detail', {
               title: contract.name,
               title1: title1,
-              longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope]),
+              longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope], res.locals.source_list[res.locals.source].name),
               ecode: req.params.ecode,
               tabs: [
                 { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
@@ -272,7 +272,7 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
   });
 }
 
-function longTitle(list_departments, contract, scope) {
+function longTitle(list_departments, contract, scopeName, sourceName) {
   var longTitle = '&nbsp;Договор:&nbsp; ';
   for (var i = 0; i < list_departments.length; i++) {
     longTitle += ' <span style="color: #ccc">/</span> &nbsp;';
@@ -283,7 +283,7 @@ function longTitle(list_departments, contract, scope) {
     }
   }
   longTitle += ' <span style="color: #ccc">/</span> &nbsp;&nbsp;<span style="font-weight: 700;">' + 
-      contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scope +
+      contract.name + '</span>; &nbsp;вид деятельности:&nbsp; ' +  scopeName + ' / ' + sourceName +
       '; &nbsp;ответственный:&nbsp; <a href="/report/steward/' + 
       encodeURIComponent(contract.steward) + '">' + contract.steward + '</a>';
   return longTitle;  

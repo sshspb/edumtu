@@ -29,6 +29,30 @@
     ]
   },
   { 
+    "collection": "Inet_MUSmetaFin",
+    "fields": [
+      { "name": "steward", "type": "string", "original": "Руководитель" },
+      { "name": "contract", "type": "string", "original": "лицевой_счет" },
+      { "name": "depCode", "type": "string", "original": "код_факультета" },
+      { "name": "depAbbr", "type": "string", "original": "кр_название" },
+      { "name": "divCode", "type": "string", "original": "код_кафедры" },
+      { "name": "divAbbr", "type": "string", "original": "кр_кафедра" },
+      { "name": "scope", "type": "string", "original": "Тип_договора" },
+      { "name": "eCode", "type": "string", "original": "Сокр_код" },
+      { "name": "eName", "type": "string", "original": "Название_статьи" },
+      { "name": "percent", "type": "double", "original": "Процент" },
+      { "name": "remains", "type": "decimal", "original": "Вх_Остаток" },
+      { "name": "plan", "type": "decimal", "original": "Сумма_назначения" },
+      { "name": "income", "type": "decimal", "original": "Доход_по_статье" },
+      { "name": "outlayO", "type": "decimal", "original": "Затраты_с_обяз" },
+      { "name": "outlay", "type": "decimal", "original": "Затраты_факт" },
+      { "name": "balance", "type": "decimal", "original": "Остаток_ден" },
+      { "name": "balanceE", "type": "decimal", "original": "Остаток_по_смете" },
+      { "name": "balanceWO", "type": "decimal", "original": "Остаток_смета_БО" },
+      { "name": "source", "type": "string", "original": "финансирование" }
+    ]
+  },
+    { 
     "collection": "Inet_MUSmetaLSAll",
     "fields": [
       { "name": "steward", "type": "string", "original": "Руководитель" },
