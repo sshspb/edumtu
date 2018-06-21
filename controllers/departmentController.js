@@ -30,7 +30,7 @@ department_contract_list_0 = function(req, res, next) {
           regexps.push(RegExp('^'+departs[k].department));
         }
       }
-     
+
       db.collection('departments_contracts')
       .aggregate([
         { $match: {scope: {$eq: res.locals.scope} } },

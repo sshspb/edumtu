@@ -201,7 +201,7 @@ router.post('/department/:id', function(req, res, next) {
     async function insertChief(doc) {
       await db.collection('chiefs').insertOne(doc);
     }
-    
+
     async function deleteChief(query) {
       await db.collection('chiefs').deleteOne(query);
     }
