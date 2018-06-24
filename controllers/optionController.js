@@ -9,10 +9,10 @@ exports.set_variant = function(req, res, next) {
 exports.set_scope = function(req, res, next) {
   req.session.scope = req.params.id;
   req.session.source = "0";
-  res.redirect('/report/department/' + req.session.scope + config.univ._id);
+  res.redirect('/report/department/' + config.univ._id);
 };
 
 exports.set_source = function(req, res, next) {
   req.session.source = req.params.id;
-  res.redirect('/report/department/' + res.locals.scope + config.univ._id);
+  res.redirect('/report/department/' + config.univ._id);
 };

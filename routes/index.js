@@ -38,11 +38,7 @@ router.get('/',  function(req, res, next) {
             data: docsQty
           });
         } else {
-                  
-        //res.redirect('/report/option/scope/' + res.locals.scope);
-        //req.session.scope = res.locals.scope;
-        res.redirect('/report/department/' + res.locals.scope + config.univ._id);
-
+          res.redirect('/report/department/' + config.univ._id);
         }
       } else {
         var nousers = false;

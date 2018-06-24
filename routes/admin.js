@@ -23,27 +23,20 @@ router.get('/departments', function(req, res, next) {
     db = client.db(config.dbName);
     db.collection('departments')
     .aggregate([
-      { $project: { name: 1, parent: 1, scope: 1 } },
+      { $project: { name: 1, parent: 1, node: 1 } },
       { $lookup: {
           from: "chiefs",
-          localField: "_id",
+          localField: "node",
           foreignField: "department",
           as: "chiefs"
       } }, 
-      { $sort: { _id: 1} }
+      { $sort: { node: 1} }
     ])
     .toArray(function (err, list_departments) {
       client.close();
       if (err) { console.log(err); return next(err); }
 
       var list_records = [];
-      list_records.push({
-        name: config.univ.code + ' ' + config.univ.abbr,
-        chiefs: 'экономисты',
-        trClass: 'treegrid-0',
-        url: "/admin/bookers"
-      });
-
       for (var i = 0; i < list_departments.length; i++) {
         var chiefs = '';
         if (list_departments[i].chiefs.length) {
@@ -57,20 +50,19 @@ router.get('/departments', function(req, res, next) {
             chiefs += a[j];
           }
         }
-        var name;
-        var trClass = 'treegrid-'.concat(list_departments[i]._id);
+        var trClass = 'treegrid-'.concat(list_departments[i].node);
         if (list_departments[i].parent) {
-          name = list_departments[i].name;
           trClass = trClass + ' treegrid-parent-'.concat(list_departments[i].parent);
         } else {
-          name = list_departments[i].scope == '0' ? 'Основная деятельность' : 'Научная деятельность'
-          trClass = trClass + ' treegrid-parent-0';
+          chiefs = 'экономисты';
+          trClass = 'treegrid-' + config.univ._id;
+          url = '/admin/bookers';
         }
         list_records.push({
-          name: name,
+          name: list_departments[i].name,
           chiefs: chiefs,
           trClass: trClass,
-          url: "/admin/department/" + list_departments[i]._id
+          url: "/admin/department/" + list_departments[i].node
         });
       }
       res.render('admin/department_tree', {
@@ -115,20 +107,19 @@ router.get('/department/:id', function(req, res, next) {
       longTitle = '';
       var node = req.params.id;
       var depsId = [];
-      var nl = 6;
+      var nl = 5;
       while (nl <= node.length) {
         depsId.push(node.slice(0, nl));
-        nl += 6;
+        nl += 5;
       }
       var list_departments = [];
       async.eachSeries(depsId, 
         function(dep_id, callback) {
           db.collection('departments')
-          .find({_id: dep_id})
+          .find({node: dep_id})
           .toArray(function (err, departments) {
             if (err) { return next(err); }
             list_departments.push({ 
-              url: departments[0].url,
               name: departments[0].name
             });
             callback(null);
@@ -407,7 +398,7 @@ router.get('/diff', function(req, res, next) {
       var eCode;
       var list_eCode = [];
       for (var i = 0; i < list_smeta.length; i++) {
-        eCode = list_smeta[i].eCode.substring(0,3);
+        eCode = list_smeta[i]._id.eCode.substring(0,3);
         if (list_eCode.indexOf(eCode) < 0) {
           list_eCode.push(eCode);
         }
@@ -426,8 +417,8 @@ router.get('/diff', function(req, res, next) {
       var plan = {}, fact = {};
       var planInsert = false, factInsert = false;
       for (var i = 0; i < list_smeta.length; i++) {
-        if (next != list_smeta[i].contract) {
-          next = list_smeta[i].contract;
+        if (next != list_smeta[i]._id.contract) {
+          next = list_smeta[i]._id.contract;
           if (i) {
             if (planInsert) {
               plan_diff.push(plan);
@@ -445,7 +436,7 @@ router.get('/diff', function(req, res, next) {
             fact[list_eCode[j]] = 0.0;
           }
         }
-        eCode = list_smeta[i].eCode.substring(0,3);
+        eCode = list_smeta[i]._id.eCode.substring(0,3);
         if (list_smeta[i].diffPlan) {
           planInsert = true;
           plan[eCode] = list_smeta[i].diffPlan;

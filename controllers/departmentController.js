@@ -2,133 +2,62 @@ var async = require('async');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
 const scope_list = config.scope_list;
-const title1 = '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>';
+const titleKOSGU = '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>';
 
 exports.department_contract_list = function(req, res, next) {
-  if (res.locals.source == "0") {
-    // все источники финансирования
-    department_contract_list_0(req, res, next);
-  } else {
-    // один источник финансирования
-    department_contract_list_X(req, res, next);
-  }
-}
-
-department_contract_list_0 = function(req, res, next) {
   // url: /report/departments_contracts
+  const sourceCode = res.locals.source_code;
+  const sourceName = res.locals.source_name;
+
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-
-    // на случай если пользователь - руководитель подразделения(ий)
-    // а если пользователь - руководитель договора - то не здесь, а steward_contract_list
+    // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs){
+      if (err) { console.log(err); return next(err); }
       var regexps = [];
       if (res.locals.userRole != 'booker') {
         for (var k = 0; k < departs.length; k++) {
           regexps.push(RegExp('^'+departs[k].department));
         }
       }
-
-      db.collection('departments_contracts')
-      .aggregate([
-        { $match: {scope: {$eq: res.locals.scope} } },
-        { $sort: {_id: 1}}
-      ]) 
-      .toArray(function (err, list_departments) {
-        if (err) { console.log(err); return next(err); }
-        client.close();
-    
-        var list_objects = [];
-        for (var i = 0; i < list_departments.length; i++) {
-
-          var scopeChief = false;
-          if (res.locals.userRole == 'booker') {
-            scopeChief = true;
-          } else {
-            for (var k = 0; k < regexps.length; k++) {
-              if (list_departments[i]._id.match(regexps[k])) {
-                scopeChief = true;
-                if (list_departments[i]._id == departs[k].department) {
-                  list_departments[i].parent = '';
-                }
-              }
-            }
-          }
-          
-          if (scopeChief) {
-            var trClass = 'treegrid-'.concat(list_departments[i]._id);
-            if (list_departments[i].parent) 
-              trClass += ' treegrid-parent-'.concat(list_departments[i].parent);
-            list_departments[i].trClass = trClass;
-            list_objects.push(list_departments[i]);
-            for (var j = 0; j < list_departments[i].contracts.length; j++) {
-              list_objects.push({
-                url: list_departments[i].contracts[j].url,
-                name: list_departments[i].contracts[j]._id,
-                steward: list_departments[i].contracts[j].steward,
-                stewardUrl: list_departments[i].contracts[j].stewardUrl,
-                trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(list_departments[i]._id, ' contract '),
-                estimate: list_departments[i].contracts[j].estimate
-              });
-            }
-          }
-        }
-
-        res.render('report/tree_list', {
-          title: 'Подразделения',
-          title1: 'Подразделение/ЛицСчёт',
-          title2: 'Ответственный',
-          longTitle: '&nbsp;Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + ' / ' + res.locals.source_list[res.locals.source].name + '</span>',
-          record_list: list_objects
-        });
-      });
-    });
-  });
-}
-
-department_contract_list_X = function(req, res, next) {
-  // url: /report/departments_contracts
-  MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
-
-    // на случай если пользователь - руководитель подразделения(ий)
-    // а если пользователь - руководитель договора - то не здесь, а steward_contract_list
-    db.collection('chiefs')
-    .find({steward: res.locals.userName})
-    .toArray(function(err, departs){
-      var regexps = [];
-      if (res.locals.userRole != 'booker') {
-        for (var k = 0; k < departs.length; k++) {
-          regexps.push(RegExp('^'+departs[k].department));
-        }
-      }
-
-      db.collection('departments_buffer').aggregate([
-        { $match: {scope: {$eq: res.locals.scope} } },
+      db.collection('departments_contracts').aggregate([
         { $lookup:
-          { from: "departments_buffer",
-            localField: "_id",
+          { from: "departments_contracts",
+            localField: "node",
             foreignField: "parent",
             as: "childrens"
           }
         },
-        { $sort: { "_id": 1} }
+        { $sort: { "node": 1} }
       ])
       .toArray(function(err, result) {
         if (err) { console.log(err); return next(err); }
         client.close();
 
-        var mtuIndex;
+        var sourceRegExp =  RegExp("^" + sourceCode);
+        var mtuIndex = 0, scopeChief = false;
         for (var i = 0; i < result.length; i++) {
-          result[i].estimate = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0, balanceWO: 0, balanceO: 0 };
+          result[i].estimate = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0};
           if (result[i].parent == "") {
             mtuIndex = i;
           } else {
+            scopeChief = false;
+            if (res.locals.userRole == 'booker') {
+              scopeChief = true;
+            } else {
+              // руководит подразделением
+              for (var m = 0; m < regexps.length; m++) {
+                if (result[i].node.match(regexps[m])) {
+                  scopeChief = true;
+                }
+              }
+            }
             for (var j = 0; j < result[i].contracts.length; j++) {
               // итого сметы договоров непосредственного подчинения
-              if (result[i].contracts[j].source == res.locals.source_list[res.locals.source].name) {
+              if (sourceRegExp.test(result[i].contracts[j].source) && 
+                  (scopeChief || result[i].contracts[j].steward === res.locals.userName)) {
                 result[i].estimate.remains += result[i].contracts[j].estimate.remains;
                 result[i].estimate.plan += result[i].contracts[j].estimate.plan;
                 result[i].estimate.income += result[i].contracts[j].estimate.income;
@@ -136,17 +65,27 @@ department_contract_list_X = function(req, res, next) {
                 result[i].estimate.outlay += result[i].contracts[j].estimate.outlay;
                 result[i].estimate.balance += result[i].contracts[j].estimate.balance;
                 result[i].estimate.balanceE += result[i].contracts[j].estimate.balanceE;
-                result[i].estimate.balanceWO += result[i].contracts[j].estimate.balanceWO;
-                result[i].estimate.balanceO += result[i].contracts[j].estimate.balanceO;
               } else {
-                result[i].contracts[j].estimate = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0, balanceWO: 0, balanceO: 0 };
+                result[i].contracts[j].estimate = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0 };
               }
             }
             for (var k = 0; k < result[i].childrens.length; k++) {
-              result[i].childrens[k].estimate = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0, balanceWO: 0, balanceO: 0 };
+              result[i].childrens[k].estimate = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0 };
+              scopeChief = false;
+              if (res.locals.userRole == 'booker') {
+                scopeChief = true;
+              } else {
+                // руководит подразделением
+                for (var m = 0; m < regexps.length; m++) {
+                  if (result[i].childrens[k].node.match(regexps[m])) {
+                    scopeChief = true;
+                  }
+                }
+              }
               for (var j = 0; j < result[i].childrens[k].contracts.length; j++) {
                 // итого сметы договоров подразделения подчинённого (кафедры для факультета)
-                if (result[i].childrens[k].contracts[j].source == res.locals.source_list[res.locals.source].name) {
+                if (sourceRegExp.test(result[i].childrens[k].contracts[j].source) && 
+                    (scopeChief || result[i].childrens[k].contracts[j].steward === res.locals.userName)) {
                   result[i].estimate.remains += result[i].childrens[k].contracts[j].estimate.remains;
                   result[i].estimate.plan += result[i].childrens[k].contracts[j].estimate.plan;
                   result[i].estimate.income += result[i].childrens[k].contracts[j].estimate.income;
@@ -154,8 +93,6 @@ department_contract_list_X = function(req, res, next) {
                   result[i].estimate.outlay += result[i].childrens[k].contracts[j].estimate.outlay;
                   result[i].estimate.balance += result[i].childrens[k].contracts[j].estimate.balance;
                   result[i].estimate.balanceE += result[i].childrens[k].contracts[j].estimate.balanceE;
-                  result[i].estimate.balanceWO += result[i].childrens[k].contracts[j].estimate.balanceWO;
-                  result[i].estimate.balanceO += result[i].childrens[k].contracts[j].estimate.balanceO;
                 }
               }
             }
@@ -164,7 +101,7 @@ department_contract_list_X = function(req, res, next) {
         }
 
         for (var i = 0; i < result.length; i++) {
-          if (result[i].parent === (result[i].scope + config.univ._id) && mtuIndex !== undefined) {
+          if (result[i].parent === config.univ._id && mtuIndex !== undefined) {
             result[mtuIndex].estimate.remains += result[i].estimate.remains;
             result[mtuIndex].estimate.plan += result[i].estimate.plan;
             result[mtuIndex].estimate.income += result[i].estimate.income;
@@ -179,46 +116,53 @@ department_contract_list_X = function(req, res, next) {
 
         var list_objects = [];
         for (var i = 0; i < result.length; i++) {
-
+/*
           var scopeChief = false;
           if (res.locals.userRole == 'booker') {
             scopeChief = true;
           } else {
             for (var k = 0; k < regexps.length; k++) {
-              if (result[i]._id.match(regexps[k])) {
+              if (result[i].node.match(regexps[k])) {
                 scopeChief = true;
-                if (result[i]._id == departs[k].department) {
+                if (result[i].node == departs[k].department) {
                   result[i].parent = '';
                 }
               }
             }
           }
-          
           if (scopeChief) {
-            var trClass = 'treegrid-'.concat(result[i]._id);
+*/
+            var trClass = 'treegrid-'.concat(result[i].node);
             if (result[i].parent) trClass += ' treegrid-parent-'.concat(result[i].parent);
-            result[i].trClass = trClass;
-            list_objects.push(result[i]);
+            list_objects.push({
+              url: "/report/department/" + result[i].node,
+              name: result[i].name,
+              steward: '',
+              stewardUrl: "#",
+              trClass: trClass,
+              estimate: result[i].estimate
+            });
             for (var j = 0; j < result[i].contracts.length; j++) {
               if (result[i].contracts[j]) {
                 list_objects.push({
-                  url: result[i].contracts[j].url,
-                  name: result[i].contracts[j]._id,
+                  url: "/report/contract/" + encodeURIComponent(result[i].contracts[j].contract),
+                  name: result[i].contracts[j].contract,
                   steward: result[i].contracts[j].steward,
-                  stewardUrl: result[i].contracts[j].stewardUrl,
-                  trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(result[i]._id, ' contract '),
+                  stewardUrl: "/report/steward/" + encodeURIComponent(result[i].contracts[j].steward),
+                  trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(result[i].node, ' contract '),
                   estimate: result[i].contracts[j].estimate
                 });
               }
             }
-          }
+//          }
         }
+        //console.log(list_objects);
 
         res.render('report/tree_list', {
           title: 'Подразделения',
           title1: 'Подразделение/ЛицСчёт',
           title2: 'Ответственный',
-          longTitle: '&nbsp;Вид деятельности: <span style="font-weight: 700;">' + scope_list[res.locals.scope] + ' / ' + res.locals.source_list[res.locals.source].name + '</span>',
+          longTitle: '&nbsp;Вид деятельности: <span style="font-weight: 700;">' + sourceName + '</span>',
           record_list: list_objects
         });
       });
@@ -228,7 +172,11 @@ department_contract_list_X = function(req, res, next) {
 
 exports.department_estimate_list = function(req, res, next) {
   // url: /report/department/:department
-  // сметы, план и исполнение, итого по подразделению req.params.department
+  // смета итого по подразделению req.params.department
+  const department = req.params.department;
+  const sourceCode = res.locals.source_code;
+  const sourceName = res.locals.source_name;
+
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
     
@@ -240,22 +188,12 @@ exports.department_estimate_list = function(req, res, next) {
       var query;
       var regexps = [];
       if (res.locals.userRole == 'booker') {
-        // пользователь - экономист
-        // выбрать все договора подразделения req.params.department
-        if (res.locals.source == "0") {
-          // всё финансирование
-          query = { $match: { 
-            parent: { $regex: '^' + req.params.department }
-          }};
-        } else {
-          // финансирование res.locals.source
-          query = { $match: 
-            { $and: [
-              { "_id.source": { $eq: res.locals.source_list[res.locals.source].name } },
-              { parent: { $regex: '^' + req.params.department } }
-            ] }
-          };
-        }
+        // пользователь - экономист:  выбрать все договора
+        // подразделения department и финансирования sourceCode
+        query = { $match: { 
+          source: { $regex: '^' + sourceCode } ,
+          parent: { $regex: '^' + department } 
+        } };
       } else {
         // пользователь - руководитель договора(ов) и/или подразделения(ий)
         // выбрать все договора где res.locals.userName руководитель
@@ -264,45 +202,35 @@ exports.department_estimate_list = function(req, res, next) {
         for (var i = 0; i < departs.length; i++) {
           scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
         }
-        if (res.locals.source == "0") {
-          query = { $match: 
-            { $and: [
-                { parent: { $regex: '^' + req.params.department } }, 
-                { $or: scopeSteward }
-            ] } 
-          };
-        } else {
-          query = { $match:
-            { $and: [
-                { parent: { $regex: '^' + req.params.department } }, 
-                { "_id.source": { $eq: res.locals.source_list[res.locals.source].name } },
-                { $or: scopeSteward }
-            ] } 
-          };
-        }
+        query = { $match:
+          { $and: [
+            { source: { $regex: '^' + sourceCode } },
+            { parent: { $regex: '^' + department } },
+            { $or: scopeSteward }
+          ] } 
+        };
+        // маски договоров в подчинении
         for (var k = 0; k < departs.length; k++) {
           regexps.push(RegExp('^'+departs[k].department));
         }
       }
-  
-      db.collection('estimates')
+
+      db.collection('smeta')
       .aggregate([
         query,
         { $group : { 
             _id: { eCode: "$_id.eCode", eName: "$_id.eName"},
-            remains: { $sum: "$estimate.remains"},
-            plan: { $sum: "$estimate.plan"},
-            income: { $sum: "$estimate.income"},
-            outlayO: { $sum: "$estimate.outlayO"},
-            outlay: { $sum: "$estimate.outlay"},
-            balance: { $sum: "$estimate.balance"},
-            balanceE: { $sum: "$estimate.balanceE"},
-            balanceWO: { $sum: "$estimate.balanceWO"},
-            balanceO: { $sum: "$estimate.balanceO"}
+            remains: { $sum: "$remains"},
+            plan: { $sum: "$plan"},
+            income: { $sum: "$income"},
+            outlayO: { $sum: "$outlayO"},
+            outlay: { $sum: "$outlay"},
+            balance: { $sum: "$balance"},
+            balanceE: { $sum: "$balanceE"}
         }},
         { $project: {
             name: { $concat: [ "$_id.eCode", " ", "$_id.eName" ] },
-            url: { $concat: [ "/report/outlays/department/", req.params.department, "/ecode/", "$_id.eCode"  ] },
+            url: { $concat: [ "/report/outlays/department/", department, "/ecode/", "$_id.eCode"  ] },
             estimate: {
               remains: "$remains",
               plan: "$plan",
@@ -310,53 +238,50 @@ exports.department_estimate_list = function(req, res, next) {
               outlayO: "$outlayO",
               outlay: "$outlay",
               balance: "$balance",
-              balanceE: "$balanceE",
-              balanceWO: "$balanceWO",
-              balanceO: "$balanceO"
+              balanceE: "$balanceE"
         }}},
         { $sort: { name: 1} }
       ])
       .toArray(function (err, list_estimates) {
         if (err) { return next(err); }
-        var node = req.params.department;
+        var node = department;
         var depsId = [];
-        var nl = 6;
+        var nl = 5;
         while (nl <= node.length) {
           depsId.push(node.slice(0, nl));
-          nl += 6;
+          nl += 5;
         }
         var list_departments = [];
         async.eachSeries(depsId, 
           function(dep_id, callback) {
             db.collection('departments')
-            .find({_id: dep_id})
+            .find({node: dep_id})
             .toArray(function (err, departments) {
               if (err) { return next(err); }
               var scopeChief = res.locals.userRole == 'booker' ? true : false;
               for (var k = 0; k < regexps.length; k++) {
-                if (departments[0]._id.match(regexps[k])) {
+                if (departments[0].node.match(regexps[k])) {
                   scopeChief = true;
                 }
               }
               list_departments.push({ 
-                url: scopeChief ? departments[0].url : '',
+                url: scopeChief ? "/report/department/" + departments[0].node : "",
                 name: departments[0].name
               });
-  
               callback(null);
             });
           }, 
           function() {
             client.close();
             res.render('report/detail', {
-              title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
-              title1: title1,
-              longTitle: longTitle(list_departments, scope_list[res.locals.scope], res.locals.source_list[res.locals.source].name),
+              title: sourceName + '/' + list_departments[list_departments.length-1].name,
+              title1: titleKOSGU,
+              longTitle: longTitle(list_departments, sourceName),
               ecode: '',
               tabs: [
-                { flag: true, href: "/report/department/" + encodeURIComponent(req.params.department)},
-                { flag: false, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
-                { flag: false, href: "/report/outlays/department/" + encodeURIComponent(req.params.department)}
+                { flag: true, href: "/report/department/" + encodeURIComponent(department)},
+                { flag: false, href: "/report/incomes/department/" + encodeURIComponent(department)},
+                { flag: false, href: "/report/outlays/department/" + encodeURIComponent(department)}
               ],
               record_list: list_estimates,
               income_list: [],
@@ -383,10 +308,10 @@ exports.department_income_list = function(req, res, next) {
       if (err) { return next(err); }
       var node = req.params.department;
       var depsId = [];
-      var nl = 6;
+      var nl = 5;
       while (nl <= node.length) {
         depsId.push(node.slice(0, nl));
-        nl += 6;
+        nl += 5;
       }
       var list_departments = [];
       async.eachSeries(depsId, 
@@ -406,7 +331,7 @@ exports.department_income_list = function(req, res, next) {
           client.close();
           res.render('report/detail', {
             title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
-            title1: title1,
+            title1: titleKOSGU,
             longTitle: longTitle(list_departments, scope_list[res.locals.scope], res.locals.source_list[res.locals.source].name),
             ecode: '',
             tabs: [
@@ -427,88 +352,56 @@ exports.department_income_list = function(req, res, next) {
 exports.department_outlay_list = function(req, res, next) {
   // url: /report/outlays/department/:department
   // записи расхода по всем договорам подразделения req.params.department
+  const department = req.params.department;
+  const sourceCode = res.locals.source_code;
+  const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-    
-    // пользователь это экономист res.locals.userRole == 'booker' 
-    // с полным доступом к информации или это руководитель 
-    // договора и/или подразделения с ограниченным доступом
+    // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
-
-      var query;
       var regexps = [];
-      if (res.locals.userRole == 'booker') {
-        // пользователь - экономист - выбрать все договора подразделения req.params.department
-        if (res.locals.source == "0") {
-          // всё финансирование
-          query = { $match: { parent: { $regex: '^' + req.params.department } } };
-          } else {
-          // финансирование res.locals.source
-          query = { $match: 
-            { $and: [
-              { source: { $eq: res.locals.source_list[res.locals.source].name } },
-              { parent: { $regex: '^' + req.params.department } }
-            ] }
-          };
-        }
-      } else {
-        // пользователь - руководитель договора(ов) и/или подразделения(ий)
-        // выбрать все договора где res.locals.userName руководитель
+      var conditions = [{source: {$regex: '^' + sourceCode}}, {parent: {$regex: '^' + department}}];
+      if (res.locals.userRole !== 'booker') {
+        // выбрать все договора где пользователь - руководитель
         var scopeSteward = [ { steward: { $eq: res.locals.userName } } ];
-        // и все договора всех подразделений где res.locals.userName руководитель
-        if (res.locals.source == "0") {
-          // всё финансирование
-          query = { $match: { 
-            $and: [
-              { parent: { $regex: '^' + req.params.department } }, 
-              { $or: scopeSteward }
-            ] 
-          }};
-        } else {
-          // финансирование res.locals.source
-          query = { $match: { 
-            $and: [
-              { parent: { $regex: '^' + req.params.department } }, 
-              { source: { $eq: res.locals.source_list[res.locals.source].name } },
-              { $or: scopeSteward }
-            ] 
-          }};
+        // и все договора всех подразделений где пользователь - руководитель
+        for (var i = 0; i < departs.length; i++) {
+          regexps.push(RegExp('^'+departs[i].department));
+          scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
         }
-        for (var k = 0; k < departs.length; k++) {
-          regexps.push(RegExp('^'+departs[k].department));
-        }
+        conditions.push({$or: scopeSteward});
       }
-
+      // записи расхода
       db.collection('outlays' + res.locals.variant).aggregate([
-        query,
+        { $match: { $and: conditions } },
         { $sort: { date: -1, eCode: 1 } }
       ])
       .toArray(function (err, list_outlays) {
         if (err) { return next(err); }
-        var node = req.params.department;
+        var node = department;
         var depsId = [];
-        var nl = 6;
+        var nl = 5;
         while (nl <= node.length) {
           depsId.push(node.slice(0, nl));
-          nl += 6;
+          nl += 5;
         }
         var list_departments = [];
         async.eachSeries(depsId, 
           function(dep_id, callback) {
             db.collection('departments')
-            .find({_id: dep_id})
+            .find({node: dep_id})
             .toArray(function (err, departments) {
               if (err) { return next(err); }
               var scopeChief = res.locals.userRole == 'booker' ? true : false;
               for (var k = 0; k < regexps.length; k++) {
-                if (departments[0]._id.match(regexps[k])) {
+                if (departments[0].node.match(regexps[k])) {
                   scopeChief = true;
                 }
               }
               list_departments.push({ 
-                url: scopeChief ? departments[0].url : '',
+                url: scopeChief ? "/report/department/" + departments[0].node : '',
                 name: departments[0].name
               });
               callback(null);
@@ -517,14 +410,14 @@ exports.department_outlay_list = function(req, res, next) {
           function() {
             client.close();
             res.render('report/detail', {
-              title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
-              title1: title1,
-              longTitle: longTitle(list_departments, scope_list[res.locals.scope], res.locals.source_list[res.locals.source].name),
+              title: sourceName + '/' + list_departments[list_departments.length-1].name,
+              title1: titleKOSGU,
+              longTitle: longTitle(list_departments, sourceName),
               ecode: '',
               tabs: [
-                { flag: false, href: "/report/department/" + encodeURIComponent(req.params.department)},
-                { flag: false, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
-                { flag: true, href: "/report/outlays/department/" + encodeURIComponent(req.params.department)}
+                { flag: false, href: "/report/department/" + encodeURIComponent(department)},
+                { flag: false, href: "/report/incomes/department/" + encodeURIComponent(department)},
+                { flag: true, href: "/report/outlays/department/" + encodeURIComponent(department)}
               ],
               record_list: [],
               income_list: [],
@@ -541,95 +434,60 @@ exports.department_ecode_outlay_list = function(req, res, next) {
   // url: /report/outlays/department/:department/ecode/:ecode
   // записи расхода по статье req.params.ecode 
   // по всем договорам подразделения req.params.department
+  const ecode = req.params.ecode;
+  const department = req.params.department;
+  const sourceCode = res.locals.source_code;
+  const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-    
-    // пользователь это экономист res.locals.userRole == 'booker' 
-    // с полным доступом к информации или это руководитель 
-    // договора и/или подразделения с ограниченным доступом
+    // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
-
-      var query;
       var regexps = [];
-      if (res.locals.userRole == 'booker') {
-        // пользователь - экономист - выбрать все договора подразделения req.params.department
-        if (res.locals.source == "0") {
-          // всё финансирование
-          query = { $match: { 
-            eCode: req.params.ecode,
-            parent: { $regex: '^' + req.params.department }
-          }};
-        } else {
-          // финансирование res.locals.source
-          query = { $match: { 
-            eCode: req.params.ecode,
-            source: { $eq: res.locals.source_list[res.locals.source].name } ,
-            parent: { $regex: '^' + req.params.department } 
-          }};
-        }
-      } else {
-        // пользователь - руководитель договора(ов) и/или подразделения(ий)
-        // выбрать все договора где res.locals.userName руководитель
+      var conditions = [
+        { source: { $regex: '^' + sourceCode } }, 
+        { parent: { $regex: '^' + department } },
+        { eCode: { $eq: ecode } }
+      ];
+      if (res.locals.userRole !== 'booker') {
+        // выбрать все договора где пользователь - руководитель
         var scopeSteward = [ { steward: { $eq: res.locals.userName } } ];
+        // и все договора всех подразделений где пользователь - руководитель
         for (var i = 0; i < departs.length; i++) {
+          regexps.push(RegExp('^'+departs[i].department));
           scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
         }
-
-        // и все договора всех подразделений где res.locals.userName руководитель
-        if (res.locals.source == "0") {
-          // всё финансирование
-          query = { $match: { 
-            $and: [
-              { eCode: { $eq: req.params.ecode } },
-              { parent: { $regex: '^' + req.params.department } }, 
-              { $or: scopeSteward }
-            ] 
-          }};
-
-        } else {
-          // финансирование res.locals.source
-          query = { $match: { 
-            $and: [
-              { eCode: { $eq: req.params.ecode } },
-              { source: { $eq: res.locals.source_list[res.locals.source].name } },
-              { parent: { $regex: '^' + req.params.department } }, 
-              { $or: scopeSteward }
-            ] 
-          }};
-        }
-        for (var k = 0; k < departs.length; k++) {
-          regexps.push(RegExp('^'+departs[k].department));
-        }
+        conditions.push({$or: scopeSteward});
       }
-
-      db.collection('outlays' + res.locals.variant)
-      .aggregate([ query, { $sort: { date: -1, eCode: 1 }} ])
-      .toArray(function (err, list_outlays) {
+      // записи расхода
+      db.collection('outlays' + res.locals.variant).aggregate([ 
+        { $match: { $and: conditions } },
+        { $sort: { date: -1, eCode: 1 }} 
+      ]).toArray(function (err, list_outlays) {
         if (err) { return next(err); }
         var node = req.params.department;
         var depsId = [];
-        var nl = 6;
+        var nl = 5;
         while (nl <= node.length) {
           depsId.push(node.slice(0, nl));
-          nl += 6;
+          nl += 5;
         }
         var list_departments = [];
         async.eachSeries(depsId, 
           function(dep_id, callback) {
             db.collection('departments')
-            .find({_id: dep_id})
+            .find({node: dep_id})
             .toArray(function (err, departments) {
               if (err) { return next(err); }
               var scopeChief = res.locals.userRole == 'booker' ? true : false;
               for (var k = 0; k < regexps.length; k++) {
-                if (departments[0]._id.match(regexps[k])) {
+                if (departments[0].node.match(regexps[k])) {
                   scopeChief = true;
                 }
               }
               list_departments.push({ 
-                url: scopeChief ? departments[0].url : '',
+                url: scopeChief ? "/report/department/" + departments[0].node : '',
                 name: departments[0].name
               });
               callback(null);
@@ -638,14 +496,14 @@ exports.department_ecode_outlay_list = function(req, res, next) {
           function() {
             client.close();
             res.render('report/detail', {
-              title: scope_list[res.locals.scope] + '/' + list_departments[list_departments.length-1].name,
-              title1: title1,
-              longTitle: longTitle(list_departments, scope_list[res.locals.scope], res.locals.source_list[res.locals.source].name),
-              ecode: req.params.ecode,
+              title: sourceName + '/' + list_departments[list_departments.length-1].name,
+              title1: titleKOSGU,
+              longTitle: longTitle(list_departments, sourceName),
+              ecode: ecode,
               tabs: [
-                { flag: false, href: "/report/department/" + encodeURIComponent(req.params.department)},
-                { flag: false, href: "/report/incomes/department/" + encodeURIComponent(req.params.department)},
-                { flag: true, href: "/report/outlays/department/" + encodeURIComponent(req.params.department)}
+                { flag: false, href: "/report/department/" + encodeURIComponent(department)},
+                { flag: false, href: "/report/incomes/department/" + encodeURIComponent(department)},
+                { flag: true, href: "/report/outlays/department/" + encodeURIComponent(department)}
               ],
               record_list: [],
               income_list: [],
@@ -658,7 +516,7 @@ exports.department_ecode_outlay_list = function(req, res, next) {
   });
 }
 
-function longTitle(list_departments, scopeName, sourceName) {
+function longTitle(list_departments, sourceName) {
   var longTitle = '&nbsp;Подразделение&nbsp; ';
   for (var i = 0; i < list_departments.length - 1; i++) {
     longTitle += ' <span style="color: #ccc">/</span> &nbsp;';
@@ -672,7 +530,7 @@ function longTitle(list_departments, scopeName, sourceName) {
     longTitle += ' <span style="color: #ccc">/</span> &nbsp;<span style="font-weight: 700;">' + 
       list_departments[list_departments.length-1].name + '</span>';
   }
-  longTitle += ' ; &nbsp;вид деятельности:&nbsp; ' +  scopeName + ' / ' + sourceName;
+  longTitle += ' ; &nbsp;вид деятельности:&nbsp; ' + sourceName;
   return longTitle;
 }
 
