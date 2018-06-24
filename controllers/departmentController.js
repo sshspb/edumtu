@@ -8,7 +8,6 @@ exports.department_contract_list = function(req, res, next) {
   // url: /report/departments_contracts
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
-
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
     // пользователь руководит подразделениями
@@ -35,7 +34,6 @@ exports.department_contract_list = function(req, res, next) {
       .toArray(function(err, result) {
         if (err) { console.log(err); return next(err); }
         client.close();
-
         var sourceRegExp =  RegExp("^" + sourceCode);
         var mtuIndex = 0, scopeChief = false;
         for (var i = 0; i < result.length; i++) {
@@ -101,7 +99,7 @@ exports.department_contract_list = function(req, res, next) {
         }
 
         for (var i = 0; i < result.length; i++) {
-          if (result[i].parent === config.univ._id && mtuIndex !== undefined) {
+          if (result[i].parent === config.univ._id) {
             result[mtuIndex].estimate.remains += result[i].estimate.remains;
             result[mtuIndex].estimate.plan += result[i].estimate.plan;
             result[mtuIndex].estimate.income += result[i].estimate.income;
@@ -113,51 +111,31 @@ exports.department_contract_list = function(req, res, next) {
             result[mtuIndex].estimate.balanceO += result[i].estimate.balanceO;
           }
         }
-
         var list_objects = [];
         for (var i = 0; i < result.length; i++) {
-/*
-          var scopeChief = false;
-          if (res.locals.userRole == 'booker') {
-            scopeChief = true;
-          } else {
-            for (var k = 0; k < regexps.length; k++) {
-              if (result[i].node.match(regexps[k])) {
-                scopeChief = true;
-                if (result[i].node == departs[k].department) {
-                  result[i].parent = '';
-                }
-              }
+          var trClass = 'treegrid-'.concat(result[i].node);
+          if (result[i].parent) trClass += ' treegrid-parent-'.concat(result[i].parent);
+          list_objects.push({
+            url: "/report/department/" + result[i].node,
+            name: result[i].name,
+            steward: result[i].chief,
+            stewardUrl: result[i].chiefUrl,
+            trClass: trClass,
+            estimate: result[i].estimate
+          });
+          for (var j = 0; j < result[i].contracts.length; j++) {
+            if (result[i].contracts[j]) {
+              list_objects.push({
+                url: "/report/contract/" + encodeURIComponent(result[i].contracts[j].contract),
+                name: result[i].contracts[j].contract,
+                steward: result[i].contracts[j].steward,
+                stewardUrl: "/report/steward/" + encodeURIComponent(result[i].contracts[j].steward),
+                trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(result[i].node, ' contract '),
+                estimate: result[i].contracts[j].estimate
+              });
             }
           }
-          if (scopeChief) {
-*/
-            var trClass = 'treegrid-'.concat(result[i].node);
-            if (result[i].parent) trClass += ' treegrid-parent-'.concat(result[i].parent);
-            list_objects.push({
-              url: "/report/department/" + result[i].node,
-              name: result[i].name,
-              steward: '',
-              stewardUrl: "#",
-              trClass: trClass,
-              estimate: result[i].estimate
-            });
-            for (var j = 0; j < result[i].contracts.length; j++) {
-              if (result[i].contracts[j]) {
-                list_objects.push({
-                  url: "/report/contract/" + encodeURIComponent(result[i].contracts[j].contract),
-                  name: result[i].contracts[j].contract,
-                  steward: result[i].contracts[j].steward,
-                  stewardUrl: "/report/steward/" + encodeURIComponent(result[i].contracts[j].steward),
-                  trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(result[i].node, ' contract '),
-                  estimate: result[i].contracts[j].estimate
-                });
-              }
-            }
-//          }
         }
-        //console.log(list_objects);
-
         res.render('report/tree_list', {
           title: 'Подразделения',
           title1: 'Подразделение/ЛицСчёт',
