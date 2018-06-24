@@ -158,34 +158,50 @@ exports.steward_estimate_list = function(req, res, next) {
 };
 
 exports.steward_income_list = function(req, res, next) {
+  // url: /report/incomes/steward/:steward  записи прихода руководителя
+  const steward = req.params.steward;
+  const sourceCode = res.locals.source_code;
+  const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-    db.collection('incomes')
-    .aggregate([
-      { $match: { 
-        steward: { $eq: req.params.steward }, 
-        scope: { $eq: res.locals.scope } 
-      }},
-      { $sort: { date: -1 } }
-    ])
-    .toArray(function (err, list_incomes) {
-      client.close();
-      if (err) { return next(err); }
-      var longTitle = '&nbsp;Ответственный&nbsp;  <span style="font-weight: 700;">' + req.params.steward +
-        '</span>, &nbsp;вид деятельности:&nbsp; ' + scope_list[res.locals.scope] + ' / ' + res.locals.source_list[res.locals.source].name;
-      res.render('report/detail', {
-        title: scope_list[res.locals.scope] + '/' + req.params.steward,
-        title1: titleKOSGU,
-        longTitle: longTitle,
-        ecode: '',
-        tabs: [
-          { flag: false, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
-          { flag: true, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
-          { flag: false, href: "/report/outlays/steward/" + encodeURIComponent(req.params.steward)}
-        ],
-        record_list: [],
-        income_list: list_incomes,
-        outlay_list: []
+    // пользователь руководит подразделениями
+    db.collection('chiefs')
+    .find({steward: res.locals.userName})
+    .toArray(function(err, departs) {
+      var conditions = [{source: {$regex: '^' + sourceCode}}, {steward: {$eq: steward}}];
+      if (res.locals.userRole !== 'booker') {
+        // выбрать все договора где пользователь - руководитель
+        var scopeSteward = [ { steward: { $eq: res.locals.userName } } ];
+        // и все договора всех подразделений где пользователь - руководитель
+        for (var i = 0; i < departs.length; i++) {
+          scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
+        }
+        conditions.push({$or: scopeSteward});
+      }
+      db.collection('incomes')
+      .aggregate([
+        { $match: { $and: conditions } },
+        { $sort: { date: -1 } }
+      ])
+      .toArray(function (err, list_incomes) {
+        client.close();
+        if (err) { return next(err); }
+        var longTitle = '&nbsp;Ответственный&nbsp;  <span style="font-weight: 700;">' + steward +
+          '</span>, &nbsp;вид деятельности:&nbsp; ' + sourceName;
+        res.render('report/detail', {
+          title: steward,
+          title1: titleKOSGU,
+          longTitle: longTitle,
+          ecode: '',
+          tabs: [
+            { flag: false, href: "/report/steward/" + encodeURIComponent(steward)},
+            { flag: true, href: "/report/incomes/steward/" + encodeURIComponent(steward)},
+            { flag: false, href: "/report/outlays/steward/" + encodeURIComponent(steward)}
+          ],
+          record_list: [],
+          income_list: list_incomes,
+          outlay_list: []
+        });
       });
     });
   });
@@ -227,9 +243,9 @@ exports.steward_outlay_list = function(req, res, next) {
             '</span>, &nbsp;вид деятельности:&nbsp; ' + sourceName,
           ecode: '',
           tabs: [
-            { flag: false, href: "/report/steward/" + encodeURIComponent(req.params.steward)},
-            { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(req.params.steward)},
-            { flag: true, href: "/report/outlays/steward/" + encodeURIComponent(req.params.steward)}
+            { flag: false, href: "/report/steward/" + encodeURIComponent(steward)},
+            { flag: false, href: "/report/incomes/steward/" + encodeURIComponent(steward)},
+            { flag: true, href: "/report/outlays/steward/" + encodeURIComponent(steward)}
           ],
           record_list: [],
           income_list: [],

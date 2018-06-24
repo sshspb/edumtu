@@ -48,24 +48,34 @@ block content
         table(class='table table-condensed table-striped')
           thead(class='sticky')
             tr
+              th ЛицСчёт
               th Дата
-              th(class='text-right')  Сумма
+              th № п/п
               th Примечание
+              th Контрагент
+              th(class='text-right') Сумма
           tbody
             each income in income_list
               tr
+                td #{income.contract}
                 td(class='date') #{income.date}
-                td(class='text-right cost') #{income.total}
+                td #{income.order}
                 td #{income.note}
+                td #{income.partner}
+                td(class='text-right cost') #{income.total}
           tfoot#total
             tr
               th Итого
-              th(class='text-right cost') 
               th
+              th
+              th
+              th
+              th(class='text-right cost') 
       if tabs[2].flag
         table(class='table table-condensed table-striped' id='outlaystable')
           thead(class='sticky')
             tr
+              th ЛицСчёт
               th Дата
               th КОСГУ
               th Операция
@@ -77,6 +87,7 @@ block content
           tbody
             each outlay in outlay_list
               tr
+                td #{outlay.contract}
                 td(class='date') #{outlay.date}
                 td #{outlay.eCode}
                 td #{outlay.operation}
@@ -88,6 +99,7 @@ block content
           tfoot#total
             tr
               th Итого
+              th
               th
               th
               th

@@ -104,58 +104,83 @@ exports.contract_estimate_list = function(req, res, next) {
 }
 
 exports.contract_income_list = function(req, res, next) {
+  // url /report/incomes/contract/:contract записи прихода по договору
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName);
-    db.collection('contracts')
-    .find({_id: req.params.contract})
-    .toArray(function (err, contracts) {
-      if (err) { return next(err); }
-      var contract = contracts[0];
-      db.collection('incomes')
-      .find({contract: req.params.contract})
-      .sort({date: -1})
-      .toArray(function (err, list_incomes) {
-        if (err) { return next(err); }
-        var node = contract.parent;
-        var depsId = [];
-        var nl = 6;
-        while (nl <= node.length) {
-          depsId.push(node.slice(0, nl));
-          nl += 6;
+    // пользователь руководит подразделениями
+    db.collection('chiefs')
+    .find({steward: res.locals.userName})
+    .toArray(function(err, departs) {
+      var regexps = [];
+      if (res.locals.userRole != 'booker') {
+        for (var k = 0; k < departs.length; k++) {
+          regexps.push(RegExp('^'+departs[k].department));
         }
-        var list_departments = [];
-        async.eachSeries(depsId, 
-          function(dep_id, callback) {
-            db.collection('departments')
-            .find({_id: dep_id})
-            .toArray(function (err, departments) {
-              if (err) { return next(err); }
-              var department = departments[0];
-              list_departments.push({ 
-                url: department.url,
-                name: department.name
-              });
-              callback(null);
-            });
-          }, 
-          function() {
-            client.close();
-            res.render('report/detail', {
-              title: contract.name,
-              title1: titleKOSGU,
-              longTitle: longTitle(list_departments, contract, scope_list[res.locals.scope], res.locals.source_list[res.locals.source].name),
-              ecode: '',
-              tabs: [
-                { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
-                { flag: true, href: "/report/incomes/contract/" + encodeURIComponent(req.params.contract)},
-                { flag: false, href: "/report/outlays/contract/" + encodeURIComponent(req.params.contract)}
-              ],
-              record_list: [],
-              income_list: list_incomes,
-              outlay_list: []
-            });
+      }
+      // сведения о договоре
+      db.collection('contracts')
+      .find({"_id.contract": req.params.contract})
+      .toArray(function (err, contracts) {
+        if (err) { return next(err); }
+        var contract = contracts[0];
+        var sourceName = '';
+        for (var i = 0; i < res.locals.source_list.length; i++) {
+          if (res.locals.source_list[i].code === contract._id.source) {
+            sourceName = res.locals.source_list[i].name;
           }
-        );
+        }
+      // доходы по договору
+        db.collection('incomes')
+        .find({contract: req.params.contract})
+        .sort({date: -1})
+        .toArray(function (err, list_incomes) {
+          if (err) { return next(err); }
+          // структура подразделений договора
+          var node = contract.parent, depsId = [], nl = 5;
+          while (nl <= node.length) {
+            depsId.push(node.slice(0, nl));
+            nl += 5;
+          }
+          var list_departments = [];
+          async.eachSeries(depsId, 
+            function(dep_id, callback) {
+              db.collection('departments')
+              .find({node: dep_id})
+              .toArray(function (err, departments) {
+                if (err) { return next(err); }
+                // право доступа к информации по подразделению
+                var scopeChief = res.locals.userRole == 'booker' ? true : false;
+                for (var k = 0; k < regexps.length; k++) {
+                  if (departments[0].node.match(regexps[k])) {
+                    scopeChief = true;
+                  }
+                }
+                list_departments.push({ 
+                  url: scopeChief ? "/report/department/" + departments[0].node : '',
+                  name: departments[0].name
+                });
+                callback(null);
+              });
+            }, 
+            function() {
+              client.close();
+              res.render('report/detail', {
+                title: contract._id.contract,
+                title1: titleKOSGU,
+                longTitle: longTitle(list_departments, contract._id.contract, contract._id.steward, sourceName),
+                ecode: '',
+                tabs: [
+                  { flag: false, href: "/report/contract/" + encodeURIComponent(req.params.contract)},
+                  { flag: true, href: "/report/incomes/contract/" + encodeURIComponent(req.params.contract)},
+                  { flag: false, href: "/report/outlays/contract/" + encodeURIComponent(req.params.contract)}
+                ],
+                record_list: [],
+                income_list: list_incomes,
+                outlay_list: []
+              });
+            }
+          );
+        });
       });
     });
   });
