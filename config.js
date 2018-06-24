@@ -6,16 +6,16 @@ module.exports = {
   "estimate_index": [
       [
         { header: "Ост. на начало", value: "remains"},
-        { header: "Плановая сумма на год", value: "plan"},
+        { header: "Плановая сумма", value: "plan"},
         { header: "Затраты с планом", value: "outlayO"},
         { header: "Остаток по смете", value: "balanceE"},
         { header: "Кассовые затраты", value: "outlay"}
       ],
       [
         { header: "Ост. на начало", value: "remains"},
-        { header: "Поступление денеж срв.", value: "income"},
+        { header: "Поступление денеж.срв.", value: "income"},
         { header: "Кассовые затраты", value: "outlay"},
-        { header: "Остаток денеж. средств", value: "balance"}
+        { header: "Остаток денеж.срв", value: "balance"}
       ],
     ],
     "univ": { _id: "00000", code : "000", abbr : "СПбГМТУ" },

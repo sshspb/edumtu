@@ -14,6 +14,7 @@ router.get('/',  function(req, res, next) {
   var docsQty = {
     departments: 0,
     contracts: 0,
+    stewards: 0,
     incomes: 0,
     outlays0: 0,
     outlays1: 0,
