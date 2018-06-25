@@ -97,7 +97,7 @@ exports.department_contract_list = function(req, res, next) {
           }
           result[i].childrens = null;
         }
-
+        // итого по всем факультетам
         for (var i = 0; i < result.length; i++) {
           if (result[i].parent === config.univ._id) {
             result[mtuIndex].estimate.remains += result[i].estimate.remains;
