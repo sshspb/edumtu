@@ -48,7 +48,8 @@ exports.contract_estimate_list = function(req, res, next) {
               outlayO: list_estimates[i].outlayO,
               outlay: list_estimates[i].outlay,
               balance: list_estimates[i].balance,
-              balanceE: list_estimates[i].balanceE
+              balanceE: list_estimates[i].balanceE,
+              balanceEM: list_estimates[i].balanceEM
             }
           })
         }

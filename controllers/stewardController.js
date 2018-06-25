@@ -31,7 +31,7 @@ exports.steward_contract_list = function(req, res, next) {
         if (err) { return next(err); }
         // добовим руководителей договоров
         var list_objects = [], steward = "@@@", indexSteward = 0;
-        var total = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0 };
+        var total = {remains:0,plan:0,income:0,outlayO:0,outlay:0,balance:0,balanceE:0,balanceEM:0};
         for (var i = 0; i < list_contracts.length; i++) {
           if (steward !== list_contracts[i].steward) {
             steward = list_contracts[i].steward;
@@ -40,7 +40,7 @@ exports.steward_contract_list = function(req, res, next) {
               trClass: 'treegrid-' + indexSteward + ' treegrid-parent-000',
               name: steward,
               url:  '/report/steward/' + encodeURIComponent(steward),
-              estimate: { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0 }
+              estimate: {remains:0,plan:0,income:0,outlayO:0,outlay:0,balance:0,balanceE:0,balanceEM:0}
             });
           }
           list_objects.push({
@@ -56,6 +56,7 @@ exports.steward_contract_list = function(req, res, next) {
           list_objects[indexSteward].estimate.outlay += list_contracts[i].estimate.outlay;
           list_objects[indexSteward].estimate.balance += list_contracts[i].estimate.balance;
           list_objects[indexSteward].estimate.balanceE += list_contracts[i].estimate.balanceE;
+          list_objects[indexSteward].estimate.balanceEM += list_contracts[i].estimate.balanceEM;
           total.remains += list_contracts[i].estimate.remains;
           total.plan += list_contracts[i].estimate.plan;
           total.income += list_contracts[i].estimate.income;
@@ -63,6 +64,7 @@ exports.steward_contract_list = function(req, res, next) {
           total.outlay += list_contracts[i].estimate.outlay;
           total.balance += list_contracts[i].estimate.balance;
           total.balanceE += list_contracts[i].estimate.balanceE;
+          total.balanceEM += list_contracts[i].estimate.balanceEM;
         }
         list_objects.unshift({ 
           trClass: 'treegrid-000',
@@ -113,7 +115,8 @@ exports.steward_estimate_list = function(req, res, next) {
             outlayO: { $sum: "$outlayO"},
             outlay: { $sum: "$outlay"},
             balance: { $sum: "$balance"},
-            balanceE: { $sum: "$balanceE"}
+            balanceE: { $sum: "$balanceE"},
+            balanceEM: { $sum: "$balanceEM"}
         }},
         { $project: {
             name: { $concat: [ "$_id.eCode", " ", "$_id.eName" ] },
@@ -126,8 +129,7 @@ exports.steward_estimate_list = function(req, res, next) {
               outlay: "$outlay",
               balance: "$balance",
               balanceE: "$balanceE",
-              balanceWO: "$balanceWO",
-              balanceO: "$balanceO"
+              balanceEM: "$balanceEM"
         }}}, 
         { $sort: { name: 1} }
       ])

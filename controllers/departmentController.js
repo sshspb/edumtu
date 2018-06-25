@@ -37,7 +37,7 @@ exports.department_contract_list = function(req, res, next) {
         var sourceRegExp =  RegExp("^" + sourceCode);
         var mtuIndex = 0, scopeChief = false;
         for (var i = 0; i < result.length; i++) {
-          result[i].estimate = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0};
+          result[i].estimate = {remains:0,plan:0,income:0,outlayO:0,outlay:0,balance:0,balanceE:0,balanceEM:0};
           if (result[i].parent == "") {
             mtuIndex = i;
           } else {
@@ -63,12 +63,13 @@ exports.department_contract_list = function(req, res, next) {
                 result[i].estimate.outlay += result[i].contracts[j].estimate.outlay;
                 result[i].estimate.balance += result[i].contracts[j].estimate.balance;
                 result[i].estimate.balanceE += result[i].contracts[j].estimate.balanceE;
+                result[i].estimate.balanceEM += result[i].contracts[j].estimate.balanceEM;
               } else {
-                result[i].contracts[j].estimate = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0 };
+                result[i].contracts[j].estimate = {remains:0,plan:0,income:0,outlayO:0,outlay:0,balance:0,balanceE:0,balanceEM:0};
               }
             }
             for (var k = 0; k < result[i].childrens.length; k++) {
-              result[i].childrens[k].estimate = { remains: 0, plan: 0, income: 0, outlayO: 0, outlay: 0, balance: 0, balanceE: 0 };
+              result[i].childrens[k].estimate = {remains:0,plan:0,income:0,outlayO:0,outlay:0,balance:0,balanceE:0,balanceEM:0};
               scopeChief = false;
               if (res.locals.userRole == 'booker') {
                 scopeChief = true;
@@ -91,6 +92,7 @@ exports.department_contract_list = function(req, res, next) {
                   result[i].estimate.outlay += result[i].childrens[k].contracts[n].estimate.outlay;
                   result[i].estimate.balance += result[i].childrens[k].contracts[n].estimate.balance;
                   result[i].estimate.balanceE += result[i].childrens[k].contracts[n].estimate.balanceE;
+                  result[i].estimate.balanceEM += result[i].childrens[k].contracts[n].estimate.balanceEM;
                 }
               }
             }
@@ -107,8 +109,7 @@ exports.department_contract_list = function(req, res, next) {
             result[mtuIndex].estimate.outlay += result[i].estimate.outlay;
             result[mtuIndex].estimate.balance += result[i].estimate.balance;
             result[mtuIndex].estimate.balanceE += result[i].estimate.balanceE;
-            result[mtuIndex].estimate.balanceWO += result[i].estimate.balanceWO;
-            result[mtuIndex].estimate.balanceO += result[i].estimate.balanceO;
+            result[mtuIndex].estimate.balanceEM += result[i].estimate.balanceEM;
           }
         }
         var list_objects = [];
@@ -204,7 +205,8 @@ exports.department_estimate_list = function(req, res, next) {
             outlayO: { $sum: "$outlayO"},
             outlay: { $sum: "$outlay"},
             balance: { $sum: "$balance"},
-            balanceE: { $sum: "$balanceE"}
+            balanceE: { $sum: "$balanceE"},
+            balanceEM: { $sum: "$balanceEM"}
         }},
         { $project: {
             name: { $concat: [ "$_id.eCode", " ", "$_id.eName" ] },
@@ -216,7 +218,8 @@ exports.department_estimate_list = function(req, res, next) {
               outlayO: "$outlayO",
               outlay: "$outlay",
               balance: "$balance",
-              balanceE: "$balanceE"
+              balanceE: "$balanceE",
+              balanceEM: "$balanceEM"
         }}},
         { $sort: { name: 1} }
       ])
