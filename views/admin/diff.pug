@@ -14,6 +14,7 @@ block content
             td #{record.contract}
             each eCode in eCode_list
               td(class='text-right cost uptoruble') #{record[eCode]} 
+    pre #{logimport}
   script(src='/js/jquery.treegrid.js')
   script(src='/js/jquery.treegrid.bootstrap3.js')
   script(src='/js/jquery.cookie.js')

@@ -1,3 +1,4 @@
+const fs = require("fs");
 const async = require('async');
 const crypto = require('crypto');
 const router = require('express').Router();
@@ -459,9 +460,12 @@ router.get('/diff', function(req, res, next) {
         list_diff.push(fact_diff[k]);
       }
 
+      var logimport = fs.readFileSync("doc/importlog.log")
+
       res.render('admin/diff', {
         eCode_list: list_eCode,
-        diff_list: list_diff
+        diff_list: list_diff,
+        logimport: logimport
       });
     });
   });
