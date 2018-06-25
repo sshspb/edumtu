@@ -54,6 +54,8 @@ block content
               th Примечание
               th Контрагент
               th(class='text-right') Сумма
+              th(class='text-right') НДС
+              th(class='text-right') СуммаВсего
           tbody
             each income in income_list
               tr
@@ -63,6 +65,8 @@ block content
                 td #{income.note}
                 td #{income.partner}
                 td(class='text-right cost') #{income.total}
+                td(class='text-right cost') #{income.vat}
+                td(class='text-right cost') #{income.totally}
           tfoot#total
             tr
               th Итого
@@ -70,6 +74,8 @@ block content
               th
               th
               th
+              th(class='text-right cost') 
+              th(class='text-right cost')
               th(class='text-right cost') 
       if tabs[2].flag
         table(class='table table-condensed table-striped' id='outlaystable')

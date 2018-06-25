@@ -1,0 +1,258 @@
+
+users Пользователи
+chiefs Руководители подразделений
+sources Источники финансирования
+smeta Сметы договоров
+stewards Кадры
+contracts Договора
+estimates Договора с итогами
+departments Подразделения
+departments_contracts Подразделения, непосредственно их договора, руководители 
+incomes Доходы
+outlays0 outlays1 Расход План Факт
+
+
+users Пользователи
+{
+    "_id" : ObjectId,
+    "name" : "Администратор",
+    "role" : "admin",
+    "login" : "admin",
+    "salt" : "0.4133722731050222",
+    "hashedPassword" : "66a9891848f2cd40d0be0e36381df274bc9b8b51"
+}
+
+chiefs Руководители подразделений
+{
+    "_id" : ObjectId,
+    "department" : "0000000100",
+    "steward" : "Андрезен М.В."
+}
+
+sources Источники финансирования
+{
+    "_id" : "0",
+    "name" : "Вся деятельность"
+},
+{
+    "_id" : "00",
+    "name" : "Основная"
+},
+{
+    "_id" : "000",
+    "name" : "Основная / Внебюджет"
+},
+{
+    "_id" : "0000",
+    "name" : "Основная / Внебюджет /  ---"
+}
+
+smeta Сметы договоров
+{
+    "_id" : {
+        "contract" : "303/1490",
+        "eCode" : "340",
+        "eName" : "Увеличение стоимости материальных запасов",
+        "scope" : "Наука подр.",
+        "source" : "Внебюджет наука",
+        "depCode" : "1400",
+        "divCode" : "1400",
+        "depAbbr" : "НИЧ",
+        "divAbbr" : "НИЧ",
+        "steward" : "Никущенко Д.В."
+    },
+    "remains" : 0,
+    "plan" : 0,
+    "income" : 0,
+    "outlayO" : 136972,
+    "outlay" : 136972,
+    "balance" : -136972,
+    "balanceE" : -136972,
+    "options" : null,
+    "eCodeUrl" : "340",
+    "source" : "0100",
+    "parent" : "000000140001400",
+    "steward" : "Никущенко Д.В.",
+    "diffPlan" : 0,
+    "diffFact" : 0
+}
+
+stewards Кадры
+{
+    "_id" : {
+        "steward" : "Абрамов А.В."
+    },
+    "name" : "Абрамов А.В.",
+    "url" : "%D0%90%D0%B1%D1%80%D0%B0%D0%BC%D0%BE%D0%B2%20%D0%90.%D0%92."
+}
+
+contracts Договора
+{
+    "_id" : {
+        "contract" : "301-Х-791М",
+        "depCode" : "1400",
+        "divCode" : "1400",
+        "steward" : "Кузнецов И.Л.",
+        "source" : "0100"
+    },
+    "parent" : "000000140001400",
+    "fullname" : "/01400/01400/ 301-Х-791М"
+}
+
+estimates Договора с итогами
+{
+    "_id" : ObjectId("5b30a7f8b2aa130ddc48e10b"),
+    "contract" : "303/1490",
+    "steward" : "Никущенко Д.В.",
+    "source" : "0100",
+    "parent" : "000000140001400",
+    "fullname" : "/01400/01400/ 303/1490",
+    "estimate" : {
+        "remains" : 0,
+        "plan" : 0,
+        "income" : 0,
+        "outlayO" : 136972,
+        "outlay" : 136972,
+        "balance" : -136972,
+        "balanceE" : -136972
+    }
+}
+
+departments Подразделения
+{
+    "_id" : {
+        "depCode" : "1400",
+        "depAbbr" : "НИЧ",
+        "divCode" : "1190",
+        "divAbbr" : "ИИТ"
+    },
+    "name" : "1190 ИИТ",
+    "parent" : "0000001400",
+    "node" : "000000140001190"
+}
+
+departments_contracts Подразделения, непосредственно их договора, руководители 
+{
+    "_id" : {
+        "depCode" : "100",
+        "depAbbr" : "РЕКТОРАТ",
+        "divCode" : "",
+        "divAbbr" : ""
+    },
+    "name" : "100 РЕКТОРАТ",
+    "parent" : "00000",
+    "node" : "0000000100",
+    "contracts" : [ 
+        {
+            "_id" : ObjectId("5b30a7f8b2aa130ddc48e19e"),
+            "contract" : "ГЗ14000706",
+            "steward" : "Никущенко Д.В.",
+            "source" : "0012",
+            "parent" : "0000000100",
+            "fullname" : "/00100/ ГЗ14000706",
+            "estimate" : {
+                "remains" : 0,
+                "plan" : 0,
+                "income" : 0,
+                "outlayO" : 637682,
+                "outlay" : 637682,
+                "balance" : -637682,
+                "balanceE" : -637682
+            }
+        }
+    ],
+    "chiefs" : [ 
+        {
+            "_id" : ObjectId("5b00345d475b4c04a0b6bf44"),
+            "department" : "0000000100",
+            "steward" : "Андрезен М.В."
+        }, 
+        {
+            "_id" : ObjectId("5b0042f67a0db112049f5504"),
+            "department" : "0000000100",
+            "steward" : "Акопян А.Б."
+        }, 
+        {
+            "_id" : ObjectId("5b2a4c8b835f241fb0303119"),
+            "department" : "0000000100",
+            "steward" : "Шершнев А.В."
+        }
+    ],
+    "chief" : "Акопян А.Б., .., ..",
+    "chiefUrl" : "/report/steward/%D0%90%D0%BA%D0%BE%D0%BF%D1%8F%D0%BD%20%D0%90.%D0%91.",
+    "estimate" : {
+        "remains" : 0,
+        "plan" : 0,
+        "income" : 0,
+        "outlayO" : 637682,
+        "outlay" : 637682,
+        "balance" : -637682,
+        "balanceE" : -637682
+    }
+}
+
+incomes Доходы
+{
+    "_id" : ObjectId("5b2f8d15da2d3d27f08aeb8b"),
+    "contract" : "ВБ0195",
+    "date" : ISODate("2018-02-27T21:00:00.000Z"),
+    "order" : "",
+    "note" : "Доходы с 1С февраль (без НДС)",
+    "partner" : "",
+    "total" : 127550,
+    "contracts" : null,
+    "parent" : "000000016000190",
+    "steward" : "Коломиец А.Е.",
+    "source" : "0000"
+}
+
+outlays0 outlays1 Расход План Факт
+{
+    "_id" : ObjectId("5b2f8d18da2d3d27f08afd23"),
+    "contract" : "ВБ0100",
+    "eCode" : "211",
+    "date" : ISODate("2018-01-30T21:00:00.000Z"),
+    "operation" : "Зат.из с/с",
+    "species" : "З/ПЛ БЕЗ ДЕТАЛИЗАЦИИ",
+    "total" : 110093.36,
+    "partner" : "",
+    "agreement" : "",
+    "note" : "Анализ ЗП январь",
+    "contracts" : null,
+    "parent" : "000000010000100",
+    "steward" : "Туричин Г.А.",
+    "source" : "0000"
+}
+
+
+
+Правило: 
+Вид деятельности по договору является "Наука" если "Тип_договора" начинается со слова  "Наука",
+иначе вид деятельности по договору является "Основная".
+
+Тип_договора      финансирование     
+"Наука"           "Внебюджет наука"
+"Наука подр."     "Внебюджет наука"
+""                "Внебюджет наука"
+"Смета научные п" "Субсидия  наука"
+
+
+{
+    "_id" : {
+        "source" : "Внебюджет наука",
+        "scope" : "Наука"
+    }
+}
+/* 2 */
+{
+    "_id" : {
+        "source" : "Внебюджет наука",
+        "scope" : "Наука подр."
+    }
+}
+{
+    "_id" : {
+        "source" : "Субсидия  наука",
+        "scope" : "Смета научные п"
+    }
+}

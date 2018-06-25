@@ -8,8 +8,8 @@
       { "name": "note", "type": "string", "original": "примечание" },
       { "name": "partner", "type": "string", "original": "Контрагент" },
       { "name": "total", "type": "decimal", "original": "Сумма" },
-      { "name": "total", "type": "int", "original": "НДС" },
-      { "name": "total", "type": "decimal", "original": "сумма_всего" }
+      { "name": "vat", "type": "decimal", "original": "НДС" },
+      { "name": "totally", "type": "decimal", "original": "сумма_всего" }
     ]
   },
   {

@@ -80,17 +80,17 @@ exports.department_contract_list = function(req, res, next) {
                   }
                 }
               }
-              for (var j = 0; j < result[i].childrens[k].contracts.length; j++) {
+              for (var n = 0; n < result[i].childrens[k].contracts.length; n++) {
                 // итого сметы договоров подразделения подчинённого (кафедры для факультета)
-                if (sourceRegExp.test(result[i].childrens[k].contracts[j].source) && 
-                    (scopeChief || result[i].childrens[k].contracts[j].steward === res.locals.userName)) {
-                  result[i].estimate.remains += result[i].childrens[k].contracts[j].estimate.remains;
-                  result[i].estimate.plan += result[i].childrens[k].contracts[j].estimate.plan;
-                  result[i].estimate.income += result[i].childrens[k].contracts[j].estimate.income;
-                  result[i].estimate.outlayO += result[i].childrens[k].contracts[j].estimate.outlayO;
-                  result[i].estimate.outlay += result[i].childrens[k].contracts[j].estimate.outlay;
-                  result[i].estimate.balance += result[i].childrens[k].contracts[j].estimate.balance;
-                  result[i].estimate.balanceE += result[i].childrens[k].contracts[j].estimate.balanceE;
+                if (sourceRegExp.test(result[i].childrens[k].contracts[n].source) && 
+                    (scopeChief || result[i].childrens[k].contracts[n].steward === res.locals.userName)) {
+                  result[i].estimate.remains += result[i].childrens[k].contracts[n].estimate.remains;
+                  result[i].estimate.plan += result[i].childrens[k].contracts[n].estimate.plan;
+                  result[i].estimate.income += result[i].childrens[k].contracts[n].estimate.income;
+                  result[i].estimate.outlayO += result[i].childrens[k].contracts[n].estimate.outlayO;
+                  result[i].estimate.outlay += result[i].childrens[k].contracts[n].estimate.outlay;
+                  result[i].estimate.balance += result[i].childrens[k].contracts[n].estimate.balance;
+                  result[i].estimate.balanceE += result[i].childrens[k].contracts[n].estimate.balanceE;
                 }
               }
             }
