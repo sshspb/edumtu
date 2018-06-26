@@ -21,6 +21,16 @@ block content
           #[strong !{data.loaded}]
 
           !{data.version}
-        button(type="button" class="btn btn-default" onclick="this.innerHTML='Загружаю...'; window.location.href='/admin/importdata';") Импорт данных
-        button(type="button" class="btn btn-default" style="float: right" onclick="this.innerHTML='Вычисляю...'; window.location.href='/admin/diff';") Сверка расхода
-        
+    .row
+      .col-sm-5.col-md-offset-1
+        div(class="btn-toolbar")
+          div(class="btn-group")
+            button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{data_year}
+              span(class="caret" style="margin-left: 5px;") 
+            ul(class="dropdown-menu")
+              each  val in year_list
+                li: a(href ="/report/option/year/" + val.name) #{val.name}
+          div(class="btn-group")
+            button(type="button" class="btn btn-default" onclick="this.innerHTML='Загружаю...'; window.location.href='/admin/importdata';") Импорт данных
+          div(class="btn-group")
+            button(type="button" class="btn btn-default" style="float: right" onclick="this.innerHTML='Вычисляю...'; window.location.href='/admin/diff';") Сверка

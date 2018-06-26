@@ -1,14 +1,13 @@
 const async = require('async');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
-const scope_list = config.scope_list;
 const titleKOSGU = '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>';
 
 exports.contract_estimate_list = function(req, res, next) {
   // смета договора  url: /report/contract/:contract 
   const contract = req.params.contract;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     db.collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs){
@@ -107,7 +106,7 @@ exports.contract_estimate_list = function(req, res, next) {
 exports.contract_income_list = function(req, res, next) {
   // url /report/incomes/contract/:contract записи прихода по договору
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
@@ -191,7 +190,7 @@ exports.contract_outlay_list = function(req, res, next) {
   // /outlays/contract/:contract записи расхода по договору
   const contract = req.params.contract;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
@@ -275,7 +274,7 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
   const ecode = req.params.ecode;
   const contract = req.params.contract;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})

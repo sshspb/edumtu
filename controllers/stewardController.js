@@ -1,6 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
-const scope_list = config.scope_list;
 const titleKOSGU = '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>';
 
 exports.steward_contract_list = function(req, res, next) {
@@ -8,7 +7,7 @@ exports.steward_contract_list = function(req, res, next) {
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
@@ -89,7 +88,7 @@ exports.steward_estimate_list = function(req, res, next) {
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
@@ -165,7 +164,7 @@ exports.steward_income_list = function(req, res, next) {
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
@@ -215,7 +214,7 @@ exports.steward_outlay_list = function(req, res, next) {
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
@@ -265,7 +264,7 @@ exports.steward_ecode_outlay_list = function(req, res, next) {
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})

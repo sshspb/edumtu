@@ -21,29 +21,48 @@ router.get('/',  function(req, res, next) {
     version: 'Данные не загружены'
   }; 
   MongoClient.connect(config.dbUrl, function(err, client) {
-    var db = client.db(config.dbName);
+    var db = client.db(config.dbName + res.locals.year);
     db.collection('quantitys')
     .find({})
     .toArray(function(err, quantitys) {
+      client.close();
       if (err) { return next(err); }
+      var nousers
       if (quantitys.length) {
         docsQty = quantitys[0];
         docsQty.version = config.version;
-      } 
+        nousers = false;
+      } else {
+        nousers = true;
+/*
+        res.render('nodb', { 
+          scope: req.session && req.session.scope ? req.session.scope : "0",
+          title: 'Оперативно-финансовый отдел', 
+          subtitle: 'учёта образовательной деятельности', 
+          data: docsQty,
+          year_list: res.locals.year_list,
+          dataYear: res.locals.year,
+          nousers: nousers
+        });
+*/
+    }
       if (req.user) {
         if (req.user.role == 'admin') {
-          client.close();
           res.render('admin/index', { 
-            title: 'Оперативно-финансовый отдел', 
-            subtitle: 'учёта образовательной деятельности', 
-            data: docsQty
+            title: "Оперативно-финансовый отдел", 
+            subtitle: "учёта образовательной деятельности", 
+            data: docsQty,
+            year_list: res.locals.year_list,
+            data_year: res.locals.year
           });
         } else {
           res.redirect('/report/department/' + config.univ._id);
         }
       } else {
+/*
         var nousers = false;
-        db.collection('users').count({role: 'admin'}, function(err, cnt) {
+        var dbUser = client.db(config.dbName);
+        dbUser.collection('users').count({role: 'admin'}, function(err, cnt) {
           client.close();
           if (err) { 
             console.log(err); 
@@ -52,14 +71,17 @@ router.get('/',  function(req, res, next) {
           if (!cnt) { 
             nousers = true; 
           }
+*/
           res.render('login', { 
             scope: req.session && req.session.scope ? req.session.scope : "0",
             title: 'Оперативно-финансовый отдел', 
             subtitle: 'учёта образовательной деятельности', 
             data: docsQty,
+            year_list: res.locals.year_list,
+            dataYear: res.locals.year,
             nousers: nousers
           });
-        });
+//        });
       }
     });
   });

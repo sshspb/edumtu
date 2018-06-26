@@ -22,5 +22,6 @@ router.get('/outlays/steward/:steward', steward_controller.steward_outlay_list);
 router.get('/outlays/steward/:steward/ecode/:ecode', steward_controller.steward_ecode_outlay_list);
 router.get('/option/variant/:id', option_controller.set_variant);
 router.get('/option/source/:id', option_controller.set_source);
+router.get('/option/year/:year', option_controller.set_year);
 
 module.exports = router;

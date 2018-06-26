@@ -1,6 +1,6 @@
 const config_local = require('./config_local');
 module.exports = {
-  "version": "edumtu v1.11.2 26.06.2018",
+  "version": "edumtu v1.12.0 27.06.2018",
   "scope_list": ["Основная", "Наука"],
   "variant_list": ["Вариант: План", "Вариант: Факт"],
   "estimate_index": [
@@ -21,6 +21,7 @@ module.exports = {
     ],
     "univ": { _id: "00000", code : "000", abbr : "СПбГМТУ" },
     "tbPath": config_local.tbPath,
+    "tbPrefix": "Inet_",
     "mongoDB": config_local.mongoDB || "mongodb://127.0.0.1:27017/edu",
     "dbUrl":  config_local.dbUrl || "mongodb://127.0.0.1:27017",
     "dbName": config_local.dbName || "edu",

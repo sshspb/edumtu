@@ -31,6 +31,12 @@ html(lang="ru")
             ul(class="dropdown-menu")
               li: a(href="/report/option/variant/0") #{variant_list[0]}
               li: a(href="/report/option/variant/1") #{variant_list[1]}
+          div(class="btn-group")
+            button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{year}
+              span(class="caret" style="margin-left: 5px;") 
+            ul(class="dropdown-menu")
+              each  val in year_list
+                li: a(href ="/report/option/year/" + val.name) #{val.name}
           div(class="btn-group navbar-right" style="float: right; margin-right: 10px;")
             div(style="float: left; padding: 7px 15px; font-size: 16px; line-height: 18px;") !{userName}
             button(type="button" class="btn btn-default" onclick="location='/logout';") Выйти

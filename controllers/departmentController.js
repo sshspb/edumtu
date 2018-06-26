@@ -1,7 +1,6 @@
 var async = require('async');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
-const scope_list = config.scope_list;
 const titleKOSGU = '<abbr title = "Классификация операций сектора государственного управления">КОСГУ</abbr>';
 
 exports.department_contract_list = function(req, res, next) {
@@ -9,7 +8,7 @@ exports.department_contract_list = function(req, res, next) {
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
@@ -157,7 +156,7 @@ exports.department_estimate_list = function(req, res, next) {
   const sourceName = res.locals.source_name;
 
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     
     // пользователь это экономист с полным доступом к информации или это
     // руководитель договора и/или подразделения с ограниченным доступом
@@ -246,8 +245,8 @@ exports.department_estimate_list = function(req, res, next) {
                 }
               }
               list_departments.push({ 
-                url: scopeChief ? "/report/department/" + departments[0].node : "",
-                name: departments[0].name
+                url: scopeChief && departments[0] ? "/report/department/" + departments[0].node : "",
+                name: departments[0] ? departments[0].name : ''
               });
               callback(null);
             });
@@ -281,7 +280,7 @@ exports.department_income_list = function(req, res, next) {
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
@@ -361,7 +360,7 @@ exports.department_outlay_list = function(req, res, next) {
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})
@@ -442,7 +441,7 @@ exports.department_ecode_outlay_list = function(req, res, next) {
   const sourceCode = res.locals.source_code;
   const sourceName = res.locals.source_name;
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     db.collection('chiefs')
     .find({steward: res.locals.userName})

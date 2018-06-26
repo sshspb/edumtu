@@ -8,15 +8,31 @@ const config = require('../config');
 router.get('/importdata', function(req, res) {
   var importData = require('../lib/tbImport').importData;
   var reformData = require('../lib/tbReform').reformData;
+  importData(res.locals.year, function (err) {
+    if (err) throw new Error(err);
+    reformData(res.locals.year, function (err) {
+      if (err) throw new Error(err);
+      console.log('OK import done');
+      if (res.locals.userRole == 'admin') {
+        //res.redirect('/admin/diff');
+        diffRashod(req, res)
+      } else {
+        res.redirect('/');
+      }
+      //res.redirect('/admin/diff');
+    });
+  });
+/*
   async.series([
-    importData,
-    reformData
+    importData(res.locals.year, function (err) {if (err) throw new Error(err);}),
+    reformData(res.locals.year, function (err) {if (err) throw new Error(err);})
   ], 
   function(err) {
     if (err) console.log('Opss Error while import data');
     else console.log('OK import done');
     res.redirect('/admin/diff');
   });
+*/
 });
 
 router.get('/departments', function(req, res, next) {
@@ -387,9 +403,12 @@ router.post('/passwd', function(req, res, next) {
   });
 });
 
+router.get('/diff', diffRashod);
+
+/*
 router.get('/diff', function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
-    db = client.db(config.dbName);
+    db = client.db(config.dbName + res.locals.year);
     
     db.collection('smeta').find({})
     .toArray(function (err, list_smeta) {
@@ -470,5 +489,90 @@ router.get('/diff', function(req, res, next) {
     });
   });
 });
+*/
+
+function diffRashod(req, res) {
+  MongoClient.connect(config.dbUrl, function(err, client) {
+    db = client.db(config.dbName + res.locals.year);
+    
+    db.collection('smeta').find({})
+    .toArray(function (err, list_smeta) {
+      client.close();
+      if (err) { return next(err); }
+
+      var eCode;
+      var list_eCode = [];
+      for (var i = 0; i < list_smeta.length; i++) {
+        eCode = list_smeta[i]._id.eCode.substring(0,3);
+        if (list_eCode.indexOf(eCode) < 0) {
+          list_eCode.push(eCode);
+        }
+      }
+      list_eCode.sort();
+
+      var planTotal = { trClass: 'treegrid-1', contract: 'План' };
+      var factTotal = { trClass: 'treegrid-2', contract: 'Факт' };
+      for (var j = 0; j < list_eCode.length; j++) {
+        planTotal[list_eCode[j]] = 0.0;
+        factTotal[list_eCode[j]] = 0.0;
+      }
+
+      var next = '@@@';
+      var plan_diff = [], fact_diff = [];
+      var plan = {}, fact = {};
+      var planInsert = false, factInsert = false;
+      for (var i = 0; i < list_smeta.length; i++) {
+        if (next != list_smeta[i]._id.contract) {
+          next = list_smeta[i]._id.contract;
+          if (i) {
+            if (planInsert) {
+              plan_diff.push(plan);
+              planInsert = false;
+            }
+            if (factInsert) {
+              fact_diff.push(fact);
+              factInsert = false;
+            }
+          }
+          plan = { trClass: 'treegrid-1' + i + ' treegrid-parent-1', contract: list_smeta[i].contract };
+          fact = { trClass: 'treegrid-2' + i + ' treegrid-parent-2', contract: list_smeta[i].contract };
+          for (var j = 0; j < list_eCode.length; j++) {
+            plan[list_eCode[j]] = 0.0;
+            fact[list_eCode[j]] = 0.0;
+          }
+        }
+        eCode = list_smeta[i]._id.eCode.substring(0,3);
+        if (list_smeta[i].diffPlan) {
+          planInsert = true;
+          plan[eCode] = list_smeta[i].diffPlan;
+          planTotal[eCode] += list_smeta[i].diffPlan;
+        }
+        if (list_smeta[i].diffFact) {
+          factInsert = true;
+          fact[eCode] = list_smeta[i].diffFact;
+          factTotal[eCode] += list_smeta[i].diffFact;
+        }
+      }
+      
+      var list_diff = [];
+      list_diff.push(planTotal);
+      for (var k = 0; k < plan_diff.length; k++) {
+        list_diff.push(plan_diff[k]);
+      }
+      list_diff.push(factTotal);
+      for (var k = 0; k < fact_diff.length; k++) {
+        list_diff.push(fact_diff[k]);
+      }
+
+      var logimport = fs.readFileSync("doc/importlog.log")
+
+      res.render('admin/diff', {
+        eCode_list: list_eCode,
+        diff_list: list_diff,
+        logimport: logimport
+      });
+    });
+  });
+}
 
 module.exports = router;
