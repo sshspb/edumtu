@@ -18,11 +18,6 @@ exports.set_source = function(req, res, next) {
 };
 
 exports.set_year = function(req, res, next) {
-  
   req.session.year = req.params.year;
-console.log('-- from optionController ==req.params.year==');
-console.log(req.params.year);
-console.log('-- from optionController ==req.session.year==');
-console.log(req.session.year);
   res.redirect('/');
 };

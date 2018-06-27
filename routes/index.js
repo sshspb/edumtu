@@ -27,25 +27,13 @@ router.get('/',  function(req, res, next) {
     .toArray(function(err, quantitys) {
       client.close();
       if (err) { return next(err); }
-      var nousers
       if (quantitys.length) {
         docsQty = quantitys[0];
         docsQty.version = config.version;
-        nousers = false;
+        req.session.okdata = true;
       } else {
-        nousers = true;
-/*
-        res.render('nodb', { 
-          scope: req.session && req.session.scope ? req.session.scope : "0",
-          title: 'Оперативно-финансовый отдел', 
-          subtitle: 'учёта образовательной деятельности', 
-          data: docsQty,
-          year_list: res.locals.year_list,
-          dataYear: res.locals.year,
-          nousers: nousers
-        });
-*/
-    }
+        req.session.okdata = false;
+      }
       if (req.user) {
         if (req.user.role == 'admin') {
           res.render('admin/index', { 
@@ -59,29 +47,14 @@ router.get('/',  function(req, res, next) {
           res.redirect('/report/department/' + config.univ._id);
         }
       } else {
-/*
-        var nousers = false;
-        var dbUser = client.db(config.dbName);
-        dbUser.collection('users').count({role: 'admin'}, function(err, cnt) {
-          client.close();
-          if (err) { 
-            console.log(err); 
-            return next(err); 
-          }
-          if (!cnt) { 
-            nousers = true; 
-          }
-*/
-          res.render('login', { 
-            scope: req.session && req.session.scope ? req.session.scope : "0",
-            title: 'Оперативно-финансовый отдел', 
-            subtitle: 'учёта образовательной деятельности', 
-            data: docsQty,
-            year_list: res.locals.year_list,
-            dataYear: res.locals.year,
-            nousers: nousers
-          });
-//        });
+        res.render('login', { 
+          scope: req.session && req.session.scope ? req.session.scope : "0",
+          title: 'Оперативно-финансовый отдел', 
+          subtitle: 'учёта образовательной деятельности', 
+          data: docsQty,
+          year_list: res.locals.year_list,
+          dataYear: res.locals.year
+        });
       }
     });
   });
