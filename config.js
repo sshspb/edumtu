@@ -1,6 +1,6 @@
 const config_local = require('./config_local');
 module.exports = {
-  "version": "edumtu v1.12.0 27.06.2018",
+  "version": "edumtu v1.12.1 27.06.2018",
   "scope_list": ["Основная", "Наука"],
   "variant_list": ["Вариант: План", "Вариант: Факт"],
   "estimate_index": [
@@ -9,8 +9,8 @@ module.exports = {
         { header: "Плановая сумма", value: "plan"},
         { header: "Затраты с планом", value: "outlayO"},
         { header: "Остаток по смете", value: "balanceE"},
-        { header: "Остаток/месяц", value: "balanceEM"},
-        { header: "Кассовые затраты", value: "outlay"}
+        { header: "Кассовые затраты", value: "outlay"},
+        { header: "Остаток/месяц", value: "balanceEM"}
       ],
       [
         { header: "Ост. на начало", value: "remains"},

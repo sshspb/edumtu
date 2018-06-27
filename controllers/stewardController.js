@@ -44,7 +44,7 @@ exports.steward_contract_list = function(req, res, next) {
           }
           list_objects.push({
             trClass: 'treegrid-1-' + i + ' treegrid-parent-' + indexSteward + ' contract ',
-            name: list_contracts[i].fullname,
+            name: list_contracts[i].contract,
             url: '/report/contract/' + encodeURIComponent(list_contracts[i].contract),
             estimate: list_contracts[i].estimate
           });
