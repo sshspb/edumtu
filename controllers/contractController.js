@@ -425,7 +425,7 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
 
 function pathTitle(department, regnodes, contract, steward, role, sourceName) {
   var title = '&nbsp;Договор:&nbsp; ';
-  if (department.length) {
+  if (department) {
   var node, name, scope;
   var isBooker = role == 'booker'
   title += ' <span style="color: #ccc">/</span> ';

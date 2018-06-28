@@ -105,7 +105,7 @@ exports.department_contract_list = function(req, res, next) {
           result[i].childrens = null;
         }
         // итого по всем факультетам
-        result[mtuIndex].visible = true;
+        if (result.length) [mtuIndex].visible = true;
         for (var i = 0; i < result.length; i++) {
           if (result[i].parent === config.univ._id) {
             result[mtuIndex].estimate.remains += result[i].estimate.remains;
@@ -238,13 +238,13 @@ exports.department_estimate_list = function(req, res, next) {
           .find({node: department})
           .toArray(function (err, departments) {
             if (err) { return next(err); }
-            var dep_doc = [];
+            var dep_doc;
             if (departments.length) {
               dep_doc = departments[0];
             }
             client.close();
             res.render('report/detail', {
-              title: sourceName + '/' + dep_doc.name,
+              title: sourceName + '/' + (dep_doc ? dep_doc.name : '-'), 
               title1: titleKOSGU,
               longTitle: pathTitle(dep_doc, sourceName, res.locals.userRole, regnodes),
               ecode: '',
@@ -454,57 +454,56 @@ exports.department_ecode_outlay_list = function(req, res, next) {
 }
 
 function pathTitle(department, sourceName, role, regnodes) {
-  var node, name, scope;
-  var isBooker = role == 'booker'
   var title = '&nbsp;Подразделение&nbsp;';
   title += ' <span style="color: #ccc">/</span> ';
-
-  if (department.node != config.univ._id) {
-    node = config.univ._id;
-    name = config.univ.abbr;
-    scope = isBooker;
-    for (var k = 0; !scope && k < regnodes.length; k++) {
-      if (node.match(regnodes[k])) {
-        scope = true;
+  var node = '', name = '', scope = false;
+  var isBooker = role == 'booker'
+if (department) {
+    if (department.node != config.univ._id) {
+      node = config.univ._id;
+      name = config.univ.abbr;
+      scope = isBooker;
+      for (var k = 0; !scope && k < regnodes.length; k++) {
+        if (node.match(regnodes[k])) {
+          scope = true;
+        }
       }
-    }
-    if (scope) {
-      title += '<a href="/report/department/' + node + '">';
-    } 
-    title += name;
-    if (scope) {
-      title += '</a>';
-    }
-    title += ' <span style="color: #ccc">/</span> ';
-  }
-  
-  if (department.parent) {
-    // есть parent - факультет
-    node = department.parent;
-    name = department._id.depCode + ' ' + department.depAbbr
-    scope = isBooker;
-    for (var k = 0; !scope && k < regnodes.length; k++) {
-      if (node.match(regnodes[k])) {
-        scope = true;
+      if (scope) {
+        title += '<a href="/report/department/' + node + '">';
+      } 
+      title += name;
+      if (scope) {
+        title += '</a>';
       }
+      title += ' <span style="color: #ccc">/</span> ';
     }
-    if (scope) {
-      title += '<a href="/report/department/' + node + '">';
-    } 
-    title += name;
-    if (scope) {
-      title += '</a>';
+    
+    if (department.parent) {
+      // есть parent - факультет
+      node = department.parent;
+      name = department._id.depCode + ' ' + department.depAbbr
+      scope = isBooker;
+      for (var k = 0; !scope && k < regnodes.length; k++) {
+        if (node.match(regnodes[k])) {
+          scope = true;
+        }
+      }
+      if (scope) {
+        title += '<a href="/report/department/' + node + '">';
+      } 
+      title += name;
+      if (scope) {
+        title += '</a>';
+      }
+      title += ' <span style="color: #ccc">/</span> ';
+      // кафедра
+      name = department._id.divCode + ' ' + department.divAbbr
+    } else {
+      // нет parent, это и есть факультет
+      name = department._id.depCode + ' ' + department.depAbbr
     }
-    title += ' <span style="color: #ccc">/</span> ';
-    // кафедра
-    name = department._id.divCode + ' ' + department.divAbbr
-  } else {
-    // нет parent, это и есть факультет
-    name = department._id.depCode + ' ' + department.depAbbr
   }
-
   title += ' &nbsp; <span style="font-weight: 700;">' +  name + '</span>';
   title += ' ; &nbsp;вид деятельности:&nbsp; ' + sourceName;
-
   return title;
 }
