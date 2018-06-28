@@ -9,7 +9,7 @@ exports.steward_contract_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
-    db.collection('chiefs')
+    client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
       var conditions = [ { source: { $regex: '^' + sourceCode } } ];
@@ -90,7 +90,7 @@ exports.steward_estimate_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
-    db.collection('chiefs')
+    client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
       var conditions = [{source: {$regex: '^' + sourceCode}}, {steward: {$eq: steward}}];
@@ -166,7 +166,7 @@ exports.steward_income_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
-    db.collection('chiefs')
+    client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
       var conditions = [{source: {$regex: '^' + sourceCode}}, {steward: {$eq: steward}}];
@@ -216,7 +216,7 @@ exports.steward_outlay_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
-    db.collection('chiefs')
+    client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
       var conditions = [{source: {$regex: '^' + sourceCode}}, {steward: {$eq: steward}}];
@@ -266,7 +266,7 @@ exports.steward_ecode_outlay_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
-    db.collection('chiefs')
+    client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
       var conditions = [

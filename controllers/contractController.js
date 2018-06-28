@@ -8,7 +8,8 @@ exports.contract_estimate_list = function(req, res, next) {
   const contract = req.params.contract;
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
-    db.collection('chiefs')
+    // пользователь руководит подразделениями
+    client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs){
       var regexps = [];
@@ -108,7 +109,7 @@ exports.contract_income_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
-    db.collection('chiefs')
+    client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
       var regexps = [];
@@ -192,8 +193,7 @@ exports.contract_outlay_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
-    db.collection('chiefs')
-    .find({steward: res.locals.userName})
+    client.db(config.dbName).collection('chiefs')
     .toArray(function(err, departs) {
       var regexps = [];
       if (res.locals.userRole != 'booker') {
@@ -276,7 +276,7 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
-    db.collection('chiefs')
+    client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
       var regexps = [];
