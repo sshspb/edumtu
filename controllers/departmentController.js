@@ -52,6 +52,7 @@ exports.department_contract_list = function(req, res, next) {
                 }
               }
             }
+            result[i].visible = false;
             for (var j = 0; j < result[i].contracts.length; j++) {
               // итого сметы договоров непосредственного подчинения
               if (sourceRegExp.test(result[i].contracts[j].source) && 
@@ -64,8 +65,11 @@ exports.department_contract_list = function(req, res, next) {
                 result[i].estimate.balance += result[i].contracts[j].estimate.balance;
                 result[i].estimate.balanceE += result[i].contracts[j].estimate.balanceE;
                 result[i].estimate.balanceEM += result[i].contracts[j].estimate.balanceEM;
+                result[i].contracts[j].visible = true;
+                result[i].visible = true;
               } else {
                 result[i].contracts[j].estimate = {remains:0,plan:0,income:0,outlayO:0,outlay:0,balance:0,balanceE:0,balanceEM:0};
+                result[i].contracts[j].visible = false;
               }
             }
             for (var k = 0; k < result[i].childrens.length; k++) {
@@ -93,6 +97,7 @@ exports.department_contract_list = function(req, res, next) {
                   result[i].estimate.balance += result[i].childrens[k].contracts[n].estimate.balance;
                   result[i].estimate.balanceE += result[i].childrens[k].contracts[n].estimate.balanceE;
                   result[i].estimate.balanceEM += result[i].childrens[k].contracts[n].estimate.balanceEM;
+                  result[i].visible = true;
                 }
               }
             }
@@ -100,6 +105,7 @@ exports.department_contract_list = function(req, res, next) {
           result[i].childrens = null;
         }
         // итого по всем факультетам
+        result[mtuIndex].visible = true;
         for (var i = 0; i < result.length; i++) {
           if (result[i].parent === config.univ._id) {
             result[mtuIndex].estimate.remains += result[i].estimate.remains;
@@ -114,27 +120,29 @@ exports.department_contract_list = function(req, res, next) {
         }
         var list_objects = [];
         for (var i = 0; i < result.length; i++) {
-          var trClass = 'treegrid-'.concat(result[i].node);
-          if (result[i].parent) trClass += ' treegrid-parent-'.concat(result[i].parent);
-          list_objects.push({
-            url: "/report/department/" + result[i].node,
-            name: result[i].name,
-            steward: result[i].chief,
-            stewardUrl: result[i].chiefUrl,
-            trClass: trClass,
-            estimate: result[i].estimate
-          });
-          for (var j = 0; j < result[i].contracts.length; j++) {
-            if (result[i].contracts[j]) {
-              list_objects.push({
-                url: "/report/contract/" + encodeURIComponent(result[i].contracts[j].contract),
-                name: result[i].contracts[j].contract,
-                steward: result[i].contracts[j].steward,
-                stewardUrl: "/report/steward/" + encodeURIComponent(result[i].contracts[j].steward),
-                //trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(result[i].node, ' contract '),
-                trClass: 'treegrid-' + result[i].node + j + ' treegrid-parent-'.concat(result[i].node, ' contract '),
-                estimate: result[i].contracts[j].estimate
-              });
+          if (result[i].visible) {
+            var trClass = 'treegrid-'.concat(result[i].node);
+            if (result[i].parent) trClass += ' treegrid-parent-'.concat(result[i].parent);
+            list_objects.push({
+              url: "/report/department/" + result[i].node,
+              name: result[i].name,
+              steward: result[i].chief,
+              stewardUrl: result[i].chiefUrl,
+              trClass: trClass,
+              estimate: result[i].estimate
+            });
+            for (var j = 0; j < result[i].contracts.length; j++) {
+              if (result[i].contracts[j] && result[i].contracts[j].visible) {
+                list_objects.push({
+                  url: "/report/contract/" + encodeURIComponent(result[i].contracts[j].contract),
+                  name: result[i].contracts[j].contract,
+                  steward: result[i].contracts[j].steward,
+                  stewardUrl: "/report/steward/" + encodeURIComponent(result[i].contracts[j].steward),
+                  //trClass: 'treegrid-' + i + '-' + j + ' treegrid-parent-'.concat(result[i].node, ' contract '),
+                  trClass: 'treegrid-' + result[i].node + j + ' treegrid-parent-'.concat(result[i].node, ' contract '),
+                  estimate: result[i].contracts[j].estimate
+                });
+              }
             }
           }
         }
