@@ -7,8 +7,6 @@ exports.department_contract_list = function(req, res, next) {
   // url: /report/departments_contracts
   const sourceName = res.locals.source_name;
   const sourceRegExp =  RegExp("^" + res.locals.source_code);
-  //const sourceCode = res.locals.source_code;
-  //const sourceRegExp =  RegExp("^" + sourceCode);
   MongoClient.connect(config.dbUrl, function(err, client) {
     // пользователь руководит подразделениями
     client.db(config.dbName)
@@ -227,52 +225,19 @@ exports.department_estimate_list = function(req, res, next) {
       ])
       .toArray(function (err, list_estimates) {
         if (err) { return next(err); }
-//=========================
-        // path
-        db.collection('departments')
-        .find({node: department})
-        .toArray(function (err, departments) {
-          if (err) { return next(err); }
-          var dep_doc = [];
-          if (departments.length) {
-            dep_doc = departments[0];
-          }
-//=========================
-/*
-        var node = department;
-        var depsId = [];
-        var nl = 5;
-        while (nl <= node.length) {
-          depsId.push(node.slice(0, nl));
-          nl += 5;
-        }
-        var list_departments = [];
-        async.eachSeries(depsId, 
-          function(dep_id, callback) {
-            db.collection('departments')
-            .find({node: dep_id})
-            .toArray(function (err, departments) {
-              if (err) { return next(err); }
-              var scopeChief = res.locals.userRole == 'booker' ? true : false;
-              for (var k = 0; k < regexps.length; k++) {
-                if (departments[0].node.match(regexps[k])) {
-                  scopeChief = true;
-                }
-              }
-              list_departments.push({ 
-                url: scopeChief && departments[0] ? "/report/department/" + departments[0].node : "",
-                name: departments[0] ? departments[0].name : ''
-              });
-              callback(null);
-            });
-          }, 
-          function() {
-*/            
+          // path
+          db.collection('departments')
+          .find({node: department})
+          .toArray(function (err, departments) {
+            if (err) { return next(err); }
+            var dep_doc = [];
+            if (departments.length) {
+              dep_doc = departments[0];
+            }
             client.close();
             res.render('report/detail', {
               title: sourceName + '/' + dep_doc.name,
               title1: titleKOSGU,
-              //longTitle: longTitle(list_departments, sourceName),
               longTitle: pathTitle(dep_doc, sourceName, res.locals.userRole, regnodes),
               ecode: '',
               tabs: [
@@ -301,14 +266,14 @@ exports.department_income_list = function(req, res, next) {
     client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
-      var regexps = [];
+      var regnodes = [];
       var conditions = [{source: {$regex: '^' + sourceCode}}, {parent: {$regex: '^' + department}}];
       if (res.locals.userRole !== 'booker') {
         // выбрать все договора где пользователь - руководитель
         var scopeSteward = [ { steward: { $eq: res.locals.userName } } ];
         // и все договора всех подразделений где пользователь - руководитель
         for (var i = 0; i < departs.length; i++) {
-          regexps.push(RegExp('^'+departs[i].department));
+          regnodes.push(RegExp('^'+departs[i].department));
           scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
         }
         conditions.push({$or: scopeSteward});
@@ -321,49 +286,32 @@ exports.department_income_list = function(req, res, next) {
       ])
       .toArray(function (err, list_incomes) {
         if (err) { return next(err); }
-        var node = department, depsId = [], nl = 5;
-        while (nl <= node.length) {
-          depsId.push(node.slice(0, nl));
-          nl += 5;
-        }
-        var list_departments = [];
-        async.eachSeries(depsId, 
-          function(dep_id, callback) {
-            db.collection('departments')
-            .find({node: dep_id})
-            .toArray(function (err, departments) {
-              if (err) { return next(err); }
-              var scopeChief = res.locals.userRole == 'booker' ? true : false;
-              for (var k = 0; k < regexps.length; k++) {
-                if (departments[0].node.match(regexps[k])) {
-                  scopeChief = true;
-                }
-              }
-              list_departments.push({ 
-                url: scopeChief ? "/report/department/" + departments[0].node : '',
-                name: departments[0].name
-              });
-              callback(null);
-            });
-          }, 
-          function() {
-            client.close();
-            res.render('report/detail', {
-              title: sourceName + '/' + list_departments[list_departments.length-1].name,
-              title1: titleKOSGU,
-              longTitle: longTitle(list_departments, sourceName),
-              ecode: '',
-              tabs: [
-                { flag: false, href: "/report/department/" + encodeURIComponent(department)},
-                { flag: true, href: "/report/incomes/department/" + encodeURIComponent(department)},
-                { flag: false, href: "/report/outlays/department/" + encodeURIComponent(department)}
-              ],
-              record_list: [],
-              income_list: list_incomes,
-              outlay_list: []
-            });
+        // path
+        db.collection('departments')
+        .find({node: department})
+        .toArray(function (err, departments) {
+          if (err) { return next(err); }
+          var dep_doc = [];
+          if (departments.length) {
+            dep_doc = departments[0];
           }
-        );
+          client.close();
+          res.render('report/detail', {
+            title: sourceName + '/' + dep_doc.name,
+            title1: titleKOSGU,
+            //longTitle: longTitle(list_departments, sourceName),
+            longTitle: pathTitle(dep_doc, sourceName, res.locals.userRole, regnodes),
+            ecode: '',
+            tabs: [
+              { flag: false, href: "/report/department/" + encodeURIComponent(department)},
+              { flag: true, href: "/report/incomes/department/" + encodeURIComponent(department)},
+              { flag: false, href: "/report/outlays/department/" + encodeURIComponent(department)}
+            ],
+            record_list: [],
+            income_list: list_incomes,
+            outlay_list: []
+          });
+        });
       });
     });
   });
@@ -381,14 +329,14 @@ exports.department_outlay_list = function(req, res, next) {
     client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
-      var regexps = [];
+      var regnodes = [];
       var conditions = [{source: {$regex: '^' + sourceCode}}, {parent: {$regex: '^' + department}}];
       if (res.locals.userRole !== 'booker') {
         // выбрать все договора где пользователь - руководитель
         var scopeSteward = [ { steward: { $eq: res.locals.userName } } ];
         // и все договора всех подразделений где пользователь - руководитель
         for (var i = 0; i < departs.length; i++) {
-          regexps.push(RegExp('^'+departs[i].department));
+          regnodes.push(RegExp('^'+departs[i].department));
           scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
         }
         conditions.push({$or: scopeSteward});
@@ -399,50 +347,32 @@ exports.department_outlay_list = function(req, res, next) {
         { $sort: { date: -1, eCode: 1 } }
       ])
       .toArray(function (err, list_outlays) {
-        if (err) { return next(err); }
-        var node = department, depsId = [], nl = 5;
-        while (nl <= node.length) {
-          depsId.push(node.slice(0, nl));
-          nl += 5;
-        }
-        var list_departments = [];
-        async.eachSeries(depsId, 
-          function(dep_id, callback) {
-            db.collection('departments')
-            .find({node: dep_id})
-            .toArray(function (err, departments) {
-              if (err) { return next(err); }
-              var scopeChief = res.locals.userRole == 'booker' ? true : false;
-              for (var k = 0; k < regexps.length; k++) {
-                if (departments[0].node.match(regexps[k])) {
-                  scopeChief = true;
-                }
-              }
-              list_departments.push({ 
-                url: scopeChief ? "/report/department/" + departments[0].node : '',
-                name: departments[0].name
-              });
-              callback(null);
-            });
-          }, 
-          function() {
-            client.close();
-            res.render('report/detail', {
-              title: sourceName + '/' + list_departments[list_departments.length-1].name,
-              title1: titleKOSGU,
-              longTitle: longTitle(list_departments, sourceName),
-              ecode: '',
-              tabs: [
-                { flag: false, href: "/report/department/" + encodeURIComponent(department)},
-                { flag: false, href: "/report/incomes/department/" + encodeURIComponent(department)},
-                { flag: true, href: "/report/outlays/department/" + encodeURIComponent(department)}
-              ],
-              record_list: [],
-              income_list: [],
-              outlay_list: list_outlays
-            });
+        // path
+        db.collection('departments')
+        .find({node: department})
+        .toArray(function (err, departments) {
+          if (err) { return next(err); }
+          var dep_doc = [];
+          if (departments.length) {
+            dep_doc = departments[0];
           }
-        );
+          client.close();
+          res.render('report/detail', {
+            title: sourceName + '/' + dep_doc.name,
+            title1: titleKOSGU,
+            //longTitle: longTitle(list_departments, sourceName),
+            longTitle: pathTitle(dep_doc, sourceName, res.locals.userRole, regnodes),
+            ecode: '',
+            tabs: [
+              { flag: false, href: "/report/department/" + encodeURIComponent(department)},
+              { flag: false, href: "/report/incomes/department/" + encodeURIComponent(department)},
+              { flag: true, href: "/report/outlays/department/" + encodeURIComponent(department)}
+            ],
+            record_list: [],
+            income_list: [],
+            outlay_list: list_outlays
+          });
+        });
       });
     });
   });
@@ -462,7 +392,7 @@ exports.department_ecode_outlay_list = function(req, res, next) {
     client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
-      var regexps = [];
+      var regnodes = [];
       var conditions = [
         { source: { $regex: '^' + sourceCode } }, 
         { parent: { $regex: '^' + department } },
@@ -473,7 +403,7 @@ exports.department_ecode_outlay_list = function(req, res, next) {
         var scopeSteward = [ { steward: { $eq: res.locals.userName } } ];
         // и все договора всех подразделений где пользователь - руководитель
         for (var i = 0; i < departs.length; i++) {
-          regexps.push(RegExp('^'+departs[i].department));
+          regnodes.push(RegExp('^'+departs[i].department));
           scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
         }
         conditions.push({$or: scopeSteward});
@@ -484,72 +414,35 @@ exports.department_ecode_outlay_list = function(req, res, next) {
         { $sort: { date: -1, eCode: 1 }} 
       ]).toArray(function (err, list_outlays) {
         if (err) { return next(err); }
-        var node = req.params.department;
-        var depsId = [];
-        var nl = 5;
-        while (nl <= node.length) {
-          depsId.push(node.slice(0, nl));
-          nl += 5;
-        }
-        var list_departments = [];
-        async.eachSeries(depsId, 
-          function(dep_id, callback) {
-            db.collection('departments')
-            .find({node: dep_id})
-            .toArray(function (err, departments) {
-              if (err) { return next(err); }
-              var scopeChief = res.locals.userRole == 'booker' ? true : false;
-              for (var k = 0; k < regexps.length; k++) {
-                if (departments[0].node.match(regexps[k])) {
-                  scopeChief = true;
-                }
-              }
-              list_departments.push({ 
-                url: scopeChief ? "/report/department/" + departments[0].node : '',
-                name: departments[0].name
-              });
-              callback(null);
-            });
-          }, 
-          function() {
-            client.close();
-            res.render('report/detail', {
-              title: sourceName + '/' + list_departments[list_departments.length-1].name,
-              title1: titleKOSGU,
-              longTitle: longTitle(list_departments, sourceName),
-              ecode: ecode,
-              tabs: [
-                { flag: false, href: "/report/department/" + encodeURIComponent(department)},
-                { flag: false, href: "/report/incomes/department/" + encodeURIComponent(department)},
-                { flag: true, href: "/report/outlays/department/" + encodeURIComponent(department)}
-              ],
-              record_list: [],
-              income_list: [],
-              outlay_list: list_outlays
-            });
+        // path
+        db.collection('departments')
+        .find({node: department})
+        .toArray(function (err, departments) {
+          if (err) { return next(err); }
+          var dep_doc = [];
+          if (departments.length) {
+            dep_doc = departments[0];
           }
-        );
+          client.close();
+          res.render('report/detail', {
+            title: sourceName + '/' + dep_doc.name,
+            title1: titleKOSGU,
+            //longTitle: longTitle(list_departments, sourceName),
+            longTitle: pathTitle(dep_doc, sourceName, res.locals.userRole, regnodes),
+            ecode: ecode,
+            tabs: [
+              { flag: false, href: "/report/department/" + encodeURIComponent(department)},
+              { flag: false, href: "/report/incomes/department/" + encodeURIComponent(department)},
+              { flag: true, href: "/report/outlays/department/" + encodeURIComponent(department)}
+            ],
+            record_list: [],
+            income_list: [],
+            outlay_list: list_outlays
+          });
+        });
       });
     });
   });
-}
-
-function longTitle(list_departments, sourceName) {
-  var longTitle = '&nbsp;Подразделение&nbsp; ';
-  for (var i = 0; i < list_departments.length - 1; i++) {
-    longTitle += ' <span style="color: #ccc">/</span> &nbsp;';
-    if (list_departments[i].url) {
-      longTitle += '<a href="' + list_departments[i].url + '">' + list_departments[i].name + '</a>';
-    } else {
-      longTitle += list_departments[i].name;
-    }
-  }
-  if (list_departments.length) {
-    longTitle += ' <span style="color: #ccc">/</span> &nbsp;<span style="font-weight: 700;">' + 
-      list_departments[list_departments.length-1].name + '</span>';
-  }
-  longTitle += ' ; &nbsp;вид деятельности:&nbsp; ' + sourceName;
-  return longTitle;
 }
 
 function pathTitle(department, sourceName, role, regnodes) {
@@ -578,7 +471,7 @@ function pathTitle(department, sourceName, role, regnodes) {
   }
   
   if (department.parent) {
-    // parent - факультет
+    // есть parent - факультет
     node = department.parent;
     name = department._id.depCode + ' ' + department.depAbbr
     scope = isBooker;
@@ -598,7 +491,7 @@ function pathTitle(department, sourceName, role, regnodes) {
     // кафедра
     name = department._id.divCode + ' ' + department.divAbbr
   } else {
-    // факультет
+    // нет parent, это и есть факультет
     name = department._id.depCode + ' ' + department.depAbbr
   }
 
