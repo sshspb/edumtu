@@ -6,22 +6,54 @@ const titleKOSGU = '<abbr title = "Классификация операций �
 exports.contract_estimate_list = function(req, res, next) {
   // смета договора  url: /report/contract/:contract 
   const contract = req.params.contract;
+  const sourceCode = res.locals.source_code;
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs){
+/*
       var regnodes = [];
       if (res.locals.userRole != 'booker') {
         for (var k = 0; k < departs.length; k++) {
           regnodes.push(RegExp('^'+departs[k].department));
         }
       }
+*/
+      var regnodes = [];
+      var query;
+      if (res.locals.userRole == 'booker') {
+        // выбрать записи по договору contract и финансирования sourceCode
+        query = { $match: { 
+          source: { $regex: '^' + sourceCode } ,
+          "_id.contract": contract 
+        } };
+      } else {
+        // выбрать записи по договору где res.locals.userName руководитель
+        var scopeSteward = [ { "_id.steward": { $eq: res.locals.userName } } ];
+          // и по договорам всех подразделений где res.locals.userName руководитель
+        for (var i = 0; i < departs.length; i++) {
+          scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
+        }
+        query = { $match:
+          { $and: [
+            { source: { $regex: '^' + sourceCode } },
+            { "_id.contract": contract },
+            { $or: scopeSteward }
+          ] } 
+        };
+        // маски договоров в подчинении
+        for (var k = 0; k < departs.length; k++) {
+          regnodes.push(RegExp('^'+departs[k].department));
+        }
+      }
+
       // смета договора
+      //.find({ "_id.contract": contract })
+      //.sort({ "_id.eCode": 1})
       db.collection('smeta')
-      .find({ "_id.contract": contract })
-      .sort({ "_id.eCode": 1})
+      .aggregate([ query, {$sort: {"_id.eCode": 1}} ])
       .toArray(function (err, list_estimates) {
         if (err) { return next(err); }
         // подразделение, руководитель, видДеятельности договора
@@ -87,18 +119,49 @@ exports.contract_estimate_list = function(req, res, next) {
 exports.contract_income_list = function(req, res, next) {
   // url /report/incomes/contract/:contract записи прихода по договору
   const contract = req.params.contract;
+  const sourceCode = res.locals.source_code;
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
+/*
       var regnodes = [];
       if (res.locals.userRole != 'booker') {
         for (var k = 0; k < departs.length; k++) {
           regnodes.push(RegExp('^'+departs[k].department));
         }
       }
+*/
+      var regnodes = [];
+      var query;
+      if (res.locals.userRole == 'booker') {
+        // выбрать записи по договору contract и финансирования sourceCode
+        query = { $match: { 
+          source: { $regex: '^' + sourceCode } ,
+          contract: contract 
+        } };
+      } else {
+        // выбрать записи по договору где res.locals.userName руководитель
+        var scopeSteward = [ { steward: { $eq: res.locals.userName } } ];
+          // и по договорам всех подразделений где res.locals.userName руководитель
+        for (var i = 0; i < departs.length; i++) {
+          scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
+        }
+        query = { $match:
+          { $and: [
+            { source: { $regex: '^' + sourceCode } },
+            { contract: contract },
+            { $or: scopeSteward }
+          ] } 
+        };
+        // маски договоров в подчинении
+        for (var k = 0; k < departs.length; k++) {
+          regnodes.push(RegExp('^'+departs[k].department));
+        }
+      }
+
       // сведения о договоре
       db.collection('contracts')
       .find({"_id.contract": req.params.contract})
@@ -115,6 +178,7 @@ exports.contract_income_list = function(req, res, next) {
             }
           }
         }
+
         // path структура подразделения где выполняется договор
         db.collection('departments')
         .find({node: node})
@@ -124,10 +188,12 @@ exports.contract_income_list = function(req, res, next) {
           if (departments.length) {
             dep_doc = departments[0];
           }
+
           // доходы по договору
+          //.find({contract: contract})
+          //.sort({date: -1})
           db.collection('incomes')
-          .find({contract: contract})
-          .sort({date: -1})
+          .aggregate([ query, {$sort: {date: -1}} ])
           .toArray(function (err, list_incomes) {
             if (err) { return next(err); }
             client.close();
@@ -156,14 +222,44 @@ exports.contract_income_list = function(req, res, next) {
 exports.contract_outlay_list = function(req, res, next) {
   // /outlays/contract/:contract записи расхода по договору
   const contract = req.params.contract;
+  const sourceCode = res.locals.source_code;
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
+/*
       var regnodes = [];
       if (res.locals.userRole != 'booker') {
+        for (var k = 0; k < departs.length; k++) {
+          regnodes.push(RegExp('^'+departs[k].department));
+        }
+      }
+*/
+      var regnodes = [];
+      var query;
+      if (res.locals.userRole == 'booker') {
+        // выбрать записи по договору contract и финансирования sourceCode
+        query = { $match: { 
+          source: { $regex: '^' + sourceCode } ,
+          contract: contract 
+        } };
+      } else {
+        // выбрать записи по договору где res.locals.userName руководитель
+        var scopeSteward = [ { steward: { $eq: res.locals.userName } } ];
+          // и по договорам всех подразделений где res.locals.userName руководитель
+        for (var i = 0; i < departs.length; i++) {
+          scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
+        }
+        query = { $match:
+          { $and: [
+            { source: { $regex: '^' + sourceCode } },
+            { contract: contract },
+            { $or: scopeSteward }
+          ] } 
+        };
+        // маски договоров в подчинении
         for (var k = 0; k < departs.length; k++) {
           regnodes.push(RegExp('^'+departs[k].department));
         }
@@ -194,9 +290,10 @@ exports.contract_outlay_list = function(req, res, next) {
             dep_doc = departments[0];
           }
           // записи расхода
+          //.find({contract: contract})
+          //.sort({date: -1, eCode: 1})
           db.collection('outlays' + res.locals.variant)
-          .find({contract: contract})
-          .sort({date: -1, eCode: 1})
+          .aggregate([ query, {$sort: {date: -1, eCode: 1}} ])
           .toArray(function (err, list_outlays) {
             if (err) { return next(err); }
             client.close();
@@ -226,18 +323,51 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
   // /outlays/contract/:contract/ecode/:ecode  записи расхода по договору по статье
   const ecode = req.params.ecode;
   const contract = req.params.contract;
+  const sourceCode = res.locals.source_code;
   MongoClient.connect(config.dbUrl, function(err, client) {
     db = client.db(config.dbName + res.locals.year);
     // пользователь руководит подразделениями
     client.db(config.dbName).collection('chiefs')
     .find({steward: res.locals.userName})
     .toArray(function(err, departs) {
+/*
       var regnodes = [];
       if (res.locals.userRole != 'booker') {
         for (var k = 0; k < departs.length; k++) {
           regnodes.push(RegExp('^'+departs[k].department));
         }
       }
+*/
+      var regnodes = [];
+      var query;
+      if (res.locals.userRole == 'booker') {
+        // выбрать записи по договору contract и финансирования sourceCode
+        query = { $match: { 
+          source: { $regex: '^' + sourceCode } ,
+          contract: contract,
+          eCode: ecode
+        } };
+      } else {
+        // выбрать записи по договору где res.locals.userName руководитель
+        var scopeSteward = [ { steward: { $eq: res.locals.userName } } ];
+          // и по договорам всех подразделений где res.locals.userName руководитель
+        for (var i = 0; i < departs.length; i++) {
+          scopeSteward.push({ parent: { $regex: '^' + departs[i].department } })
+        }
+        query = { $match:
+          { $and: [
+            { source: { $regex: '^' + sourceCode } },
+            { contract: contract },
+            { eCode: ecode },
+            { $or: scopeSteward }
+          ] } 
+        };
+        // маски договоров в подчинении
+        for (var k = 0; k < departs.length; k++) {
+          regnodes.push(RegExp('^'+departs[k].department));
+        }
+      }
+
       // сведения о договоре
       db.collection('contracts')
       .find({"_id.contract": contract})
@@ -264,9 +394,10 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
             dep_doc = departments[0];
           }
           // записи расхода
+          //.find({contract: contract, eCode: ecode})
+          //.sort({date: -1})
           db.collection('outlays' + res.locals.variant)
-          .find({contract: contract, eCode: ecode})
-          .sort({date: -1})
+          .aggregate([ query, {$sort: {date: -1}} ])
           .toArray(function (err, list_outlays) {
             if (err) { return next(err); }
             client.close();
