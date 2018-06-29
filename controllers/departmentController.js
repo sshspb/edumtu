@@ -478,7 +478,7 @@ if (department) {
       title += ' <span style="color: #ccc">/</span> ';
     }
     
-    if (department.parent) {
+    if (department.parent && department.parent != config.univ._id) {
       // есть parent - факультет
       node = department.parent;
       name = department._id.depCode + ' ' + department.depAbbr
