@@ -91,7 +91,7 @@ exports.contract_estimate_list = function(req, res, next) {
         .toArray(function (err, departments) {
           if (err) { return next(err); }
           client.close();
-          var dep_doc = [];
+          var dep_doc;
           if (departments.length) {
             dep_doc = departments[0];
           }
@@ -184,7 +184,7 @@ exports.contract_income_list = function(req, res, next) {
         .find({node: node})
         .toArray(function (err, departments) {
           if (err) { return next(err); }
-          var dep_doc = [];
+          var dep_doc;
           if (departments.length) {
             dep_doc = departments[0];
           }
@@ -285,7 +285,7 @@ exports.contract_outlay_list = function(req, res, next) {
         .find({node: node})
         .toArray(function (err, departments) {
           if (err) { return next(err); }
-          var dep_doc = [];
+          var dep_doc;
           if (departments.length) {
             dep_doc = departments[0];
           }
@@ -389,7 +389,7 @@ exports.contract_ecode_outlay_list = function(req, res, next) {
         .find({node: node})
         .toArray(function (err, departments) {
           if (err) { return next(err); }
-          var dep_doc = [];
+          var dep_doc;
           if (departments.length) {
             dep_doc = departments[0];
           }

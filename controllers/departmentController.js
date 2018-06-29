@@ -105,7 +105,7 @@ exports.department_contract_list = function(req, res, next) {
           result[i].childrens = null;
         }
         // итого по всем факультетам
-        if (result.length) [mtuIndex].visible = true;
+        if (result.length) result[mtuIndex].visible = true;
         for (var i = 0; i < result.length; i++) {
           if (result[i].parent === config.univ._id) {
             result[mtuIndex].estimate.remains += result[i].estimate.remains;
@@ -299,13 +299,13 @@ exports.department_income_list = function(req, res, next) {
         .find({node: department})
         .toArray(function (err, departments) {
           if (err) { return next(err); }
-          var dep_doc = [];
+          var dep_doc;
           if (departments.length) {
             dep_doc = departments[0];
           }
           client.close();
           res.render('report/detail', {
-            title: sourceName + '/' + dep_doc.name,
+            title: sourceName + '/' + (dep_doc ? dep_doc.name : '-'),
             title1: titleKOSGU,
             //longTitle: longTitle(list_departments, sourceName),
             longTitle: pathTitle(dep_doc, sourceName, res.locals.userRole, regnodes),
@@ -360,13 +360,13 @@ exports.department_outlay_list = function(req, res, next) {
         .find({node: department})
         .toArray(function (err, departments) {
           if (err) { return next(err); }
-          var dep_doc = [];
+          var dep_doc;
           if (departments.length) {
             dep_doc = departments[0];
           }
           client.close();
           res.render('report/detail', {
-            title: sourceName + '/' + dep_doc.name,
+            title: sourceName + '/' + (dep_doc ? dep_doc.name : '-'),
             title1: titleKOSGU,
             //longTitle: longTitle(list_departments, sourceName),
             longTitle: pathTitle(dep_doc, sourceName, res.locals.userRole, regnodes),
@@ -427,13 +427,13 @@ exports.department_ecode_outlay_list = function(req, res, next) {
         .find({node: department})
         .toArray(function (err, departments) {
           if (err) { return next(err); }
-          var dep_doc = [];
+          var dep_doc;
           if (departments.length) {
             dep_doc = departments[0];
           }
           client.close();
           res.render('report/detail', {
-            title: sourceName + '/' + dep_doc.name,
+            title: sourceName + '/' + (dep_doc ? dep_doc.name : '-'),
             title1: titleKOSGU,
             //longTitle: longTitle(list_departments, sourceName),
             longTitle: pathTitle(dep_doc, sourceName, res.locals.userRole, regnodes),
