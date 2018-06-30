@@ -156,3 +156,24 @@ exit
 - Robo 3T  https://robomongo.org 
 - MongoDB Compass Community  https://www.mongodb.com/products/compass 
  ​
+ #### Резервное копирование.
+
+Утилита `lib/edubak.js` позволяет сделать резервную копию той информации что вводит администратор сайта, а именно реестр руководителей подразделений - коллекция `chiefs`; и реестр пользователей сайта - коллекция `users`:
+
+##### Backup the database: 
+`node edubak.js -backup [<database> <backup file>]`
+
+##### Restore the database: 
+`node edubak.js -replace [<backup file> <database>]`
+
+​
+В  резервный файл информация пишется в формате JSON.
+
+Уставки по умолчанию `<database>` и `<backup file>` смотри в  `lib/edubak.js`
+```
+const dbUrl = "mongodb://127.0.0.1:27017";  // сервер mongodb
+const dbName = "edu";                       // <database> база данных по умолчанию
+const dbFile = "D:/data/edubackup.json"     // <backup file> резервный_файл по умолчанию
+```
+Если надо изменить уставки по умолчанию, не редактируй исходный файл `lib/edubak.js`  -- он создаётся  `git (./pull.bat)`, а скопируй скрипт  `lib/edubak.js`  в папку вне сайта и там его редактируй.
+В скрипте `lib/edubak.js` не используются конфигурационные файлы сайта, поэтому этот скрипт можно запускать из любого места.
