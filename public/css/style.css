@@ -38,6 +38,12 @@ tfoot th {
   background: #F8F8F8;
 }
 
+.badge {
+  float: right;
+  color: #333;
+  background-color: #eee;
+}
+
 @media print {
   tfoot th {
     position: static;

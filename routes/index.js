@@ -1,7 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
-const async = require('async');
 const crypto = require('crypto');
 const express = require('express');
 const router = express.Router();
@@ -40,8 +36,7 @@ router.get('/',  function(req, res, next) {
             title: "Оперативно-финансовый отдел", 
             subtitle: "учёта образовательной деятельности", 
             data: docsQty,
-            year_list: res.locals.year_list,
-            data_year: res.locals.year
+            year_list: res.locals.year_list
           });
         } else {
           res.redirect('/report/department/' + config.univ._id);
@@ -52,8 +47,7 @@ router.get('/',  function(req, res, next) {
           title: 'Оперативно-финансовый отдел', 
           subtitle: 'учёта образовательной деятельности', 
           data: docsQty,
-          year_list: res.locals.year_list,
-          dataYear: res.locals.year
+          year_list: res.locals.year_list
         });
       }
     });

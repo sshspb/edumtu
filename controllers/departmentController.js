@@ -20,6 +20,7 @@ exports.department_contract_list = function(req, res, next) {
           regexps.push(RegExp('^'+departs[k].department));
         }
       }
+      // подразделения, договора и их сметы
       client.db(config.dbName + res.locals.year)
       .collection('departments_contracts')
       .aggregate([

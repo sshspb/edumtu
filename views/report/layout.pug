@@ -19,9 +19,10 @@ html(lang="ru")
           div(class="btn-group")
             button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false") #{source_name}
               span(class="caret" style="margin-left: 5px;") 
-            ul(class="dropdown-menu")
+            ul(class="dropdown-menu" style="min-width: 305px;")
               each  val in source_list
                 li: a(href ="/report/option/source/" + val.code) #{val.name}
+                  span(class="badge") #{val.contractCount}
           div(class="btn-group")
             button(type="button" class="btn btn-default" onclick="location='/report/departments_contracts';") Подразделения / ЛицСчета
             button(type="button" class="btn btn-default" onclick="location='/report/stewards_contracts';") Ответственные / ЛицСчета
