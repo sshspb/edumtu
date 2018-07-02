@@ -4,7 +4,7 @@ block content
   .container
     .row
       .col-sm-6.col-md-offset-1
-        - var booker = steward.role == "booker" ? 1 : 0
+        - var isbooker = (steward.role == "booker" ? 1 : 0)
         br
         h4(class="col-sm-offset-3") #{title} - регистрация на сайте
         br
@@ -17,7 +17,7 @@ block content
           div(class="form-group")
             label(for="input-name" class="col-sm-3 control-label") Фамилия И.О.
             div(class="col-sm-6")
-              if booker
+              if isbooker && !steward.name
                 input(name="name" value= steward.name type="text" class="form-control" id="input-username")
               else
                 input(name="name" value= steward.name type="text" class="form-control" id="input-username" readonly)
@@ -41,7 +41,7 @@ block content
             div(class="col-sm-offset-3 col-sm-4")
               button(type="submit" class="btn btn-primary") Регистрировать
             div(class="col-sm-3")
-              if booker
+              if isbooker
                 button(type="button" id="cancel" class="btn btn-danger" onclick="window.location.href='/admin/bookers'") Отменить
               else
                 button(type="button" id="cancel" class="btn btn-danger" onclick="window.location.href='/admin/stewards'") Отменить

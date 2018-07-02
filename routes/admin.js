@@ -44,22 +44,25 @@ router.get('/departments', function(req, res, next) {
 
       var list_records = [];
       for (var i = 0; i < list_departments.length; i++) {
-        var chiefs = '';
-        if (list_departments[i].chiefs.length) {
-          var a = [];
-          for (var j =0; j < list_departments[i].chiefs.length; j++) {
-            a.push(list_departments[i].chiefs[j].steward)
-          }
-          a.sort();
-          for (var j =0; j < a.length; j++) {
-            if (j) chiefs += ', ';
-            chiefs += a[j];
-          }
-        }
-        var trClass = 'treegrid-'.concat(list_departments[i].node);
+        var chiefs = '', trClass = '', url = '';
         if (list_departments[i].parent) {
-          trClass = trClass + ' treegrid-parent-'.concat(list_departments[i].parent);
+          // не корневой элемент
+          if (list_departments[i].chiefs.length) {
+            // список ответственных
+            var a = [];
+            for (var j =0; j < list_departments[i].chiefs.length; j++) {
+              a.push(list_departments[i].chiefs[j].steward)
+            }
+            a.sort();
+            for (var j =0; j < a.length; j++) {
+              if (j) chiefs += ', ';
+              chiefs += a[j];
+            }
+          }
+          trClass = 'treegrid-' + list_departments[i].node + ' treegrid-parent-' + list_departments[i].parent;
+          url = "/admin/department/" + list_departments[i].node;
         } else {
+          // корень структуры подразделений - университет
           chiefs = 'экономисты';
           trClass = 'treegrid-' + config.univ._id;
           url = '/admin/bookers';
@@ -68,7 +71,7 @@ router.get('/departments', function(req, res, next) {
           name: list_departments[i].name,
           chiefs: chiefs,
           trClass: trClass,
-          url: "/admin/department/" + list_departments[i].node
+          url: url
         });
       }
       res.render('admin/department_tree', {
@@ -134,18 +137,13 @@ router.get('/department/:id', function(req, res, next) {
         function() {
           client.close();
           var longTitle = '&nbsp;Подразделение&nbsp; ';
-          if (list_departments.length) 
-            longTitle += ' <span style="color: #ccc">/</span> &nbsp;' + list_departments[0].name;
-          longTitle += ' <span style="color: #ccc">/</span>&nbsp; деятельность <span style="font-weight: 700;">' + 
-                        config.scope_list[req.params.id.charAt(0)] + '</span>';
-          for (var i = 1; i < list_departments.length - 1; i++) {
+          for (var i = 0; i < list_departments.length - 1; i++) {
             longTitle += ' <span style="color: #ccc">/</span> &nbsp;' + list_departments[i].name;
           }
           if (list_departments.length > 1) {
             longTitle += ' <span style="color: #ccc">/</span> &nbsp;<span style="font-weight: 700;">' + 
               list_departments[list_departments.length-1].name + '</span>';
           }
-          //longTitle += ', &nbsp;вид деятельности:&nbsp;<span style="font-weight: 700;"> ' + config.scope_list[req.params.id.charAt(0)] + '</span>';
           res.render('admin/chief_list', {
             title: longTitle,
             longTitle: longTitle,
