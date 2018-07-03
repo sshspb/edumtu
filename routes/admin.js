@@ -435,20 +435,20 @@ function diffRashod(req, res) {
               factInsert = false;
             }
           }
-          plan = { trClass: 'treegrid-1' + i + ' treegrid-parent-1', contract: list_smeta[i].contract };
-          fact = { trClass: 'treegrid-2' + i + ' treegrid-parent-2', contract: list_smeta[i].contract };
+          plan = { trClass: 'treegrid-1' + i + ' treegrid-parent-1', contract: list_smeta[i]._id.contract };
+          fact = { trClass: 'treegrid-2' + i + ' treegrid-parent-2', contract: list_smeta[i]._id.contract };
           for (var j = 0; j < list_eCode.length; j++) {
             plan[list_eCode[j]] = 0.0;
             fact[list_eCode[j]] = 0.0;
           }
         }
         eCode = list_smeta[i]._id.eCode.substring(0,3);
-        if (list_smeta[i].diffPlan) {
+        if (list_smeta[i].diffPlan > 2) {
           planInsert = true;
           plan[eCode] = list_smeta[i].diffPlan;
           planTotal[eCode] += list_smeta[i].diffPlan;
         }
-        if (list_smeta[i].diffFact) {
+        if (list_smeta[i].diffFact > 2) {
           factInsert = true;
           fact[eCode] = list_smeta[i].diffFact;
           factTotal[eCode] += list_smeta[i].diffFact;
